@@ -30,6 +30,12 @@ Thumbs.db
 # Logs
 *.log
 
+# Archive
+archives/
+
+# Duplicate dataset
+final_benchmark_dataset_200.json
+
 # Secrets
 .env
 *.key

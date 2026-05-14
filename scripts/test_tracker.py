@@ -41,22 +41,44 @@ class TestTracker:
         with open(self.progress_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2)
     
-    def init_model(self, model_name: str, category: str):
-        """Initialize tracking for a new model."""
+    def init_model(self, model_name: str, category: str, total_prompts: int = 50,
+                   model_metadata: dict = None):
+        """Initialize tracking for a new model.
+
+        model_name is used as the tracker key (should be queue_id).
+        model_metadata contains identity fields stored in the record.
+        """
         data = self._load()
         
         if model_name not in data["models"]:
-            data["models"][model_name] = {
-                "status": "pending",
+            entry = {
+                "model_name": model_metadata.get("requested_name", model_name) if model_metadata else model_name,
                 "category": category,
                 "prompts_completed": 0,
-                "total_prompts": 50,
+                "total_prompts": total_prompts,
                 "started_at": None,
                 "completed_at": None,
                 "csv_file": None,
                 "error": None,
-                "last_checkpoint": None
+                "last_checkpoint": None,
+                "status": "pending",
             }
+            if model_metadata:
+                entry.update({
+                    "queue_id": model_metadata.get("queue_id", model_name),
+                    "requested_name": model_metadata.get("requested_name", ""),
+                    "source": model_metadata.get("source", ""),
+                    "resolved_runtime": model_metadata.get("resolved_runtime", ""),
+                    "resolved_model_ref": model_metadata.get("resolved_model_ref", ""),
+                    "ollama_tag": model_metadata.get("ollama_tag", ""),
+                    "hf_repo": model_metadata.get("hf_repo", ""),
+                    "variant_note": model_metadata.get("variant_note", ""),
+                    "fit_level": model_metadata.get("fit_level", ""),
+                    "size": model_metadata.get("size", ""),
+                    "estimated_tps": model_metadata.get("estimated_tps", 0),
+                    "is_moe": model_metadata.get("is_moe", False),
+                })
+            data["models"][model_name] = entry
             self._save(data)
     
     def start_model(self, model_name: str):
@@ -84,8 +106,9 @@ class TestTracker:
         data = self._load()
         
         if model_name in data["models"]:
+            total = data["models"][model_name].get("total_prompts", 50)
             data["models"][model_name]["status"] = "completed"
-            data["models"][model_name]["prompts_completed"] = 50
+            data["models"][model_name]["prompts_completed"] = total
             data["models"][model_name]["completed_at"] = datetime.now().isoformat()
             data["models"][model_name]["csv_file"] = csv_file
             self._save(data)
@@ -97,6 +120,16 @@ class TestTracker:
         if model_name in data["models"]:
             data["models"][model_name]["status"] = "failed"
             data["models"][model_name]["error"] = error
+            data["models"][model_name]["completed_at"] = datetime.now().isoformat()
+            self._save(data)
+
+    def skip_model(self, model_name: str, reason: str, skip_status: str = "skipped"):
+        """Mark a model as skipped with a reason (e.g. provider_unsupported, deferred_vision)."""
+        data = self._load()
+
+        if model_name in data["models"]:
+            data["models"][model_name]["status"] = skip_status
+            data["models"][model_name]["error"] = reason
             data["models"][model_name]["completed_at"] = datetime.now().isoformat()
             self._save(data)
     
@@ -122,9 +155,7 @@ class TestTracker:
         model_data = data["models"].get(model_name, {})
         status = model_data.get("status", "pending")
         completed = model_data.get("prompts_completed", 0)
-        # Override corrupted 200s from older test checkpoints natively
-        total = 50
-        model_data["total_prompts"] = 50 
+        total = model_data.get("total_prompts", 50)
         return status, completed, total
     
     def get_pending_models(self) -> list[dict]:
@@ -137,7 +168,8 @@ class TestTracker:
                     "name": model_name,
                     "category": model_data.get("category"),
                     "status": model_data.get("status"),
-                    "prompts_completed": model_data.get("prompts_completed", 0)
+                    "prompts_completed": model_data.get("prompts_completed", 0),
+                    "total_prompts": model_data.get("total_prompts", 50)
                 })
         return pending
     
@@ -154,6 +186,7 @@ class TestTracker:
         completed = sum(1 for m in models.values() if m.get("status") == "completed")
         in_progress = sum(1 for m in models.values() if m.get("status") == "in_progress")
         failed = sum(1 for m in models.values() if m.get("status") == "failed")
+        skipped = sum(1 for m in models.values() if m.get("status") in ("skipped", "provider_unsupported", "deferred_vision"))
         pending = sum(1 for m in models.values() if m.get("status") == "pending")
         
         # Calculate Global ETA
@@ -179,7 +212,8 @@ class TestTracker:
         global_eta_str = "Calculating..."
         if global_completed_pts > 0:
             avg_sec_per_pt = global_elapsed_sec / global_completed_pts
-            pts_remaining = (total * 50) - global_completed_pts
+            global_total_pts = sum(m.get("total_prompts", 50) for m in models.values())
+            pts_remaining = global_total_pts - global_completed_pts
             eta_sec = avg_sec_per_pt * pts_remaining
             
             hours = int(eta_sec // 3600)
@@ -195,6 +229,7 @@ class TestTracker:
 - **Completed**: {completed}
 - **In Progress**: {in_progress}
 - **Failed**: {failed}
+- **Skipped**: {skipped}
 - **Pending**: {pending}
 
 ## Model Status by Category
@@ -207,18 +242,20 @@ class TestTracker:
                 categories[cat] = []
             categories[cat].append((model_name, model_data))
         
-        status_icons = {"completed": "✅", "in_progress": "🔄", "failed": "❌", "pending": "⏳"}
+        status_icons = {"completed": "✅", "in_progress": "🔄", "failed": "❌", "pending": "⏳", "skipped": "⏭️", "provider_unsupported": "🚫", "deferred_vision": "👁️"}
         
         for category, model_list in sorted(categories.items()):
             report += f"### {category} ({len(model_list)} models)\n\n"
-            report += "| Model | Status | Progress | Time Spent | ETA | Error |\n"
-            report += "|-------|--------|----------|------------|-----|-------|\n"
+            report += "| Model | Source/Runtime | Status | Progress | Time Spent | ETA | Error |\n"
+            report += "|-------|---------------|--------|----------|------------|-----|-------|\n"
             
-            for model_name, model_data in model_list:
+            for key, model_data in model_list:
                 status = model_data.get("status", "pending")
                 icon = status_icons.get(status, "❓")
+                display_name = model_data.get("requested_name") or model_data.get("model_name", key)
+                runtime = model_data.get("resolved_runtime") or model_data.get("source", "?")
                 completed_pts = model_data.get("prompts_completed", 0)
-                total_pts = model_data.get("total_prompts", 50)  # Capping strictly to the 50 limit display
+                total_pts = model_data.get("total_prompts", 50)
                 
                 time_spent = "-"
                 eta = "-"
@@ -239,11 +276,11 @@ class TestTracker:
                             eta_mins = (time_per_pt * remaining_pts) / 60
                             eta = f"~{eta_mins:.1f}m" if remaining_pts > 0 else "Finishing..."
                 
-                if status == "failed":
-                    error = model_data.get("error", "Unknown error").replace('\n', ' ')
-                    report += f"| {model_name} | {icon} Failed | {completed_pts}/{total_pts} | {time_spent} | - | {error[:40]}... |\n"
+                if status in ("failed", "skipped", "provider_unsupported", "deferred_vision"):
+                    error = (model_data.get("error") or "Unknown").replace('\n', ' ')[:40]
+                    report += f"| {display_name} | {runtime} | {icon} {status} | {completed_pts}/{total_pts} | {time_spent} | - | {error}... |\n"
                 else:
-                    report += f"| {model_name} | {icon} {status.title()} | {completed_pts}/{total_pts} | {time_spent} | {eta} | - |\n"
+                    report += f"| {display_name} | {runtime} | {icon} {status.title()} | {completed_pts}/{total_pts} | {time_spent} | {eta} | - |\n"
             report += "\n"
         
         return report
@@ -268,16 +305,28 @@ class TestTracker:
         if not model_data:
             return f"No data found for model: {model_name}"
         
-        report = f"""# Detailed Model Report: {model_name}
+        total_pts = model_data.get("total_prompts", 50)
+        completed_pts = model_data.get("prompts_completed", 0)
+        display_name = model_data.get("requested_name") or model_data.get("model_name", model_name)
+        runtime = model_data.get("resolved_runtime") or model_data.get("source", "?")
+        model_ref = model_data.get("resolved_model_ref") or model_data.get("ollama_tag") or model_data.get("hf_repo", "")
+        variant = model_data.get("variant_note", "")
+        report = f"""# Detailed Model Report: {display_name}
 
 ## Basic Information
+- **Queue ID**: {model_name}
 - **Category**: {model_data.get('category', 'Unknown')}
 - **Status**: {model_data.get('status', 'pending').upper()}
-- **Source**: {'HuggingFace' if '/' in model_name else 'Ollama'}
+- **Runtime**: {runtime}
+- **Resolved Model Ref**: {model_ref}
+- **Fit Level**: {model_data.get('fit_level', '?')}
+- **Size**: {model_data.get('size', '?')}
+- **Est. TPS**: {model_data.get('estimated_tps', 0)}
+- **MoE**: {model_data.get('is_moe', False)}
 
 ## Progress
-- **Prompts Completed**: {model_data.get('prompts_completed', 0)} / 50
-- **Completion**: {model_data.get('prompts_completed', 0) / 50 * 100:.1f}%
+- **Prompts Completed**: {completed_pts} / {total_pts}
+- **Completion**: {completed_pts / max(total_pts, 1) * 100:.1f}%
 
 ## Timing
 - **Started At**: {model_data.get('started_at', 'Not started')}
@@ -288,6 +337,8 @@ class TestTracker:
 - **CSV File**: {model_data.get('csv_file', 'Not generated')}
 
 """
+        if variant:
+            report += f"## Variant Note\n- {variant}\n\n"
         
         if model_data.get('status') == 'failed':
             report += f"""## Error Information
@@ -318,7 +369,7 @@ def main():
         print(tracker.generate_status_report())
     elif args.pending:
         for m in tracker.get_pending_models():
-            print(f"{m['name']} ({m['category']}) - {m['prompts_completed']}/50 - {m['status']}")
+            print(f"{m['name']} ({m['category']}) - {m['prompts_completed']}/{m.get('total_prompts', 50)} - {m['status']}")
     elif args.init:
         tracker.init_model(args.init, "Unknown")
         print(f"Initialized: {args.init}")
