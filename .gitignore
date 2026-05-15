@@ -22,6 +22,10 @@ models/
 *.exe
 *.dll
 *.incomplete
+*.zip
+
+# Tools (large binaries)
+tools/llama-bench/*.zip
 
 # OS
 .DS_Store
