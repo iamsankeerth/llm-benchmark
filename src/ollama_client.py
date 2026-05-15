@@ -17,7 +17,9 @@ class BenchmarkResult:
 
 class OllamaClient:
     def __init__(self, host="http://localhost:11434"):
-        pass
+        # The ollama Python library reads from OLLAMA_HOST env var
+        if host != "http://localhost:11434":
+            os.environ["OLLAMA_HOST"] = host
 
     def _encode_image(self, image_path: str) -> str:
         """Read an image file and return a base64-encoded data URI string."""
@@ -26,6 +28,20 @@ class OllamaClient:
         with open(image_path, "rb") as f:
             img_bytes = f.read()
         return base64.b64encode(img_bytes).decode("utf-8")
+
+    def _inference_options(self, extra: dict = None) -> dict:
+        """Build optimized Ollama inference options.
+        Merged with caller overrides (extra dict takes precedence).
+        """
+        opts = {
+            "num_ctx": 2048,
+            "num_batch": 512,
+            "num_thread": 8,
+            "num_gpu": 999,
+        }
+        if extra:
+            opts.update(extra)
+        return opts
 
     def generate_benchmark(
         self,
@@ -59,15 +75,20 @@ class OllamaClient:
                 prompt=prompt,
                 images=message.get('images'),
                 stream=True,
-                options={"num_predict": max_tokens, "temperature": temperature}
+                keep_alive="24h",
+                options=self._inference_options({
+                    "num_predict": max_tokens,
+                    "temperature": temperature,
+                })
             )
 
             content_chunks = []
+            final_chunk = {}  # Safety: prevent UnboundLocalError on empty stream
 
             for chunk in stream:
                 if first_token_time is None:
                     first_token_time = time.perf_counter()
-                content_chunks.append(chunk['response'])
+                content_chunks.append(chunk.get('response', ''))
 
                 if chunk.get('done'):
                     final_chunk = chunk
@@ -129,7 +150,10 @@ class OllamaClient:
                 model=model,
                 messages=[message],
                 format=schema,
-                options={'temperature': temperature}
+                keep_alive="24h",
+                options=self._inference_options({
+                    "temperature": temperature,
+                })
             )
             return response.message.content, None
         except Exception as e:

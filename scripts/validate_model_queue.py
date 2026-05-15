@@ -75,18 +75,27 @@ def validate(queue: list[dict]) -> int:
     else:
         print("  [PASS] All huggingface-source models have non-empty hf_repo")
 
-    # 5. Runnable huggingface models are in _KNOWN_GGUF_REPOS
+    # 5. Runnable huggingface_gguf models are in _KNOWN_GGUF_REPOS
     bad_hf = []
     for m in queue:
-        if m["source"] == "huggingface" and m["status"] == "pending":
+        if (m["source"] == "huggingface"
+            and m.get("resolved_runtime") == "huggingface_gguf"
+            and m["status"] == "pending"):
             if m.get("hf_repo") not in _KNOWN_GGUF_REPOS:
                 bad_hf.append(m["queue_id"])
     if bad_hf:
         errors.append(
-            f"Huggingface models marked runnable but NOT in _KNOWN_GGUF_REPOS: {bad_hf}"
+            f"Huggingface GGUF models marked runnable but NOT in _KNOWN_GGUF_REPOS: {bad_hf}"
         )
     else:
-        print("  [PASS] All runnable huggingface models are in _KNOWN_GGUF_REPOS")
+        print("  [PASS] All runnable huggingface_gguf models are in _KNOWN_GGUF_REPOS")
+
+    # 5b. Report runtime distribution for visibility
+    hf_trans = sum(1 for m in queue if m.get("resolved_runtime") == "hf_transformers" and m["status"] == "pending")
+    vllm_cnt = sum(1 for m in queue if m.get("resolved_runtime") == "vllm" and m["status"] == "pending")
+    gguf_cnt = sum(1 for m in queue if m.get("resolved_runtime") == "huggingface_gguf" and m["status"] == "pending")
+    ollama_cnt = sum(1 for m in queue if m.get("resolved_runtime") == "ollama" and m["status"] == "pending")
+    print(f"  [INFO] Runnable by runtime: ollama={ollama_cnt}, hf_transformers={hf_trans}, vllm={vllm_cnt}, gguf={gguf_cnt}")
 
     # 6. Every entry has required identity fields
     required = ["requested_name", "resolved_runtime", "resolved_model_ref", "variant_note"]

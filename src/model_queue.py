@@ -28,20 +28,37 @@ _KNOWN_OLLAMA_TAGS = {
     "Qwen2.5-Coder-1.5B-Instruct-AWQ":"qwen2.5-coder:1.5b-instruct",
     "Qwen2.5-Coder-3B":               "qwen2.5-coder:3b",
     "Qwen2.5-Coder-3B-Instruct":      "qwen2.5-coder:3b-instruct",
+    "starcoder2-3b":                  "starcoder2:3b",
     "granite-3b-code-base-2k":        "granite-code:3b",
     # --- Chat ---
     "TinyLlama-1.1B-Chat-v1.0":       "tinyllama",
     "Llama-3.2-1B-Instruct":          "llama3.2:1b",
+    "Llama-3.2-3B-Instruct":          "llama3.2:3b",
+    "Llama-3.2-3B":                   "llama3.2:3b",
     "Qwen2.5-1.5B-Instruct":          "qwen2.5:1.5b-instruct",
     "Qwen2-1.5B-Instruct":            "qwen2:1.5b-instruct",
     "Qwen2.5-3B-Instruct":            "qwen2.5:3b-instruct",
-    "Phi-3-mini-4k-instruct":         "phi3:mini",
-    "Phi-3.5-mini-instruct":          "phi3:mini",
+    "Qwen3-0.6B":                     "qwen3:0.6b",
+    "Qwen3-1.7B":                     "qwen3:1.7b",
+    "Qwen3-1.7B-Base":                "qwen3:1.7b",
+    "Qwen3-4B-Base":                  "qwen3:4b",
+    "Qwen3-4B-Instruct-2507":         "qwen3:4b",
+    "Qwen3.5-0.8B":                   "qwen3.5:0.8b",
+    "Qwen3.5-0.8B-Base":              "qwen3.5:0.8b",
+    "Qwen3.5-2B":                     "qwen3.5:2b",
+    "Qwen3.5-2B-Base":                "qwen3.5:2b",
     "gemma-2b":                       "gemma:2b",
     "gemma-1.1-2b-it":                "gemma:2b",
+    "gemma-2-2b-it":                  "gemma2:2b",
+    "gemma-2-2b-jpn-it":              "gemma2:2b",
+    "Phi-3-mini-4k-instruct":         "phi3:mini",
+    "Phi-3.5-mini-instruct":          "phi3.5:mini",
     # --- Reasoning ---
     "Phi-4-mini-reasoning":           "phi4-mini-reasoning",
     "DeepSeek-R1-Distill-Qwen-1.5B":  "deepseek-r1:1.5b",
+    "Qwen2.5-Math-1.5B-Instruct":     "qwen2.5-math:1.5b",
+    "Qwen2.5-Math-1.5B":              "qwen2.5-math:1.5b",
+    "Qwen3-4B-Thinking-2507":         "qwen3:4b",
 }
 
 # ---------------------------------------------------------------------------
@@ -49,7 +66,17 @@ _KNOWN_OLLAMA_TAGS = {
 # Until a full Transformers runner is implemented, HF repos NOT on this list
 # are marked provider_unsupported.
 # ---------------------------------------------------------------------------
-_KNOWN_GGUF_REPOS: set[str] = set()
+_KNOWN_GGUF_REPOS: set[str] = {
+    # Verified GGUF repos on HuggingFace (unsloth / QuantFactory / second-state)
+    "bigcode/gpt_bigcode-santacoder",          # via second-state/santacoder-GGUF
+    "ShahriarFerdoush/llama-3.2-1b-code-instruct",
+    "stabilityai/stablelm-2-1_6b-chat",
+    "ibm-granite/granite-4.0-h-micro",
+    "KiteFishAI/Minnow-Math-1.5B",
+    "Vikhrmodels/QVikhr-3-1.7B-Instruction-noreasoning",
+    "ibm-research/PowerMoE-3b",
+    "ibm-research/PowerLM-3b",
+}
 
 # ---------------------------------------------------------------------------
 # Dirty check for VL / Vision / OCR models
@@ -115,14 +142,14 @@ def _resolve_identity(model: dict) -> dict:
             "ollama_tag": tag,
         }
 
-    # 3. AWQ/GPTQ/FP8 without Ollama tag → unsupported
+    # 3. AWQ/GPTQ/FP8 without Ollama tag → route to vLLM
     if _is_awq_or_gptq(name):
         return {
-            "source": "provider_unsupported",
-            "resolved_runtime": "unsupported",
+            "source": "huggingface",
+            "resolved_runtime": "vllm",
             "resolved_model_ref": hf_repo,
-            "variant_note": "AWQ/GPTQ/FP8 quantised repo without known Ollama tag",
-            "status": "provider_unsupported",
+            "variant_note": "AWQ/GPTQ/FP8 quantised repo — requires vLLM runtime",
+            "status": "pending",
             "ollama_tag": "",
         }
 
@@ -137,16 +164,15 @@ def _resolve_identity(model: dict) -> dict:
             "ollama_tag": "",
         }
 
-    # 5. HF-only repo, not in GGUF allowlist → unsupported
+    # 5. HF-only repo, not in GGUF allowlist → route to HF Transformers
     return {
-        "source": "provider_unsupported",
-        "resolved_runtime": "unsupported",
+        "source": "huggingface",
+        "resolved_runtime": "hf_transformers",
         "resolved_model_ref": hf_repo,
         "variant_note": (
-            f"HF repo {hf_repo} is not known to contain GGUF artifacts; "
-            "Transformers runner not implemented."
+            f"HF repo {hf_repo} loaded via HuggingFace Transformers with 4-bit quantization."
         ) if hf_repo else "No loadable artifacts available for this model.",
-        "status": "provider_unsupported",
+        "status": "pending" if hf_repo else "provider_unsupported",
         "ollama_tag": "",
     }
 
@@ -208,6 +234,11 @@ def build_model_queue() -> list[dict]:
     for tier in ("small", "medium", "large", "moe"):
         for m in COMPATIBLE_MODELS["chat"].get(tier, []):
             _add(m, "Chat", tier, is_moe=m.get("moe", tier == "moe"))
+
+    # --- Multimodal ---
+    for tier in ("small", "medium", "large", "good"):
+        for m in COMPATIBLE_MODELS.get("multimodal", {}).get(tier, []):
+            _add(m, "Vision", tier, is_moe=m.get("moe", False))
 
     # --- Reasoning ---
     for m in COMPATIBLE_MODELS["reasoning"].get("perfect", []):

@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Benchmark — Live Monitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-ink: #262626;
+            --color-canvas-white: #ffffff;
+            --color-fog: #ededed;
+            --color-muted-gray: #686868;
+            --color-cool-gray: #515151;
+            --color-dark-surface: #171717;
+            --color-subtle-gray: #929292;
+            --color-border-silver: #737373;
+            --color-line-white: #cbcbcb;
+            --color-accent-slate: #101828;
+
+            --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+            --text-caption: 12px;
+            --leading-caption: 1.5;
+            --tracking-caption: -0.3px;
+            --text-body: 14px;
+            --leading-body: 1.38;
+            --tracking-body: -0.35px;
+            --text-heading-sm: 20px;
+            --leading-heading-sm: 1.25;
+            --tracking-heading-sm: -0.5px;
+            --text-heading: 24px;
+            --leading-heading: 1.15;
+            --tracking-heading: -0.6px;
+            --text-heading-lg: 30px;
+            --leading-heading-lg: 1.11;
+            --tracking-heading-lg: -0.75px;
+            --text-display: 48px;
+            --leading-display: 1;
+            --tracking-display: -1.2px;
+
+            --spacing-4: 4px;
+            --spacing-8: 8px;
+            --spacing-12: 12px;
+            --spacing-16: 16px;
+            --spacing-20: 20px;
+            --spacing-24: 24px;
+            --spacing-32: 32px;
+            --spacing-48: 48px;
+            --spacing-64: 64px;
+            --spacing-96: 96px;
+
+            --radius-md: 4px;
+            --radius-lg: 8px;
+            --radius-xl: 14px;
+            --radius-2xl: 18px;
+
+            --shadow-subtle: rgba(0, 0, 0, 0.04) 0px 1px 3px 0px;
+            --shadow-xl: rgba(0, 0, 0, 0.1) 0px 25px 50px -12px;
+            --shadow-md: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -4px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--color-fog);
+            color: var(--color-ink);
+            font-family: var(--font-inter);
+            letter-spacing: -0.0250em;
+            padding: var(--spacing-48);
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        header { margin-bottom: var(--spacing-48); }
+
+        h1 {
+            font-size: var(--text-display);
+            line-height: var(--leading-display);
+            letter-spacing: var(--tracking-display);
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: var(--spacing-8);
+        }
+
+        .subtitle {
+            font-size: var(--text-body);
+            line-height: var(--leading-body);
+            letter-spacing: var(--tracking-body);
+            color: var(--color-muted-gray);
+        }
+
+        h2 {
+            font-size: var(--text-heading);
+            line-height: var(--leading-heading);
+            letter-spacing: var(--tracking-heading);
+            font-weight: 600;
+            color: var(--color-ink);
+            margin-bottom: var(--spacing-16);
+        }
+
+        .section { margin-bottom: var(--spacing-48); }
+
+        .card {
+            background: var(--color-canvas-white);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-32);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .card-subtle {
+            background: var(--color-canvas-white);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-24);
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid var(--color-fog);
+        }
+
+        .caption {
+            font-size: var(--text-caption);
+            line-height: var(--leading-caption);
+            letter-spacing: var(--tracking-caption);
+            color: var(--color-muted-gray);
+        }
+
+        /* Process Bar */
+        .process-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-16);
+            flex-wrap: wrap;
+        }
+
+        .process-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-12);
+        }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--color-subtle-gray);
+            flex-shrink: 0;
+        }
+
+        .status-dot.running {
+            background: var(--color-ink);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .status-dot.stopped { background: var(--color-muted-gray); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .status-label {
+            font-size: var(--text-body);
+            font-weight: 600;
+            letter-spacing: var(--tracking-body);
+        }
+
+        .pid-label {
+            font-size: var(--text-caption);
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+        }
+
+        .btn-stop {
+            background: var(--color-ink);
+            color: var(--color-canvas-white);
+            border: none;
+            padding: var(--spacing-12) var(--spacing-24);
+            border-radius: var(--radius-md);
+            font-family: var(--font-inter);
+            font-size: var(--text-body);
+            font-weight: 500;
+            letter-spacing: var(--tracking-body);
+            cursor: pointer;
+            transition: opacity 0.15s ease;
+        }
+
+        .btn-stop:hover { opacity: 0.85; }
+        .btn-stop:disabled { background: var(--color-subtle-gray); cursor: not-allowed; }
+
+        /* GPU Grid */
+        .gpu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-16);
+        }
+
+        .gpu-metric { text-align: center; }
+
+        .gpu-value {
+            font-size: var(--text-heading-lg);
+            font-weight: 600;
+            letter-spacing: var(--tracking-heading-lg);
+            color: var(--color-ink);
+            margin-bottom: var(--spacing-4);
+        }
+
+        .gpu-label {
+            font-size: var(--text-caption);
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+            margin-bottom: var(--spacing-8);
+        }
+
+        .bar-track {
+            height: 6px;
+            background: var(--color-fog);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--color-ink);
+            border-radius: 999px;
+            transition: width 0.6s ease;
+        }
+
+        /* Model Navigation */
+        .model-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-16);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--color-fog);
+            color: var(--color-ink);
+            padding: var(--spacing-8) var(--spacing-16);
+            border-radius: var(--radius-md);
+            font-family: var(--font-inter);
+            font-size: var(--text-caption);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .nav-btn:hover { background: var(--color-fog); border-color: var(--color-line-white); }
+        .nav-btn:disabled { color: var(--color-subtle-gray); cursor: not-allowed; border-color: var(--color-fog); }
+
+        .nav-indicator {
+            font-size: var(--text-caption);
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+        }
+
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-16);
+            gap: var(--spacing-12);
+        }
+
+        .model-name {
+            font-size: var(--text-heading);
+            font-weight: 600;
+            letter-spacing: var(--tracking-heading);
+            color: var(--color-ink);
+        }
+
+        .model-badge {
+            font-size: var(--text-caption);
+            color: var(--color-muted-gray);
+            padding: var(--spacing-4) var(--spacing-12);
+            border: 1px solid var(--color-fog);
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .model-meta {
+            display: flex;
+            gap: var(--spacing-16);
+            margin-bottom: var(--spacing-20);
+            flex-wrap: wrap;
+        }
+
+        .model-meta span {
+            font-size: var(--text-caption);
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: var(--spacing-8);
+        }
+
+        .progress-count {
+            font-size: var(--text-body);
+            font-weight: 600;
+            letter-spacing: var(--tracking-body);
+        }
+
+        .progress-eta {
+            font-size: var(--text-caption);
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+        }
+
+        .progress-bar-track {
+            height: 8px;
+            background: var(--color-fog);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: var(--spacing-4);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--color-ink);
+            border-radius: 999px;
+            transition: width 0.6s ease;
+        }
+
+        .progress-pct {
+            font-size: var(--text-caption);
+            color: var(--color-subtle-gray);
+            letter-spacing: var(--tracking-caption);
+            text-align: right;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-16);
+        }
+
+        .tab {
+            background: transparent;
+            border: none;
+            padding: var(--spacing-8) var(--spacing-16);
+            border-radius: 10px;
+            font-family: var(--font-inter);
+            font-size: var(--text-body);
+            font-weight: 500;
+            letter-spacing: var(--tracking-body);
+            color: var(--color-muted-gray);
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .tab:hover { color: var(--color-ink); }
+
+        .tab.active {
+            background: var(--color-ink);
+            color: var(--color-canvas-white);
+        }
+
+        /* Progress Table */
+        .prompt-table-wrap {
+            max-height: 480px;
+            overflow-y: auto;
+            border-radius: var(--radius-lg);
+        }
+
+        .prompt-table-wrap::-webkit-scrollbar { width: 4px; }
+        .prompt-table-wrap::-webkit-scrollbar-track { background: transparent; }
+        .prompt-table-wrap::-webkit-scrollbar-thumb { background: var(--color-line-white); border-radius: 999px; }
+
+        .prompt-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--text-caption);
+        }
+
+        .prompt-table th {
+            font-weight: 600;
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+            text-align: left;
+            padding: var(--spacing-8) var(--spacing-12);
+            border-bottom: 1px solid var(--color-fog);
+            position: sticky;
+            top: 0;
+            background: var(--color-canvas-white);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .prompt-table th:hover { color: var(--color-ink); }
+        .prompt-table th .sort-arrow { font-size: 10px; margin-left: 4px; }
+
+        .prompt-table td {
+            padding: var(--spacing-8) var(--spacing-12);
+            border-bottom: 1px solid var(--color-fog);
+            color: var(--color-ink);
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 11px;
+            letter-spacing: -0.02em;
+        }
+
+        .prompt-table tr:last-child td { border-bottom: none; }
+
+        .check { color: var(--color-ink); font-weight: 600; }
+        .cross { color: var(--color-subtle-gray); }
+        .pending-cell { color: var(--color-line-white); }
+
+        /* Activity Log */
+        .log-entries {
+            max-height: 480px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .log-entries::-webkit-scrollbar { width: 4px; }
+        .log-entries::-webkit-scrollbar-track { background: transparent; }
+        .log-entries::-webkit-scrollbar-thumb { background: var(--color-line-white); border-radius: 999px; }
+
+        .log-entry {
+            font-size: 13px;
+            line-height: 1.5;
+            padding: var(--spacing-4) var(--spacing-12);
+            border-left: 3px solid transparent;
+            border-radius: var(--radius-md);
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            letter-spacing: -0.02em;
+            color: var(--color-cool-gray);
+            word-break: break-all;
+        }
+
+        .log-entry.type-header {
+            font-family: var(--font-inter);
+            font-weight: 600;
+            font-size: var(--text-body);
+            color: var(--color-ink);
+            border-left-color: var(--color-ink);
+            background: rgba(0,0,0,0.02);
+            padding: var(--spacing-8) var(--spacing-12);
+            margin-top: var(--spacing-8);
+        }
+
+        .log-entry.type-progress {
+            border-left-color: var(--color-ink);
+            background: rgba(38,38,38,0.02);
+        }
+
+        .log-entry.type-lifecycle {
+            color: var(--color-muted-gray);
+            border-left-color: var(--color-line-white);
+        }
+
+        .log-entry.type-phase {
+            font-family: var(--font-inter);
+            font-weight: 600;
+            font-size: var(--text-caption);
+            color: var(--color-muted-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-left-color: var(--color-fog);
+        }
+
+        .log-entry.type-error {
+            color: var(--color-ink);
+            border-left-color: var(--color-ink);
+            background: rgba(38,38,38,0.04);
+        }
+
+        .log-entry.type-sub {
+            color: var(--color-subtle-gray);
+            font-size: 12px;
+            border-left-color: var(--color-fog);
+        }
+
+        .log-entry.type-info {
+            border-left-color: var(--color-line-white);
+        }
+
+        /* Queue Stats */
+        .queue-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-16);
+        }
+
+        .queue-stat { text-align: center; }
+
+        .queue-value {
+            font-size: var(--text-heading-lg);
+            font-weight: 600;
+            letter-spacing: var(--tracking-heading-lg);
+            color: var(--color-ink);
+            margin-bottom: var(--spacing-4);
+        }
+
+        .queue-label {
+            font-size: var(--text-caption);
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            font-size: var(--text-caption);
+            font-weight: 600;
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+            text-align: left;
+            padding: var(--spacing-8) var(--spacing-12);
+            border-bottom: 1px solid var(--color-fog);
+        }
+
+        .data-table td {
+            font-size: var(--text-body);
+            letter-spacing: var(--tracking-body);
+            color: var(--color-ink);
+            padding: var(--spacing-12);
+            border-bottom: 1px solid var(--color-fog);
+        }
+
+        .data-table tr:last-child td { border-bottom: none; }
+
+        .error-text {
+            color: var(--color-muted-gray);
+            font-size: var(--text-caption);
+            max-width: 400px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-32);
+            color: var(--color-subtle-gray);
+            font-size: var(--text-body);
+        }
+
+        .hidden { display: none !important; }
+
+        /* Phase Steps */
+        .phase-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: var(--spacing-24);
+            flex-wrap: wrap;
+        }
+
+        .phase-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-4);
+            min-width: 72px;
+        }
+
+        .phase-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-inter);
+            font-size: var(--text-body);
+            font-weight: 600;
+            background: var(--color-fog);
+            color: var(--color-subtle-gray);
+            transition: all 0.3s ease;
+        }
+
+        .phase-label {
+            font-size: var(--text-caption);
+            color: var(--color-subtle-gray);
+            letter-spacing: var(--tracking-caption);
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+
+        .phase-step.completed .phase-icon {
+            background: var(--color-ink);
+            color: var(--color-canvas-white);
+        }
+
+        .phase-step.completed .phase-label {
+            color: var(--color-muted-gray);
+        }
+
+        .phase-step.active .phase-icon {
+            background: var(--color-ink);
+            color: var(--color-canvas-white);
+            animation: pulse-phase 2s ease-in-out infinite;
+        }
+
+        .phase-step.active .phase-label {
+            color: var(--color-ink);
+            font-weight: 600;
+        }
+
+        @keyframes pulse-phase {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(38, 38, 38, 0.3); }
+            50% { box-shadow: 0 0 0 6px rgba(38, 38, 38, 0); }
+        }
+
+        .phase-connector {
+            width: 32px;
+            height: 2px;
+            background: var(--color-fog);
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .phase-connector.completed {
+            background: var(--color-ink);
+        }
+
+        /* ETA Grid */
+        .eta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-12);
+            margin-top: var(--spacing-16);
+            padding-top: var(--spacing-16);
+            border-top: 1px solid var(--color-fog);
+        }
+
+        .eta-item {
+            text-align: center;
+        }
+
+        .eta-value {
+            font-size: var(--text-body);
+            font-weight: 600;
+            letter-spacing: var(--tracking-body);
+            color: var(--color-ink);
+            margin-bottom: var(--spacing-4);
+        }
+
+        .eta-label {
+            font-size: var(--text-caption);
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+        }
+
+        /* Difficulty Table */
+        .diff-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-16);
+            font-size: var(--text-caption);
+        }
+
+        .diff-table th {
+            font-weight: 600;
+            color: var(--color-muted-gray);
+            letter-spacing: var(--tracking-caption);
+            text-align: left;
+            padding: var(--spacing-8) var(--spacing-12);
+            border-bottom: 1px solid var(--color-fog);
+        }
+
+        .diff-table td {
+            padding: var(--spacing-8) var(--spacing-12);
+            border-bottom: 1px solid var(--color-fog);
+            color: var(--color-ink);
+        }
+
+        .diff-table tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 768px) {
+            body { padding: var(--spacing-24); }
+            h1 { font-size: var(--text-heading-lg); }
+            .gpu-grid, .queue-grid { grid-template-columns: 1fr 1fr; }
+            .process-bar { flex-direction: column; align-items: flex-start; }
+            .model-nav { flex-wrap: wrap; gap: var(--spacing-8); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>LLM Benchmark</h1>
+        <p class="subtitle">Live Monitor &middot; RTX 2050 &middot; 4GB VRAM &middot; Auto-refreshing every 3s</p>
+    </header>
+
+    <!-- Process Status -->
+    <div class="section">
+        <div class="card">
+            <div class="process-bar">
+                <div class="process-info">
+                    <div class="status-dot" id="statusDot"></div>
+                    <div>
+                        <div class="status-label" id="statusLabel">Connecting...</div>
+                        <div class="pid-label" id="pidLabel"></div>
+                    </div>
+                </div>
+                <button class="btn-stop" id="btnStop" disabled onclick="stopPipeline()">Stop Pipeline</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GPU Performance -->
+    <div class="section">
+        <h2>GPU Performance</h2>
+        <div class="gpu-grid">
+            <div class="card-subtle">
+                <div class="gpu-metric">
+                    <div class="gpu-value" id="gpuUtil">--</div>
+                    <div class="gpu-label">Utilization</div>
+                    <div class="bar-track"><div class="bar-fill" id="gpuUtilBar" style="width: 0%"></div></div>
+                </div>
+            </div>
+            <div class="card-subtle">
+                <div class="gpu-metric">
+                    <div class="gpu-value" id="gpuVram">--</div>
+                    <div class="gpu-label">VRAM Usage</div>
+                    <div class="bar-track"><div class="bar-fill" id="gpuVramBar" style="width: 0%"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Model with Navigation -->
+    <div class="section">
+        <h2>Current Model</h2>
+        <div class="card" id="modelCard">
+            <div class="empty-state">No model currently being tested</div>
+        </div>
+    </div>
+
+    <!-- Queue Summary -->
+    <div class="section">
+        <h2>Queue Summary</h2>
+        <div class="queue-grid">
+            <div class="card-subtle"><div class="queue-stat"><div class="queue-value" id="qCompleted">0</div><div class="queue-label">Completed</div></div></div>
+            <div class="card-subtle"><div class="queue-stat"><div class="queue-value" id="qInProgress">0</div><div class="queue-label">In Progress</div></div></div>
+            <div class="card-subtle"><div class="queue-stat"><div class="queue-value" id="qFailed">0</div><div class="queue-label">Failed</div></div></div>
+            <div class="card-subtle"><div class="queue-stat"><div class="queue-value" id="qPending">0</div><div class="queue-label">Pending</div></div></div>
+        </div>
+    </div>
+
+    <!-- Activity (Tabbed) -->
+    <div class="section">
+        <h2>Activity</h2>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('progress')">Progress Table</button>
+            <button class="tab" onclick="switchTab('log')">Activity Log</button>
+        </div>
+        <div class="card-subtle">
+            <div id="tabProgress">
+                <div class="prompt-table-wrap" id="promptTableWrap">
+                    <div class="empty-state">Select a model to view prompt progress</div>
+                </div>
+            </div>
+            <div id="tabLog" class="hidden">
+                <div class="log-entries" id="logEntries">Waiting for log output...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completed Models -->
+    <div class="section">
+        <h2>Completed Models</h2>
+        <div class="card-subtle" id="completedSection">
+            <div class="empty-state">No models completed yet</div>
+        </div>
+    </div>
+
+    <!-- Errors -->
+    <div class="section">
+        <h2>Errors</h2>
+        <div class="card-subtle" id="errorsSection">
+            <div class="empty-state">No errors</div>
+        </div>
+    </div>
+
+    <footer style="margin-top: var(--spacing-96); padding-top: var(--spacing-24); border-top: 1px solid var(--color-fog);">
+        <p class="caption">LLM Benchmark Suite &middot; <a href="/docs" style="color: var(--color-ink);">API Docs</a> &middot; <a href="/" style="color: var(--color-ink);">Results Dashboard</a></p>
+    </footer>
+</div>
+
+<script>
+const API_BASE = window.location.origin + '/api';
+let failCount = 0;
+let allModels = [];
+let viewingIndex = -1;
+let userNavigated = false;
+let userNavTimeout = null;
+let currentTab = 'progress';
+let promptData = null;
+let promptSortKey = 'prompt_id';
+let promptSortAsc = true;
+let lastData = null;
+
+// --- Helpers ---
+
+function parsePct(str) {
+    if (!str) return 0;
+    return parseFloat(str.replace('%', '').trim()) || 0;
+}
+
+function parseMiB(str) {
+    if (!str) return 0;
+    return parseFloat(str.replace('MiB', '').replace(',', '').trim()) || 0;
+}
+
+function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    if (tab === 'progress') {
+        document.querySelector('.tab:first-child').classList.add('active');
+        document.getElementById('tabProgress').classList.remove('hidden');
+        document.getElementById('tabLog').classList.add('hidden');
+    } else {
+        document.querySelector('.tab:last-child').classList.add('active');
+        document.getElementById('tabLog').classList.remove('hidden');
+        document.getElementById('tabProgress').classList.add('hidden');
+    }
+}
+
+// --- Navigation ---
+
+function navigateModel(delta) {
+    if (!allModels.length) return;
+    userNavigated = true;
+    clearTimeout(userNavTimeout);
+    userNavTimeout = setTimeout(() => { userNavigated = false; }, 30000);
+
+    viewingIndex = Math.max(0, Math.min(allModels.length - 1, viewingIndex + delta));
+    renderModelCard(allModels[viewingIndex]);
+    fetchPromptData(allModels[viewingIndex].queue_id);
+}
+
+function goToCurrentModel() {
+    if (!allModels.length) return;
+    const currentIdx = allModels.findIndex(m => m.status === 'in_progress');
+    if (currentIdx >= 0) {
+        viewingIndex = currentIdx;
+    } else if (viewingIndex < 0) {
+        viewingIndex = 0;
+    }
+    renderModelCard(allModels[viewingIndex]);
+    fetchPromptData(allModels[viewingIndex].queue_id);
+}
+
+// --- Fetch prompt data ---
+
+async function fetchPromptData(queueId) {
+    if (!queueId) return;
+    try {
+        const res = await fetch(`${API_BASE}/model/${encodeURIComponent(queueId)}/prompts`);
+        if (!res.ok) {
+            promptData = null;
+            renderPromptTable();
+            return;
+        }
+        promptData = await res.json();
+        renderPromptTable();
+    } catch {
+        promptData = null;
+        renderPromptTable();
+    }
+}
+
+// --- Render ---
+
+function renderPromptTable() {
+    const wrap = document.getElementById('promptTableWrap');
+    if (!promptData || !promptData.prompts || !promptData.prompts.length) {
+        wrap.innerHTML = '<div class="empty-state">No prompt data available for this model</div>';
+        return;
+    }
+
+    let prompts = [...promptData.prompts];
+
+    // Sort
+    prompts.sort((a, b) => {
+        let av = a[promptSortKey], bv = b[promptSortKey];
+        if (typeof av === 'boolean' || av === null) { av = av ? 1 : 0; bv = bv ? 1 : 0; }
+        if (typeof av === 'string') return promptSortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+        av = av ?? 0; bv = bv ?? 0;
+        return promptSortAsc ? av - bv : bv - av;
+    });
+
+    const arrow = promptSortAsc ? ' \u2191' : ' \u2193';
+
+    function fmt(v, decimals = 1) {
+        if (v === null || v === undefined) return '<span class="pending-cell">-</span>';
+        return Number(v).toFixed(decimals);
+    }
+
+    function boolCell(v) {
+        if (v === null || v === undefined) return '<span class="pending-cell">-</span>';
+        return v ? '<span class="check">\u2713</span>' : '<span class="cross">\u2717</span>';
+    }
+
+    // Compute averages
+    const tpsVals = prompts.filter(p => p.tps > 0).map(p => p.tps);
+    const latVals = prompts.filter(p => p.latency > 0).map(p => p.latency);
+    const vramVals = prompts.filter(p => p.vram_mb > 0).map(p => p.vram_mb);
+    const avgTps = tpsVals.length ? (tpsVals.reduce((a, b) => a + b, 0) / tpsVals.length).toFixed(1) : '-';
+    const avgLat = latVals.length ? (latVals.reduce((a, b) => a + b, 0) / latVals.length).toFixed(2) : '-';
+    const maxVram = vramVals.length ? Math.max(...vramVals).toFixed(0) : '-';
+
+    const sortCol = promptSortKey;
+    const th = (key, label) => `<th onclick="sortPromptTable('${key}')">${label}${sortCol === key ? arrow : ''}</th>`;
+
+    wrap.innerHTML = `
+        <table class="prompt-table">
+            <thead>
+                <tr>
+                    ${th('prompt_id', '#')}
+                    ${th('difficulty', 'Difficulty')}
+                    ${th('tps', 'TPS')}
+                    ${th('ttft', 'TTFT')}
+                    ${th('latency', 'Latency')}
+                    ${th('vram_mb', 'VRAM')}
+                    ${th('temp_0.0_success', '@0.0')}
+                    ${th('temp_0.7_success', '@0.7')}
+                    ${th('temp_1.0_success', '@1.0')}
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background: rgba(0,0,0,0.02); font-weight: 600;">
+                    <td colspan="2">Average</td>
+                    <td>${avgTps}</td>
+                    <td>-</td>
+                    <td>${avgLat}</td>
+                    <td>${maxVram}</td>
+                    <td colspan="3"></td>
+                </tr>
+                ${prompts.map(p => `
+                    <tr>
+                        <td>${p.prompt_id ?? '-'}</td>
+                        <td>${p.difficulty || '-'}</td>
+                        <td>${fmt(p.tps)}</td>
+                        <td>${fmt(p.ttft, 2)}</td>
+                        <td>${fmt(p.latency, 2)}</td>
+                        <td>${fmt(p.vram_mb, 0)}</td>
+                        <td>${boolCell(p['temp_0.0_success'])}</td>
+                        <td>${boolCell(p['temp_0.7_success'])}</td>
+                        <td>${boolCell(p['temp_1.0_success'])}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
+
+function sortPromptTable(key) {
+    if (promptSortKey === key) {
+        promptSortAsc = !promptSortAsc;
+    } else {
+        promptSortKey = key;
+        promptSortAsc = true;
+    }
+    renderPromptTable();
+}
+
+function renderModelCard(model) {
+    const modelCard = document.getElementById('modelCard');
+    if (!model) {
+        modelCard.innerHTML = '<div class="empty-state">No model data</div>';
+        return;
+    }
+
+    const pct = model.total_prompts > 0 ? (model.prompts_completed / model.total_prompts * 100) : 0;
+    const statusLabel = {
+        'completed': 'Completed',
+        'in_progress': 'In Progress',
+        'failed': 'Failed',
+        'pending': 'Queued',
+        'deferred_vision': 'Deferred',
+        'provider_unsupported': 'Unsupported',
+        'skipped': 'Skipped',
+    }[model.status] || model.status;
+
+    const statusColor = {
+        'completed': 'var(--color-ink)',
+        'in_progress': 'var(--color-ink)',
+        'failed': 'var(--color-muted-gray)',
+        'pending': 'var(--color-subtle-gray)',
+    }[model.status] || 'var(--color-subtle-gray)';
+
+    // Phase indicator - only show for in_progress models
+    let phaseHTML = '';
+    if (model.status === 'in_progress' && lastData) {
+        const phases = [
+            { id: 'download', icon: '↓', label: 'Download' },
+            { id: 'test_a', icon: 'A', label: 'Test A' },
+            { id: 'test_b', icon: 'B', label: 'Test B' },
+            { id: 'test_c', icon: 'C', label: 'Test C' },
+            { id: 'delete', icon: '×', label: 'Delete' },
+        ];
+        const currentPhase = lastData.current_phase || 'idle';
+        const phaseOrder = ['download', 'test_a', 'test_b', 'test_c', 'delete'];
+        const currentIdx = phaseOrder.indexOf(currentPhase);
+
+        phaseHTML = '<div class="phase-steps">';
+        phases.forEach((p, i) => {
+            let cls = '';
+            if (i < currentIdx) cls = 'completed';
+            else if (i === currentIdx) cls = 'active';
+
+            phaseHTML += `<div class="phase-step ${cls}"><div class="phase-icon">${p.icon}</div><div class="phase-label">${p.label}</div></div>`;
+            if (i < phases.length - 1) {
+                phaseHTML += `<div class="phase-connector ${i < currentIdx ? 'completed' : ''}"></div>`;
+            }
+        });
+        phaseHTML += '</div>';
+    }
+
+    // Enhanced ETA display for in_progress
+    let etaHTML = '';
+    if (model.status === 'in_progress' && lastData) {
+        etaHTML = `
+            <div class="eta-grid">
+                <div class="eta-item">
+                    <div class="eta-value">${lastData.per_prompt_eta || '-'}</div>
+                    <div class="eta-label">Per Prompt</div>
+                </div>
+                <div class="eta-item">
+                    <div class="eta-value">${lastData.phase_eta || lastData.eta || '-'}</div>
+                    <div class="eta-label">Phase ETA</div>
+                </div>
+                <div class="eta-item">
+                    <div class="eta-value">${lastData.total_model_eta || '-'}</div>
+                    <div class="eta-label">Total Model</div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Difficulty breakdown for in_progress
+    let diffHTML = '';
+    if (model.status === 'in_progress' && lastData && lastData.difficulty_stats) {
+        const stats = lastData.difficulty_stats;
+        const diffs = ['easy', 'medium', 'hard', 'adversarial', 'long_context'];
+        const hasData = diffs.some(d => stats[d] && stats[d].completed > 0);
+        if (hasData) {
+            diffHTML = `
+                <table class="diff-table">
+                    <thead><tr><th>Difficulty</th><th>Completed</th><th>Avg Time</th></tr></thead>
+                    <tbody>
+                        ${diffs.map(d => {
+                            const s = stats[d] || { count: 10, completed: 0, avg_latency: 0 };
+                            return `<tr>
+                                <td>${d}</td>
+                                <td>${s.completed} / ${s.count}</td>
+                                <td>${s.avg_latency > 0 ? s.avg_latency.toFixed(2) + 's' : '-'}</td>
+                            </tr>`;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+    }
+
+    modelCard.innerHTML = `
+        <div class="model-nav">
+            <button class="nav-btn" onclick="navigateModel(-1)" ${viewingIndex <= 0 ? 'disabled' : ''}>&larr; Previous</button>
+            <span class="nav-indicator">Model ${viewingIndex + 1} / ${allModels.length}</span>
+            <button class="nav-btn" onclick="navigateModel(1)" ${viewingIndex >= allModels.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+        </div>
+        ${phaseHTML}
+        <div class="model-header">
+            <div class="model-name">${model.name}</div>
+            <div class="model-badge" style="color: ${statusColor}; border-color: ${statusColor}20;">${statusLabel}</div>
+        </div>
+        <div class="model-meta">
+            <span>Category: ${model.category}</span>
+            <span>Size: ${model.size}</span>
+            <span>Runtime: ${model.resolved_runtime || model.source}</span>
+            ${model.elapsed !== '-' ? `<span>Elapsed: ${model.elapsed}</span>` : ''}
+        </div>
+        ${model.status === 'in_progress' ? `
+            <div class="progress-header">
+                <span class="progress-count">${model.prompts_completed} / ${model.total_prompts} prompts</span>
+                <span class="progress-eta">${lastData?.current_phase_label || ''}</span>
+            </div>
+            <div class="progress-bar-track">
+                <div class="progress-bar-fill" style="width: ${pct}%"></div>
+            </div>
+            <div class="progress-pct">${pct.toFixed(1)}%</div>
+            ${etaHTML}
+            ${diffHTML}
+        ` : ''}
+        ${model.status === 'completed' ? `
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-16); margin-top: var(--spacing-16);">
+                <div style="text-align: center;">
+                    <div style="font-size: var(--text-heading-sm); font-weight: 600;">${model.tps_avg > 0 ? model.tps_avg.toFixed(1) : '-'}</div>
+                    <div class="caption">Avg TPS</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: var(--text-heading-sm); font-weight: 600;">${model.latency_avg > 0 ? model.latency_avg.toFixed(2) + 's' : '-'}</div>
+                    <div class="caption">Avg Latency</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: var(--text-heading-sm); font-weight: 600;">${model.vram_peak > 0 ? model.vram_peak.toFixed(0) + ' MB' : '-'}</div>
+                    <div class="caption">Peak VRAM</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: var(--text-heading-sm); font-weight: 600;">${model.json_success_rate > 0 ? model.json_success_rate.toFixed(0) + '%' : '-'}</div>
+                    <div class="caption">JSON @0.0</div>
+                </div>
+            </div>
+            ${model.pass_rate > 0 ? `
+                <div style="margin-top: var(--spacing-16); padding-top: var(--spacing-16); border-top: 1px solid var(--color-fog);">
+                    <div style="font-size: var(--text-body); font-weight: 600; margin-bottom: var(--spacing-12);">Quality Score: ${model.pass_rate.toFixed(0)}% (${model.passed}/${model.total_tests} tests)</div>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-12);">
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--text-body); font-weight: 600; color: var(--color-ink);">${model.coding_pass_rate > 0 ? model.coding_pass_rate.toFixed(0) + '%' : '-'}</div>
+                            <div class="caption">Coding</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--text-body); font-weight: 600; color: var(--color-ink);">${model.chat_pass_rate > 0 ? model.chat_pass_rate.toFixed(0) + '%' : '-'}</div>
+                            <div class="caption">Chat</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--text-body); font-weight: 600; color: var(--color-ink);">${model.reasoning_pass_rate > 0 ? model.reasoning_pass_rate.toFixed(0) + '%' : '-'}</div>
+                            <div class="caption">Reasoning</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: var(--text-body); font-weight: 600; color: var(--color-ink);">${model.structured_pass_rate > 0 ? model.structured_pass_rate.toFixed(0) + '%' : '-'}</div>
+                            <div class="caption">Structured</div>
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+        ` : ''}
+        ${model.status === 'failed' && model.error ? `
+            <div style="margin-top: var(--spacing-16); padding: var(--spacing-12); background: var(--color-fog); border-radius: var(--radius-lg); font-size: var(--text-caption); color: var(--color-muted-gray);">${model.error}</div>
+        ` : ''}
+        ${model.status === 'pending' ? `
+            <div class="empty-state" style="padding: var(--spacing-16);">Waiting in queue...</div>
+        ` : ''}
+    `;
+}
+
+function renderLog(data) {
+    const logEntries = document.getElementById('logEntries');
+    if (!data.log_tail || !data.log_tail.length) {
+        logEntries.innerHTML = '<div class="empty-state">Waiting for log output...</div>';
+        return;
+    }
+
+    const entries = data.log_tail.map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return null;
+
+        // Model header: " MODEL X/Y: ..."
+        if (/^\s*MODEL \d+\/\d+:/.test(trimmed)) {
+            return { type: 'header', text: trimmed };
+        }
+        // Phase separator: "--- Running Test ..."
+        if (/^---/.test(trimmed)) {
+            return { type: 'phase', text: trimmed };
+        }
+        // Progress: "Prompt X/Y | Elapsed: ..."
+        if (/^Prompt \d+\/\d+/.test(trimmed)) {
+            return { type: 'progress', text: trimmed };
+        }
+        // Lifecycle: ">>> ..." or "Deleted ..." or "Successfully downloaded ..."
+        if (/^(>>>|Deleted|Successfully downloaded|o")/.test(trimmed)) {
+            return { type: 'lifecycle', text: trimmed };
+        }
+        // Sub-script prefix: "[promptfoo] ...", "[llama-bench] ..."
+        if (/^\[(promptfoo|llama-bench)\]/.test(trimmed)) {
+            return { type: 'sub', text: trimmed };
+        }
+        // Error
+        if (/error|failed|traceback|exception/i.test(trimmed) && !/no error/i.test(trimmed)) {
+            return { type: 'error', text: trimmed };
+        }
+        // Default
+        return { type: 'info', text: trimmed };
+    }).filter(Boolean);
+
+    logEntries.innerHTML = entries.map(e =>
+        `<div class="log-entry type-${e.type}">${escapeHtml(e.text)}</div>`
+    ).join('');
+
+    logEntries.scrollTop = logEntries.scrollHeight;
+}
+
+function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// --- Main poll ---
+
+async function pollStatus() {
+    try {
+        const res = await fetch(`${API_BASE}/status`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        failCount = 0;
+        render(data);
+    } catch (err) {
+        failCount++;
+        if (failCount >= 3) showDisconnected();
+    }
+}
+
+function showDisconnected() {
+    document.getElementById('statusDot').className = 'status-dot stopped';
+    document.getElementById('statusLabel').textContent = 'Disconnected';
+    document.getElementById('pidLabel').textContent = 'Cannot reach API server';
+    document.getElementById('btnStop').disabled = true;
+}
+
+function render(data) {
+    lastData = data;
+    const dot = document.getElementById('statusDot');
+    const label = document.getElementById('statusLabel');
+    const pid = document.getElementById('pidLabel');
+    const btn = document.getElementById('btnStop');
+
+    const statusMap = { 'running': 'Running', 'in_progress': 'Running', 'stopped': 'Stopped', 'idle': 'Idle' };
+    const isRunning = data.process_alive;
+
+    dot.className = `status-dot ${isRunning ? 'running' : 'stopped'}`;
+    label.textContent = statusMap[data.status] || data.status;
+    pid.textContent = data.process_pid ? `PID ${data.process_pid}` : '';
+    btn.disabled = !isRunning;
+
+    // GPU
+    const gpuUtilPct = parsePct(data.gpu?.utilization);
+    const gpuVramUsed = parseMiB(data.gpu?.vram_used);
+    const gpuVramTotal = parseMiB(data.gpu?.vram_total);
+    const gpuVramPct = gpuVramTotal > 0 ? (gpuVramUsed / gpuVramTotal * 100) : 0;
+
+    document.getElementById('gpuUtil').textContent = data.gpu?.utilization || '--';
+    document.getElementById('gpuUtilBar').style.width = `${gpuUtilPct}%`;
+    document.getElementById('gpuVram').textContent = gpuVramTotal > 0
+        ? `${gpuVramUsed.toFixed(0)} / ${gpuVramTotal.toFixed(0)} MiB`
+        : (data.gpu?.vram_used || '--');
+    document.getElementById('gpuVramBar').style.width = `${gpuVramPct}%`;
+
+    // All models
+    allModels = data.all_models || [];
+
+    // Auto-navigate to current model unless user manually navigated
+    if (!userNavigated) {
+        goToCurrentModel();
+    } else {
+        // Just update the card data
+        if (allModels[viewingIndex]) {
+            renderModelCard(allModels[viewingIndex]);
+        }
+    }
+
+    // Queue Stats
+    document.getElementById('qCompleted').textContent = data.completed_models?.length || 0;
+    document.getElementById('qInProgress').textContent = data.status === 'in_progress' ? 1 : 0;
+    document.getElementById('qFailed').textContent = data.failed_models?.length || 0;
+    document.getElementById('qPending').textContent = data.pending_count || 0;
+
+    // Log
+    renderLog(data);
+
+    // Completed Models
+    const completedSection = document.getElementById('completedSection');
+    if (data.completed_models?.length) {
+        completedSection.innerHTML = `
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Category</th>
+                        <th>Prompts</th>
+                        <th>Avg TPS</th>
+                        <th>Avg Latency</th>
+                        <th>Peak VRAM</th>
+                        <th>JSON @0.0</th>
+                        <th>Quality</th>
+                        <th>Coding</th>
+                        <th>Chat</th>
+                        <th>Reason</th>
+                        <th>Struct</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.completed_models.map(m => `
+                        <tr>
+                            <td>${m.name}</td>
+                            <td>${m.category}</td>
+                            <td>${m.prompts_completed}</td>
+                            <td>${m.tps_avg > 0 ? m.tps_avg.toFixed(1) : '-'}</td>
+                            <td>${m.latency_avg > 0 ? m.latency_avg.toFixed(2) + 's' : '-'}</td>
+                            <td>${m.vram_peak > 0 ? m.vram_peak.toFixed(0) + ' MB' : '-'}</td>
+                            <td>${m.json_success_rate > 0 ? m.json_success_rate.toFixed(0) + '%' : '-'}</td>
+                            <td>${m.pass_rate > 0 ? m.pass_rate.toFixed(0) + '%' : '-'}</td>
+                            <td>${m.coding_pass_rate > 0 ? m.coding_pass_rate.toFixed(0) + '%' : '-'}</td>
+                            <td>${m.chat_pass_rate > 0 ? m.chat_pass_rate.toFixed(0) + '%' : '-'}</td>
+                            <td>${m.reasoning_pass_rate > 0 ? m.reasoning_pass_rate.toFixed(0) + '%' : '-'}</td>
+                            <td>${m.structured_pass_rate > 0 ? m.structured_pass_rate.toFixed(0) + '%' : '-'}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    // Errors
+    const errorsSection = document.getElementById('errorsSection');
+    if (data.failed_models?.length) {
+        errorsSection.innerHTML = `
+            <table class="data-table">
+                <thead><tr><th>Model</th><th>Category</th><th>Error</th></tr></thead>
+                <tbody>
+                    ${data.failed_models.map(m => `
+                        <tr>
+                            <td>${m.name}</td>
+                            <td>${m.category}</td>
+                            <td class="error-text" title="${m.error}">${m.error}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+}
+
+async function stopPipeline() {
+    if (!confirm('Stop the benchmark pipeline? This will terminate the running process.')) return;
+    const btn = document.getElementById('btnStop');
+    btn.disabled = true;
+    btn.textContent = 'Stopping...';
+    try {
+        const res = await fetch(`${API_BASE}/stop`, { method: 'POST' });
+        const data = await res.json();
+        if (data.stopped) {
+            document.getElementById('statusDot').className = 'status-dot stopped';
+            document.getElementById('statusLabel').textContent = 'Stopped';
+            btn.textContent = 'Stopped';
+        }
+    } catch (err) {
+        btn.textContent = 'Stop Pipeline';
+        btn.disabled = false;
+        alert('Failed to stop: ' + err.message);
+    }
+}
+
+pollStatus();
+setInterval(pollStatus, 3000);
+</script>
+</body>
+</html>

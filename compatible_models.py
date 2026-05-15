@@ -220,7 +220,7 @@ def count_models():
     
     counts["total_perfect"] = (
         counts["coding_perfect"] +
-        sum(v for k, v in counts.items() if k.startswith("chat_")) +
+        sum(v for k, v in counts.items() if k.startswith("chat_") and k != "chat_moe") +
         sum(v for k, v in counts.items() if k.startswith("multimodal_") and k.endswith(("small", "medium", "large"))) +
         counts["reasoning_perfect"]
     )

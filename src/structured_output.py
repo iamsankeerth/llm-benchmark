@@ -1,5 +1,4 @@
 import json
-import os
 from pydantic import ValidationError
 from typing import Optional
 from src.ollama_client import OllamaClient

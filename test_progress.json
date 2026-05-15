@@ -1,4 +1,53 @@
 {
-  "last_updated": "2026-05-14T23:32:18.137617",
-  "models": {}
+  "last_updated": "2026-05-15T19:14:18.887665",
+  "models": {
+    "Coding:ollama:Qwen2.5-Coder-0.5B:qwen2.5-coder:0.5b": {
+      "model_name": "Qwen2.5-Coder-0.5B",
+      "category": "Coding",
+      "prompts_completed": 50,
+      "total_prompts": 50,
+      "started_at": "2026-05-15T17:22:50.099999",
+      "completed_at": "2026-05-15T17:26:29.517998",
+      "csv_file": "C:\\Users\\lenovo\\Desktop\\San\\Fun_Projects\\llmbenchamrk_v2\\results\\phase1\\Coding_ollama_Qwen2.5-Coder-0.5B_qwen2.5-coder_0.5b_MegaBench_20260515_172629.csv",
+      "error": null,
+      "last_checkpoint": "2026-05-15T17:26:29.497829",
+      "status": "completed",
+      "queue_id": "Coding:ollama:Qwen2.5-Coder-0.5B:qwen2.5-coder:0.5b",
+      "requested_name": "Qwen2.5-Coder-0.5B",
+      "source": "ollama",
+      "resolved_runtime": "ollama",
+      "resolved_model_ref": "qwen2.5-coder:0.5b",
+      "ollama_tag": "qwen2.5-coder:0.5b",
+      "hf_repo": "Qwen/Qwen2.5-Coder-0.5B",
+      "variant_note": "",
+      "fit_level": "perfect",
+      "size": "494M",
+      "estimated_tps": 391.9,
+      "is_moe": false
+    },
+    "Coding:ollama:Qwen2.5-Coder-0.5B-Instruct:qwen2.5-coder:0.5b-instruct": {
+      "model_name": "Qwen2.5-Coder-0.5B-Instruct",
+      "category": "Coding",
+      "prompts_completed": 34,
+      "total_prompts": 50,
+      "started_at": "2026-05-15T19:02:07.030884",
+      "completed_at": null,
+      "csv_file": "C:\\Users\\lenovo\\Desktop\\San\\Fun_Projects\\llmbenchamrk_v2\\results\\phase1\\Coding_ollama_Qwen2.5-Coder-0.5B-Instruct_qwen2.5-coder_0.5b-instruct_checkpoint.csv",
+      "error": null,
+      "last_checkpoint": "2026-05-15T19:14:18.887652",
+      "status": "in_progress",
+      "queue_id": "Coding:ollama:Qwen2.5-Coder-0.5B-Instruct:qwen2.5-coder:0.5b-instruct",
+      "requested_name": "Qwen2.5-Coder-0.5B-Instruct",
+      "source": "ollama",
+      "resolved_runtime": "ollama",
+      "resolved_model_ref": "qwen2.5-coder:0.5b-instruct",
+      "ollama_tag": "qwen2.5-coder:0.5b-instruct",
+      "hf_repo": "Qwen/Qwen2.5-Coder-0.5B-Instruct",
+      "variant_note": "",
+      "fit_level": "perfect",
+      "size": "494M",
+      "estimated_tps": 391.9,
+      "is_moe": false
+    }
+  }
 }

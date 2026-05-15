@@ -3,174 +3,391 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Benchmark Dashboard - Live Results</title>
-    <!-- Use vanilla CSS for styling -->
+    <title>LLM Benchmark Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
+            --bg: #0f172a;
+            --card: rgba(30,41,59,0.8);
             --accent: #38bdf8;
-            --secondary: #818cf8;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+            --green: #34d399;
+            --yellow: #fbbf24;
+            --purple: #a78bfa;
+            --red: #f87171;
+            --muted: #94a3b8;
+            --border: rgba(255,255,255,0.08);
         }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
+            background: var(--bg);
+            color: #f8fafc;
             font-family: 'Inter', sans-serif;
-            margin: 0;
             padding: 2rem;
             min-height: 100vh;
-            background-image: radial-gradient(circle at top right, #1e1b4b, transparent 40%);
+            background-image: radial-gradient(circle at 80% 10%, rgba(56,189,248,0.07), transparent 50%),
+                              radial-gradient(circle at 20% 90%, rgba(167,139,250,0.07), transparent 50%);
         }
-
+        header { margin-bottom: 2.5rem; }
         h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, var(--accent), var(--secondary));
+            background: linear-gradient(to right, var(--accent), var(--purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 0.4rem;
         }
+        .subtitle { color: var(--muted); font-size: 1rem; }
 
-        p.subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(56, 189, 248, 0.15);
-        }
-
-        h2 {
-            font-size: 1.5rem;
-            margin-top: 0;
-            color: var(--accent);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 0.5rem;
-        }
-
-        .stat-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 1rem 0;
-            padding: 0.5rem 0;
-            border-bottom: 1px dashed rgba(255,255,255,0.05);
-        }
-        
-        .stat-val {
-            font-weight: 600;
-            color: var(--secondary);
-            font-family: monospace;
-            font-size: 1.1rem;
-        }
-
-        .alert-box {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            color: #10b981;
-            padding: 1rem;
-            border-radius: 8px;
+        /* Status bar */
+        .status-bar {
+            display: flex; gap: 1rem; flex-wrap: wrap;
             margin-bottom: 2rem;
+        }
+        .badge {
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
             font-weight: 600;
+            border: 1px solid;
         }
-        
-        #status {
-            color: #f59e0b;
+        .badge.blue  { background: rgba(56,189,248,0.1);  border-color: var(--accent);  color: var(--accent); }
+        .badge.green { background: rgba(52,211,153,0.1);  border-color: var(--green);   color: var(--green); }
+        .badge.amber { background: rgba(251,191,36,0.1);  border-color: var(--yellow);  color: var(--yellow); }
+        .badge.purple{ background: rgba(167,139,250,0.1); border-color: var(--purple);  color: var(--purple); }
+
+        /* Metric legend */
+        .legend {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            display: flex; gap: 2rem; flex-wrap: wrap;
         }
+        .legend-item { font-size: 0.82rem; color: var(--muted); }
+        .legend-item span { font-weight: 700; color: #f8fafc; }
+
+        /* Controls */
+        .controls {
+            display: flex; gap: 1rem; flex-wrap: wrap;
+            margin-bottom: 1.5rem; align-items: center;
+        }
+        select, input {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: #f8fafc;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        select:hover, input:hover { border-color: var(--accent); }
+        label { font-size: 0.875rem; color: var(--muted); }
+
+        /* Grid */
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.25rem;
+        }
+
+        /* Card */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.4rem;
+            backdrop-filter: blur(12px);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            cursor: default;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.3);
+            border-color: rgba(56,189,248,0.3);
+        }
+        .card-header {
+            display: flex; justify-content: space-between;
+            align-items: flex-start; margin-bottom: 1rem;
+        }
+        .model-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent);
+            word-break: break-all;
+            flex: 1;
+        }
+        .category-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            margin-left: 0.5rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .tag-coding   { background: rgba(56,189,248,0.15);  color: var(--accent); }
+        .tag-chat     { background: rgba(52,211,153,0.15);  color: var(--green); }
+        .tag-reasoning{ background: rgba(167,139,250,0.15); color: var(--purple); }
+        .tag-vision   { background: rgba(251,191,36,0.15);  color: var(--yellow); }
+
+        /* Primary metrics row */
+        .primary-metrics {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 0.75rem; margin-bottom: 1rem;
+        }
+        .metric-big {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            padding: 0.75rem;
+            text-align: center;
+        }
+        .metric-big .val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: monospace;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+        .metric-big .lbl {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .tg-color    { color: var(--accent); }
+        .pass-color  { color: var(--green); }
+        .na-color    { color: var(--muted); }
+
+        /* Quality bar */
+        .quality-bar-wrap { margin-bottom: 1rem; }
+        .quality-bar-label {
+            display: flex; justify-content: space-between;
+            font-size: 0.75rem; color: var(--muted);
+            margin-bottom: 0.3rem;
+        }
+        .quality-bar-track {
+            height: 6px; background: rgba(255,255,255,0.07);
+            border-radius: 999px; overflow: hidden;
+        }
+        .quality-bar-fill {
+            height: 100%; border-radius: 999px;
+            transition: width 0.6s ease;
+        }
+
+        /* Secondary metrics */
+        .stats { border-top: 1px solid var(--border); padding-top: 0.75rem; }
+        .stat-row {
+            display: flex; justify-content: space-between;
+            padding: 0.3rem 0;
+            font-size: 0.8rem;
+            border-bottom: 1px dashed rgba(255,255,255,0.04);
+        }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-row .sk { color: var(--muted); }
+        .stat-row .sv { font-family: monospace; color: #cbd5e1; }
+
+        /* No data card */
+        .no-data {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 4rem;
+            color: var(--muted);
+        }
+        .no-data h2 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #f8fafc; }
+
+        /* Leaderboard strip */
+        #leaderboard {
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .leader-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+        }
+        .leader-card .lc-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.3rem; }
+        .leader-card .lc-model { font-size: 0.9rem; font-weight: 700; color: #f8fafc; word-break: break-all; }
+        .leader-card .lc-val   { font-size: 1.1rem; font-weight: 800; font-family: monospace; margin-top: 0.2rem; }
     </style>
 </head>
 <body>
 
-    <h1>Global LLM Mega-Benchmark</h1>
-    <p class="subtitle">Processing Structural Prompts across Local Models • Optimized for Ephemeral 4GB VRAM Hardware.</p>
+<header>
+    <h1>⚡ LLM Benchmark Dashboard</h1>
+    <p class="subtitle">RTX 2050 · 4GB VRAM · Ephemeral Pipeline · llama-bench + promptfoo</p>
+</header>
 
-    <div class="alert-box">
-        Phase 1 Metrics and Phase 2 Variance (Temp 0.0 vs 0.7) are executing with 84% time efficiency. 
-        <span id="status">Loading dashboard_data.json asynchronously...</span>
-    </div>
+<div class="status-bar" id="statusBar">
+    <span class="badge blue" id="badgeTotal">Loading...</span>
+</div>
 
-    <div class="dashboard-grid" id="grid">
-        <!-- Rendered via JS -->
-    </div>
+<div class="legend">
+    <div class="legend-item"><span>tg_tps</span> — Decode Speed (tokens/sec). PRIMARY metric. Higher = faster code streaming.</div>
+    <div class="legend-item"><span>pp_tps</span> — Prefill Speed (tokens/sec). How fast the model reads your prompt.</div>
+    <div class="legend-item"><span>Pass Rate</span> — Functional Quality %. 35 curated tests graded by LLM judge.</div>
+    <div class="legend-item"><span>TTFT</span> — Time to First Token (seconds). Perceived responsiveness.</div>
+</div>
 
-    <script>
-        async function renderDashboard() {
-            try {
-                const response = await fetch('../reports/dashboard_data.json');
-                if (!response.ok) throw new Error("JSON not found. Run Offline Aggregator first!");
-                
-                const data = await response.json();
-                document.getElementById('status').innerText = "Data loaded natively via JSON!";
-                document.getElementById('status').style.color = "#38bdf8";
-                
-                const grid = document.getElementById('grid');
-                grid.innerHTML = '';
-                
-                // For each model in the summary, create a glassmorphic card dynamically!
-                data.summary.forEach(modelData => {
-                    const tps = parseFloat(modelData.tps).toFixed(2);
-                    const ttft = parseFloat(modelData.ttft).toFixed(2);
-                    const latency = parseFloat(modelData.latency).toFixed(2);
-                    const vram = parseFloat(modelData.peak_vram_mb).toFixed(1);
-                    
-                    const cardHTML = `
-                        <div class="card">
-                            <h2>${modelData.model}</h2>
-                            <div class="stat-group">
-                                <span class="stat-label">Average TPS:</span>
-                                <span class="stat-val">${tps} t/s</span>
-                            </div>
-                            <div class="stat-group">
-                                <span class="stat-label">TTFT (First Token):</span>
-                                <span class="stat-val">${ttft}s</span>
-                            </div>
-                            <div class="stat-group">
-                                <span class="stat-label">Total Latency:</span>
-                                <span class="stat-val">${latency}s</span>
-                            </div>
-                            <div class="stat-group">
-                                <span class="stat-label">Peak VRAM:</span>
-                                <span class="stat-val">${vram} MB</span>
-                            </div>
-                        </div>
-                    `;
-                    grid.innerHTML += cardHTML;
-                });
-            } catch (err) {
-                document.getElementById('status').innerText = "Awaiting reports/dashboard_data.json generation... (Run Benchmark Phase 3)";
-                document.getElementById('status').style.color = "#ef4444";
-                
-                // Fallback rendering
-                document.getElementById('grid').innerHTML = `
-                    <div class="card"><h2>Awaiting Data...</h2><p class="stat-label">Please execute the Python pipeline to generate the metrics!</p></div>
-                `;
-            }
-        }
-        
-        // Init
-        renderDashboard();
-    </script>
+<div id="leaderboard"></div>
+
+<div class="controls">
+    <label>Sort by:</label>
+    <select id="sortSelect" onchange="renderCards()">
+        <option value="tg_tps">Decode Speed (tg_tps)</option>
+        <option value="pass_rate">Functional Quality (%)</option>
+        <option value="pp_tps">Prefill Speed (pp_tps)</option>
+        <option value="ttft">TTFT (low = better)</option>
+        <option value="latency">Latency (low = better)</option>
+        <option value="peak_vram_mb">VRAM (low = better)</option>
+    </select>
+    <label>Filter:</label>
+    <input id="searchBox" type="text" placeholder="Search model name..." oninput="renderCards()">
+</div>
+
+<div id="grid"></div>
+
+<script>
+let allData = [];
+
+function getBarColor(pct) {
+    if (pct >= 80) return '#34d399';
+    if (pct >= 60) return '#fbbf24';
+    if (pct >= 40) return '#f97316';
+    return '#f87171';
+}
+
+function getCategoryTag(model) {
+    const m = model.toLowerCase();
+    if (m.includes('coder') || m.includes('code') || m.includes('granite') || m.includes('starcoder')) return ['Coding', 'tag-coding'];
+    if (m.includes('reason') || m.includes('math') || m.includes('deepseek-r') || m.includes('phi4-mini')) return ['Reasoning', 'tag-reasoning'];
+    if (m.includes('vision') || m.includes('vl') || m.includes('moondream')) return ['Vision', 'tag-vision'];
+    return ['Chat', 'tag-chat'];
+}
+
+function fmt(val, decimals=1, suffix='') {
+    if (val === null || val === undefined || val === 0 || isNaN(val)) return '<span class="na-color">N/A</span>';
+    return `${parseFloat(val).toFixed(decimals)}${suffix}`;
+}
+
+function renderLeaderboard(data) {
+    const lb = document.getElementById('leaderboard');
+    const perf = data.filter(d => d.tg_tps > 0).sort((a,b) => b.tg_tps - a.tg_tps);
+    const qual = data.filter(d => d.pass_rate > 0).sort((a,b) => b.pass_rate - a.pass_rate);
+    const vram = data.filter(d => d.peak_vram_mb > 0).sort((a,b) => a.peak_vram_mb - b.peak_vram_mb);
+    const ttft = data.filter(d => d.ttft > 0).sort((a,b) => a.ttft - b.ttft);
+
+    const cards = [
+        { title: '🚀 Fastest Decode', model: perf[0]?.model, val: perf[0] ? `${perf[0].tg_tps.toFixed(1)} t/s`, color: '#38bdf8' },
+        { title: '✅ Best Quality',    model: qual[0]?.model, val: qual[0] ? `${qual[0].pass_rate.toFixed(1)}%`,  color: '#34d399' },
+        { title: '⚡ Lowest TTFT',    model: ttft[0]?.model, val: ttft[0] ? `${ttft[0].ttft.toFixed(3)}s`,       color: '#a78bfa' },
+        { title: '💾 Least VRAM',     model: vram[0]?.model, val: vram[0] ? `${vram[0].peak_vram_mb.toFixed(0)} MB`, color: '#fbbf24' },
+    ];
+
+    lb.innerHTML = cards.map(c => c.model ? `
+        <div class="leader-card">
+            <div class="lc-title">${c.title}</div>
+            <div class="lc-model">${c.model}</div>
+            <div class="lc-val" style="color:${c.color}">${c.val}</div>
+        </div>` : '').join('');
+}
+
+function renderCards() {
+    const sortKey  = document.getElementById('sortSelect').value;
+    const search   = document.getElementById('searchBox').value.toLowerCase();
+    const grid     = document.getElementById('grid');
+    const lowBetter = ['ttft', 'latency', 'peak_vram_mb'].includes(sortKey);
+
+    let data = allData.filter(d => d.model.toLowerCase().includes(search));
+    data.sort((a, b) => {
+        const av = parseFloat(a[sortKey]) || 0;
+        const bv = parseFloat(b[sortKey]) || 0;
+        return lowBetter ? av - bv : bv - av;
+    });
+
+    if (!data.length) {
+        grid.innerHTML = '<div class="no-data"><h2>No Data Yet</h2><p>Run the benchmark pipeline first.</p></div>';
+        return;
+    }
+
+    grid.innerHTML = data.map(d => {
+        const [catLabel, catClass] = getCategoryTag(d.model);
+        const tg   = d.tg_tps    > 0 ? `<span class="val tg-color">${d.tg_tps.toFixed(1)}</span><span class="lbl">tg t/s (Decode)</span>` : `<span class="val na-color">N/A</span><span class="lbl">tg t/s (Decode)</span>`;
+        const pass = d.pass_rate  > 0 ? `<span class="val pass-color">${d.pass_rate.toFixed(1)}%</span><span class="lbl">Quality Pass</span>` : `<span class="val na-color">N/A</span><span class="lbl">Quality Pass</span>`;
+        const barPct  = d.pass_rate || 0;
+        const barColor = getBarColor(barPct);
+
+        return `
+        <div class="card">
+            <div class="card-header">
+                <div class="model-name">${d.model}</div>
+                <span class="category-tag ${catClass}">${catLabel}</span>
+            </div>
+
+            <div class="primary-metrics">
+                <div class="metric-big">${tg}</div>
+                <div class="metric-big">${pass}</div>
+            </div>
+
+            <div class="quality-bar-wrap">
+                <div class="quality-bar-label">
+                    <span>Functional Quality</span>
+                    <span>${barPct.toFixed(1)}%</span>
+                </div>
+                <div class="quality-bar-track">
+                    <div class="quality-bar-fill" style="width:${barPct}%;background:${barColor}"></div>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-row"><span class="sk">Prefill (pp_tps)</span><span class="sv">${d.pp_tps > 0 ? d.pp_tps.toFixed(1)+' t/s' : 'N/A'}</span></div>
+                <div class="stat-row"><span class="sk">TTFT</span><span class="sv">${d.ttft > 0 ? d.ttft.toFixed(3)+'s' : 'N/A'}</span></div>
+                <div class="stat-row"><span class="sk">Latency</span><span class="sv">${d.latency > 0 ? d.latency.toFixed(2)+'s' : 'N/A'}</span></div>
+                <div class="stat-row"><span class="sk">Peak VRAM</span><span class="sv">${d.peak_vram_mb > 0 ? d.peak_vram_mb.toFixed(0)+' MB' : 'N/A'}</span></div>
+                <div class="stat-row"><span class="sk">Prompts Run</span><span class="sv">${d.total_prompts || 'N/A'}</span></div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+async function init() {
+    const statusBar = document.getElementById('statusBar');
+    try {
+        const res = await fetch('../reports/dashboard_data.json');
+        if (!res.ok) throw new Error('dashboard_data.json not found');
+        const data = await res.json();
+
+        allData = data.summary || [];
+
+        // Status badges
+        const total = allData.length;
+        const withPerf = allData.filter(d => d.tg_tps > 0).length;
+        const withQual = allData.filter(d => d.pass_rate > 0).length;
+
+        statusBar.innerHTML = `
+            <span class="badge blue">${total} Models</span>
+            ${data.has_perf_data    ? `<span class="badge green">✓ llama-bench (${withPerf} models)</span>` : '<span class="badge amber">⚠ No llama-bench data</span>'}
+            ${data.has_quality_data ? `<span class="badge green">✓ promptfoo (${withQual} models)</span>`   : '<span class="badge amber">⚠ No promptfoo data</span>'}
+            <span class="badge purple">RTX 2050 · 4GB VRAM</span>`;
+
+        renderLeaderboard(allData);
+        renderCards();
+
+    } catch (err) {
+        statusBar.innerHTML = '<span class="badge amber">⚠ Run benchmarks to generate data</span>';
+        document.getElementById('grid').innerHTML = `
+            <div class="no-data">
+                <h2>Awaiting Benchmark Data</h2>
+                <p>Run: <code>python scripts/run_full_benchmark.py</code></p>
+                <p style="margin-top:0.5rem;font-size:0.8rem;color:#64748b">${err.message}</p>
+            </div>`;
+    }
+}
+
+init();
+</script>
 </body>
 </html>
