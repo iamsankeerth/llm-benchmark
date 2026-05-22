@@ -1,0 +1,8 @@
+{
+  "model": "phi3:mini",
+  "label": "Phi-3-mini-4k-instruct",
+  "total_tests": 35,
+  "passed": 26,
+  "failed": 9,
+  "pass_rate": 74.3
+}

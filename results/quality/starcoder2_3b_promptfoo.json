@@ -1,0 +1,8 @@
+{
+  "model": "starcoder2:3b",
+  "label": "starcoder2-3b",
+  "total_tests": 35,
+  "passed": 9,
+  "failed": 26,
+  "pass_rate": 25.7
+}

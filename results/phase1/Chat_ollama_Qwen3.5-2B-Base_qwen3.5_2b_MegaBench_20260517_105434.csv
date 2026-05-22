@@ -1,0 +1,91 @@
+model,prompt_id,category,difficulty,skill_targets,expected_behavior,scoring_focus,image_asset_spec,image_path,prompt,output,tps,ttft,latency,peak_vram_mb,temperature,error,queue_id,requested_name,resolved_model_ref,resolved_runtime,variant_note,fit_level,size,estimated_tps,is_moe,temp_0.0_success,temp_0.0_error,temp_0.0_output,temp_0.7_success,temp_0.7_error,temp_0.7_output,temp_1.0_success,temp_1.0_error,temp_1.0_output
+qwen3.5:2b,101,Chat & Generation,easy,"[""rewriting"", ""tone_control""]",Should produce a concise professional rewrite that apologizes without sounding defensive or overly casual.,"[""schema_validity"", ""tone_control"", ""concision"", ""instruction_following""]",null,,"Rewrite this sentence to sound professional and calm: 'We messed up the timeline, sorry.' Keep it short and suitable for an internal email. In your answer, follow the Chat & Generation JSON schema and include the required instruction: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,37.95004416288147,0.842821999998705,4.377826799995091,3878.71484375,1.0,,Chat:ollama:Qwen3.5-2B-Base:qwen3.5:2b,Qwen3.5-2B-Base,qwen3.5:2b,ollama,,large,2.3B,85.1,False,True,,"{
+  ""intent"": ""user"",
+  ""response"": ""Hello! I'm a helpful assistant. How can I assist you today?"",
+  ""tone"": ""friendly"",
+  ""key_points"": [
+    ""Greeting"",
+    ""Offering assistance""
+  ],
+  ""constraints_followed"": [
+    ""Greeting"",
+    ""Offering assistance""
+  ],
+  ""risks_or_caveats"": [
+    ""Ensure the response is friendly and helpful""
+  ]
+}",True,,"{
+    ""intent"": ""request"",
+    ""response"": ""Hello! I'm a helpful assistant. How can I assist you today?"",
+    ""tone"": ""friendly"",
+    ""key_points"": [
+        ""Greet the user"",
+        ""Express willingness to help""
+    ],
+    ""constraints_followed"": [
+        ""Keep response concise"",
+        ""Maintain friendly tone""
+    ],
+    ""risks_or_caveats"": [
+        ""Ensure no sensitive information is disclosed"",
+        ""Avoid making unverified claims""
+    ]
+}",True,,"{
+  ""intent"": ""help_user"",
+  ""response"": ""Sure, I can assist you with that. Could you please provide more details about the project or the task you want to accomplish?""
+  , ""tone"": ""neutral"",
+  ""key_points"": [
+    ""acknowledge the user's request"",
+    ""ask for clarification to proceed""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""tone must be neutral"",
+    ""response must not include any markdown formatting""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No mention of any specific risks"",
+    ""No mention of specific caveats""
+  ]
+  }"
+qwen3.5:2b,102,Chat & Generation,easy,"[""summarization"", ""stakeholder_communication""]",Should produce a brief manager-friendly summary with the three facts preserved.,"[""schema_validity"", ""factual_grounding"", ""concision"", ""instruction_following""]",null,,"Summarize this update in two sentences for a manager: 'QA found no blocking bugs, design approved the final mockup, and release is still planned for Friday.' Follow the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,38.048216840592595,0.65415270000085,4.183215099998051,3878.71484375,1.0,,Chat:ollama:Qwen3.5-2B-Base:qwen3.5:2b,Qwen3.5-2B-Base,qwen3.5:2b,ollama,,large,2.3B,85.1,False,False,Max retries exceeded,,False,Max retries exceeded,,False,Max retries exceeded,
+qwen3.5:2b,103,Chat & Generation,easy,"[""classification"", ""extraction""]","Should classify as positive or neutral depending on framing, and explain that the deployment succeeded after retries.","[""schema_validity"", ""classification_accuracy"", ""concision"", ""instruction_following""]",null,,"Classify the message as positive, neutral, or negative and explain why in one short sentence: 'The deployment finally worked after two retries.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,38.069511716278875,0.5632733999955235,4.0868536999987555,3878.71484375,1.0,,Chat:ollama:Qwen3.5-2B-Base:qwen3.5:2b,Qwen3.5-2B-Base,qwen3.5:2b,ollama,,large,2.3B,85.1,False,False,Max retries exceeded,,True,,"{
+  ""intent"": ""user wants to buy a car"",
+  ""response"": ""Hi, I'm a car sales assistant. How can I help you?"",
+  ""tone"": ""friendly"",
+  ""key_points"": [
+    ""friendly greeting"",
+    ""offer assistance with car sales""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""keep it short and concise""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""ensure the bot doesn't sell immediately without user qualification""
+  ]
+}",True,,"{
+  ""intent"": ""Find a new job"",
+  ""response"": ""Hi! As an AI, I don't have a personal job, but I can help you find the right job. To do that, I would like to know your skills, experience, interests, and what you're looking for in your new job. This way, I can tailor my suggestions to your needs."",
+  ""tone"": ""Helpful"",
+  ""key_points"": [
+    ""Identify user's needs"",
+    ""Provide job search strategies"",
+    ""Offer job search tools or resources""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Stay within 500 characters"",
+    ""Provide clear and concise advice"",
+    ""Maintain a friendly and supportive tone"",
+    ""Include examples or resources""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Always verify information before acting"",
+    ""Consider privacy and safety"",
+    ""Do not take risks or make bold decisions on behalf of the user""
+  ]
+}"

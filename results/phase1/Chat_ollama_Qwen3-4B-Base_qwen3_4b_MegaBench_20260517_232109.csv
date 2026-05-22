@@ -1,0 +1,74 @@
+model,prompt_id,category,difficulty,skill_targets,expected_behavior,scoring_focus,image_asset_spec,image_path,prompt,output,tps,ttft,latency,peak_vram_mb,temperature,error,queue_id,requested_name,resolved_model_ref,resolved_runtime,variant_note,fit_level,size,estimated_tps,is_moe,temp_0.0_success,temp_0.0_error,temp_0.0_output,temp_0.7_success,temp_0.7_error,temp_0.7_output,temp_1.0_success,temp_1.0_error,temp_1.0_output
+qwen3:4b,101,Chat & Generation,easy,"[""rewriting"", ""tone_control""]",Should produce a concise professional rewrite that apologizes without sounding defensive or overly casual.,"[""schema_validity"", ""tone_control"", ""concision"", ""instruction_following""]",null,,"Rewrite this sentence to sound professional and calm: 'We messed up the timeline, sorry.' Keep it short and suitable for an internal email. In your answer, follow the Chat & Generation JSON schema and include the required instruction: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,36.720441170855366,0.4706164999952307,4.030508700001519,3035.50390625,1.0,,Chat:ollama:Qwen3-4B-Base:qwen3:4b,Qwen3-4B-Base,qwen3:4b,ollama,,large,4.0B,57.2,False,True,,"{""intent"": ""rewrite"", ""response"": ""We apologize for the timeline delay."" , ""tone"": ""professional"", ""key_points"": [""timeline"", ""apology"", ""calm"", ""internal_email"", ""short""] , ""constraints_followed"": [""short"", ""professional"", ""calm"", ""internal_email"", ""apology""] , ""risks_or_caveats"": [""no markdown"", ""no extra text"", ""valid json""]}",True,,"{""intent"": ""response"", ""response"": ""We apologize for the timeline delay."" , ""tone"": ""professional"", ""key_points"": [""apologize"", ""timeline"", ""delay""], ""constraints_followed"": [""short"", ""internal_email"", ""calm""] , ""risks_or_caveats"": [""No markdown"", ""No extra text""]}",True,,"{""intent"": ""response"", ""response"": ""We apologize for the timeline delay."" , ""tone"": ""professional"", ""key_points"": [""apologize"", ""timeline delay"", ""internal email""] , ""constraints_followed"": [""short"", ""calm"", ""professional""] , ""risks_or_caveats"": []}"
+qwen3:4b,102,Chat & Generation,easy,"[""summarization"", ""stakeholder_communication""]",Should produce a brief manager-friendly summary with the three facts preserved.,"[""schema_validity"", ""factual_grounding"", ""concision"", ""instruction_following""]",null,,"Summarize this update in two sentences for a manager: 'QA found no blocking bugs, design approved the final mockup, and release is still planned for Friday.' Follow the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,36.97012175849655,0.3260477000003448,3.866939100000309,3037.50390625,1.0,,Chat:ollama:Qwen3-4B-Base:qwen3:4b,Qwen3-4B-Base,qwen3:4b,ollama,,large,4.0B,57.2,False,True,,"{
+  ""intent"": ""summary"",
+  ""response"": ""QA has confirmed no blocking bugs were found. The final design mockup has been approved, and the release remains scheduled for Friday.""
+  ,
+  ""tone"": ""professional""
+  ,
+  ""key_points"": [
+    ""no blocking bugs"",
+    ""design mockup approved"",
+    ""release scheduled for Friday""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""two sentences"",
+    ""manager-focused""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",False,No JSON found in fallback response,,True,,"{""intent"": ""summary"", ""response"": ""QA found no blocking bugs and the final mockup design has been approved. The release is still planned for Friday."" , ""tone"": ""professional"", ""key_points"": [""no blocking bugs"", ""design mockup approved"", ""release scheduled for Friday""] , ""constraints_followed"": [""two sentences"", ""manager-focused"", ""exact update details""] , ""risks_or_caveats"": []}"
+qwen3:4b,103,Chat & Generation,easy,"[""classification"", ""extraction""]","Should classify as positive or neutral depending on framing, and explain that the deployment succeeded after retries.","[""schema_validity"", ""classification_accuracy"", ""concision"", ""instruction_following""]",null,,"Classify the message as positive, neutral, or negative and explain why in one short sentence: 'The deployment finally worked after two retries.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,37.15670614392523,0.32595820000278763,3.852147600002354,3037.50390625,1.0,,Chat:ollama:Qwen3-4B-Base:qwen3:4b,Qwen3-4B-Base,qwen3:4b,ollama,,large,4.0B,57.2,False,True,,"{
+  ""intent"": ""classify_sentiment"",
+  ""response"": ""positive"",
+  ""tone"": ""positive"",
+  ""key_points"": [
+    ""deployment succeeded after retries"",
+    ""positive outcome after initial failures""
+  ],
+  ""constraints_followed"": [
+    ""one short sentence explanation"",
+    ""only valid JSON"",
+    ""no markdown""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{""intent"": ""positive"", ""response"": ""The deployment successfully resolved after two retries, indicating a positive outcome."" , ""tone"": ""positive"", ""key_points"": [""deployment"", ""resolved"", ""retries""], ""constraints_followed"": [""one_sentence"", ""positive_classification""], ""risks_or_caveats"": []}",True,,"{
+  ""intent"": ""classify_sentiment"",
+  ""response"": ""positive"",
+  ""tone"": ""positive"",
+  ""key_points"": [
+    ""deployment succeeded"",
+    ""after two retries""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""one short sentence explanation""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}"
+qwen3:4b,104,Chat & Generation,easy,"[""technical_translation"", ""plain_language""]",Should explain caching simply and accurately in everyday language.,"[""schema_validity"", ""tone_control"", ""factual_grounding"", ""instruction_following""]",null,,Turn this technical explanation into plain English for a non-technical user: 'Caching stores frequently used data so the app does not fetch it from scratch each time.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,37.09227296957115,0.32972009999502916,3.8624625999946147,3037.50390625,1.0,,Chat:ollama:Qwen3-4B-Base:qwen3:4b,Qwen3-4B-Base,qwen3:4b,ollama,,large,4.0B,57.2,False,True,,"{""intent"": ""response"", ""response"": ""Caching saves data you use a lot so the app doesn't have to get it from scratch every time."" , ""tone"": ""friendly"", ""key_points"": [""saves data"", ""used a lot"", ""app doesn't get it from scratch"", ""every time""] , ""constraints_followed"": [""plain english"", ""non-technical"", ""no markdown"", ""valid json""] , ""risks_or_caveats"": [""caching is temporary"", ""data may be outdated""] }",True,,"{""intent"": ""Caching saves data that's used often so the app doesn't have to get it again every time."",""response"": ""Caching saves data that's used often so the app doesn't have to get it again every time."",""tone"": ""friendly"", ""key_points"": [""saves data"", ""used often"", ""avoids repeated fetching""] , ""constraints_followed"": [""plain english"", ""non-technical""] , ""risks_or_caveats"": [""simplified explanation"", ""no technical jargon""]}",False,No JSON found in fallback response,
+qwen3:4b,105,Chat & Generation,easy,"[""customer_support_style"", ""tone_control""]","Should acknowledge the delay, state the report is not ready, and give a reasonable next step or time expectation without overpromising.","[""schema_validity"", ""tone_control"", ""accuracy"", ""instruction_following""]",null,,"Write a polite reply to a colleague who asked for the latest report, but the report is not ready yet. Keep the tone friendly and honest. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,37.040206246813426,0.3126946999982465,3.8508800999989035,3037.50390625,1.0,,Chat:ollama:Qwen3-4B-Base:qwen3:4b,Qwen3-4B-Base,qwen3:4b,ollama,,large,4.0B,57.2,False,True,,"{""intent"": ""response"", ""response"": ""Hi there, I apologize that the latest report isn't ready yet. I'm working on it and will share it with you by tomorrow. Thanks for your patience!"" , ""tone"": ""friendly"", ""key_points"": [""apologize"", ""working on it"", ""timeline"", ""gratitude""] , ""constraints_followed"": [""polite"", ""honest"", ""friendly"", ""no markdown"", ""valid json""] , ""risks_or_caveats"": [""timeline may be adjusted if needed""] }",False,No JSON found in fallback response,,True,,"{
+  ""intent"": ""response"",
+  ""response"": ""Hi there, I apologize that the report isn't ready yet—it's still being finalized. I'll make sure to send it over by the end of the day. Thanks for your patience!""
+  ,
+  ""tone"": ""friendly"",
+  ""key_points"": [
+    ""Polite acknowledgment of delay"",
+    ""Honest statement about report status"",
+    ""Clear timeframe for completion"",
+    ""Appreciation for understanding""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Honesty"",
+    ""Friendliness"",
+    ""Clear communication""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Avoided overpromising on deadline""
+  ]
+}"

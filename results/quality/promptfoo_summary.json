@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-05-18T09:09:14.957534",
+  "total_models": 1,
+  "results": {
+    "qwen3:4b": {
+      "model": "qwen3:4b",
+      "label": "Qwen3-4B-Instruct-2507",
+      "total_tests": 35,
+      "passed": 7,
+      "failed": 28,
+      "pass_rate": 20.0
+    }
+  }
+}

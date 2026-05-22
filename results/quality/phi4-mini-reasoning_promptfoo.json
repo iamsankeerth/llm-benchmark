@@ -1,0 +1,8 @@
+{
+  "model": "phi4-mini-reasoning",
+  "label": "Phi-4-mini-reasoning",
+  "total_tests": 35,
+  "passed": 17,
+  "failed": 18,
+  "pass_rate": 48.6
+}

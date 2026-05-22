@@ -1,0 +1,8 @@
+{
+  "model": "deepseek-r1:1.5b",
+  "label": "DeepSeek-R1-Distill-Qwen-1.5B",
+  "total_tests": 35,
+  "passed": 8,
+  "failed": 27,
+  "pass_rate": 22.9
+}

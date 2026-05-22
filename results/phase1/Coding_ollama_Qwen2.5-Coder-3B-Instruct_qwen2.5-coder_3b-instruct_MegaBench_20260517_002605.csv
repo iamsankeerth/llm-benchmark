@@ -1,0 +1,864 @@
+model,prompt_id,category,difficulty,skill_targets,expected_behavior,scoring_focus,image_asset_spec,image_path,prompt,output,tps,ttft,latency,peak_vram_mb,temperature,error,queue_id,requested_name,resolved_model_ref,resolved_runtime,variant_note,fit_level,size,estimated_tps,is_moe,temp_0.0_success,temp_0.0_error,temp_0.0_output,temp_0.7_success,temp_0.7_error,temp_0.7_output,temp_1.0_success,temp_1.0_error,temp_1.0_output
+qwen2.5-coder:3b-instruct,1,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""correctness"", ""deterministic_output""]","A good answer should provide a simple, correct implementation, explain the order-preserving approach, include complexity, list duplicate/empty input edge cases, and add tests.","[""schema_validity"", ""instruction_following"", ""correctness"", ""edge_cases"", ""test_quality""]",,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that removes duplicate integers from a list while preserving first occurrence order. Example input: [3,1,3,2,1] -> expected output: [3,1,2]. Also include a few simple tests. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Write a Python function to remove duplicate integers from a list while preserving the order of their first occurrence."",
+  ""approach"": ""Use a dictionary to track seen numbers and append them to the result list only if they haven't been seen before."",
+  ""code"": ""def remove_duplicates(nums):\n    seen = {}\n    unique_nums = []\n    for num in nums:\n        if num not in seen:\n            seen[num] = True\n            unique_nums.append(num)\n    return unique_nums"",
+  ""complexity"": {""time"": ""O(n)"",",50.03917520114771,0.4459190999987186,3.230469099999027,2472.71484375,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Remove duplicate integers from a list while preserving the order of their first occurrence."",
+  ""approach"": ""Use a set to track seen numbers and iterate through the list, appending numbers to the result list only if they haven't been encountered before."",
+  ""code"": ""def remove_duplicates(nums):\n    seen = set()\n    result = []\n    for num in nums:\n        if num not in seen:\n            seen.add(num)\n            result.append(num)\n    return result"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    ""Empty list: [] -> expected output: []"",
+    ""List with all duplicates: [1,1,1] -> expected output: [1]"",
+    ""Single element list: [5] -> expected output: [5]""
+  ],
+  ""tests"": [
+    ""[3,1,3,2,1] -> [3,1,2]"",
+    ""[4,4,4,4,4] -> [4]"",
+    ""[7,8,9,10,11] -> [7,8,9,10,11]""
+  ],
+  ""risks"": [
+    ""The function assumes that the input list contains only integers.""
+  ]
+}",True,,"{
+  ""task_summary"": ""Remove duplicate integers from a list while preserving first occurrence order."",
+  ""approach"": ""Use a set to track seen numbers and iterate through the list, appending elements to the result list only if they haven't been encountered before."",
+  ""code"": ""def remove_duplicates(nums):\n    seen = set()\n    res = []\n    for num in nums:\n        if num not in seen:\n            seen.add(num)\n            res.append(num)\n    return res"",
+  ""complexity"": {""time"": ""O(n)"", ""space"": ""O(n)""},
+  ""edge_cases"": [""Empty list"", ""List with all unique elements"", ""List with duplicates""],
+  ""tests"": [
+    ""[3,1,3,2,1] -> [3,1,2]"",
+    ""[] -> []"",
+    ""[5,5,5,5] -> [5]""
+  ],
+  ""risks"": [""Potential for memory overflow if the input list is very large""]
+}",True,,"{
+  ""task_summary"": ""Implement a function to remove duplicates from a list of integers while maintaining the order of first occurrences."",
+  ""approach"": ""Use a set to track seen numbers and iterate through the list, adding elements that are not in the set to the result list."",
+  ""code"": ""def remove_duplicates(nums):\n    seen = set()\n    res = []\n    for num in nums:\n        if num not in seen:\n            seen.add(num)\n            res.append(num)\n    return res"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [""An empty list"", ""A list with all duplicate values"", ""A list with no duplicates""],
+  ""tests"": [
+    ""[3,1,3,2,1] -> [3,1,2]"",
+    ""[] -> []"",
+    ""[5,5,5,5] -> [5]"",
+    ""[7,8,9,10] -> [7,8,9,10]""
+  ],
+  ""risks"": [""Potential for edge cases where the list is very large or contains a large number of duplicates.""]
+}"
+qwen2.5-coder:3b-instruct,2,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""correctness""]","A good answer should use repeated division or bit operations, explain the approach clearly, and include tests for zero and larger values.","[""schema_validity"", ""correctness"", ""edge_cases"", ""test_quality"", ""deterministic_output""]",,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that converts a non-negative integer to a binary string without using bin(). Example input: 13 -> expected output: '1101'. Include tests for 0 and 1. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Convert a non-negative integer to its binary representation without using built-in bin() function."",
+  ""approach"": ""Iterative division by two and collection of remainders to form binary string from right to left."",
+  ""code"": ""def decimal_to_binary(num):\n    if num == 0:\n        return '0'\n\n    binary_str = ''\n    while num > 0:\n        remainder = num % 2\n        binary_str = str(remainder) + binary_str\n        num //= 2\n    return binary_str"",
+  ""complex",49.08861426792021,0.3630346999998437,3.2084928000003856,2474.71484375,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+    ""task_summary"": ""Convert a non-negative integer to its binary representation without using Python's built-in bin() function."",
+    ""approach"": ""Iteratively divide the number by 2 and record the remainder until the number becomes zero. The remainders represent the binary digits in reverse order."",
+    ""code"": ""def int_to_binary(n):\n    if n == 0:\n        return '0'\n    binary_digits = []\n    while n > 0:\n        remainder = n % 2\n        binary_digits.append(str(remainder))\n        n //= 2\n    # Reverse the list to get the correct binary representation\n    binary_digits.reverse()\n    return ''.join(binary_digits)"",
+    ""complexity"": {
+        ""time"": ""O(log n)"",
+        ""space"": ""O(log n)""
+    },
+    ""edge_cases"": [
+        ""0"",
+        ""1""
+    ],
+    ""tests"": [
+        ""assert int_to_binary(0) == '0'"",
+        ""assert int_to_binary(1) == '1'""
+    ],
+    ""risks"": []
+}",True,,"{
+    ""task_summary"": ""Convert a non-negative integer to its binary representation as a string without using Python's built-in `bin()` function."",
+    ""approach"": ""Implement the conversion logic manually by repeatedly dividing the number by 2 and keeping track of the remainders."",
+    ""code"": ""def int_to_binary(n):\n    if n == 0:\n        return '0'\n    binary_str = ''\n    while n > 0:\n        remainder = n % 2\n        binary_str = str(remainder) + binary_str\n        n = n // 2\n    return binary_str"",
+    ""complexity"": {""time"": ""O(log n)"", ""space"": ""O(n)""},
+    ""edge_cases"": [""n is 0"", ""n is 1""],
+    ""tests"": [
+        ""{\""input\"": 0, \""expected\"": '0'}"",
+        ""{\""input\"": 1, \""expected\"": '1'}"",
+        ""{\""input\"": 5, \""expected\"": '101'}"",
+        ""{\""input\"": 13, \""expected\"": '1101'}""
+    ],
+    ""risks"": [""Potential overflow issues if n is too large for typical integer types""]
+}",True,,"{
+    ""task_summary"": ""Convert non-negative integer to binary string without using bin()"",
+    ""approach"": ""Iterative approach to calculate binary representation of a number."",
+    ""code"": ""def int_to_bin(n):\n    if n == 0:\n        return '0'\n    bits = []\n    while n > 0:\n        bits.append(str(n % 2))\n        n //= 2\n    return ''.join(reversed(bits))"",
+    ""complexity"": {
+        ""time"": ""O(log n)"",
+        ""space"": ""O(log n)""
+    },
+    ""edge_cases"": [
+        ""Input is 0, expected output should be '0'"",
+        ""Input is 1, expected output should be '1'""
+    ],
+    ""tests"": [
+        ""{ \""input\"": 0, \""expected\"": \""0\"" }"",
+        ""{ \""input\"": 1, \""expected\"": \""1\"" }"",
+        ""{ \""input\"": 2, \""expected\"": \""10\"" }"",
+        ""{ \""input\"": 3, \""expected\"": \""11\"" }"",
+        ""{ \""input\"": 4, \""expected\"": \""100\"" }"",
+        ""{ \""input\"": 5, \""expected\"": \""101\"" }""
+    ],
+    ""risks"": [
+        ""Error handling for negative numbers or non-integers""
+    ]
+}"
+qwen2.5-coder:3b-instruct,3,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""edge_cases""]","A good answer should normalize the string, handle empty input, and include tests for punctuation-heavy and mixed-case strings.","[""schema_validity"", ""correctness"", ""edge_cases"", ""instruction_following""]",,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that checks whether a string is a palindrome after ignoring spaces, punctuation, and case. Example input: 'A man, a plan, a canal: Panama' -> expected output: True. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Check if a string is a palindrome ignoring spaces, punctuation, and case"",
+  ""approach"": ""Normalize the input by removing non-alphanumeric characters and converting to lowercase. Then compare the cleaned string with its reverse."",
+  ""code"": ""def is_palindrome(s: str) -> bool:\n    # Normalize the input: remove non-alphanumeric characters and convert to lowercase\n    normalized = \'\'.join(char.lower() for char in s if char.isalnum())\n\n    # Check if the cleaned string is equal to its reverse\n    return normalized == normalized[::-",49.4900820329041,0.3407081999976071,3.157986099999107,2474.71484375,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Check if a string is a palindrome after ignoring spaces, punctuation, and case."",
+  ""approach"": ""Normalize the string by removing non-alphanumeric characters and converting it to lowercase. Then check if the normalized string reads the same forwards and backwards."",
+  ""code"": ""import re\n\ndef is_palindrome(s):\n    # Normalize the string: remove non-alphanumeric characters and convert to lowercase\n    normalized = re.sub(r'[^a-zA-Z0-9]', '', s).lower()\n    # Check if the normalized string is a palindrome\n    return normalized == normalized[::-1]\n"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    ""Empty string should return True."",
+    ""String with only spaces and punctuation should return False."",
+    ""String with mixed case letters should be considered the same as a palindrome.""
+  ],
+  ""tests"": [
+    ""'A man, a plan, a canal: Panama' -> True"",
+    ""'No lemon, no melon' -> True"",
+    ""'Hello, World!' -> False"",
+    ""'Was it a car or a cat I saw?' -> True"",
+    ""'' -> True""
+  ],
+  ""risks"": [
+    ""The function assumes that the input string is valid and does not handle invalid inputs.""
+  ]
+}",True,,"{
+  ""task_summary"": ""Check if a string is a palindrome after ignoring spaces, punctuation, and case."",
+  ""approach"": ""Normalize the string by removing non-alphanumeric characters and converting it to lowercase. Then, check if the normalized string reads the same forwards and backwards."",
+  ""code"": ""import re\n\ndef is_palindrome(s):\n    # Normalize the string: remove non-alphanumeric characters and convert to lowercase\n    normalized_str = re.sub(r'[^a-zA-Z0-9]', '', s).lower()\n    \n    # Check if the normalized string is a palindrome\n    return normalized_str == normalized_str[::-1]"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(1)""
+  },
+  ""edge_cases"": [
+    """",
+    ""A"",
+    ""abba"",
+    ""A man, a plan, a canal: Panama""
+  ],
+  ""tests"": [""'A man, a plan, a canal: Panama' -> True"", ""'racecar' -> True"", ""'hello' -> False""],
+  ""risks"": [
+    ""The function does not handle non-English characters correctly.""
+  ]
+}",True,,"{
+  ""task_summary"": ""Check if a string is a palindrome after ignoring spaces, punctuation, and case."",
+  ""approach"": ""Normalize the string by removing non-alphanumeric characters and converting to lowercase, then compare it to its reverse."",
+  ""code"": ""def is_palindrome(s):\n    # Normalize the string\n    normalized_str = re.sub(r'[^A-Za-z0-9]', '', s).lower()\n\n    # Compare the string with its reverse\n    return normalized_str == normalized_str[::-1]"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    """",
+    ""A"",
+    ""racecar"",
+    ""No lemon, no melon""
+  ],
+  ""tests"": [
+    ""['A man, a plan, a canal: Panama', True]"",
+    ""['Was it a car or a cat I saw?', True]"",
+    ""['Hello, World!', False]"",
+    ""['', True]"",
+    ""['12321', True]"",
+    ""['Not a palindrome', False]""
+  ],
+  ""risks"": [
+    ""Overly sensitive to case differences""
+  ]
+}"
+qwen2.5-coder:3b-instruct,4,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""correctness"", ""performance_awareness""]","A good answer should implement a two-pointer merge, note the time complexity, and test repeated values and empty lists.","[""schema_validity"", ""correctness"", ""edge_cases"", ""performance_awareness"", ""test_quality""]",,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that merges two already sorted integer lists into one sorted list. Example input: [1,4,7] and [2,3,8] -> expected output: [1,2,3,4,7,8]. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Merge two already sorted integer lists into one sorted list."",
+  ""approach"": ""Two-pointer technique"",
+  ""code"": ""def merge_sorted_lists(list1, list2):\n    merged_list = []\n    i, j = 0, 0\n    while i < len(list1) and j < len(list2):\n        if list1[i] < list2[j]:\n            merged_list.append(list1[i])\n            i += 1\n        else:\n            merged_list.append(list2[j])\n            j += ",49.38977200330742,0.3468079000012949,3.1471836999990046,2474.71484375,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Merge two sorted integer lists into one sorted list."",
+  ""approach"": ""Use a two-pointer technique to merge the lists efficiently."",
+  ""code"": ""def merge_sorted_lists(list1, list2):\n    merged_list = []\n    i, j = 0, 0\n    while i < len(list1) and j < len(list2):\n        if list1[i] <= list2[j]:\n            merged_list.append(list1[i])\n            i += 1\n        else:\n            merged_list.append(list2[j])\n            j += 1\n    while i < len(list1):\n        merged_list.append(list1[i])\n        i += 1\n    while j < len(list2):\n        merged_list.append(list2[j])\n        j += 1\n    return merged_list"",
+  ""complexity"": {
+    ""time"": ""O(n + m)"",
+    ""space"": ""O(n + m)""
+  },
+  ""edge_cases"": [
+    ""Both lists are empty."",
+    ""One list is empty, the other is not."",
+    ""Lists have different lengths.""
+  ],
+  ""tests"": [
+    ""[1,4,7], [2,3,8] -> [1,2,3,4,7,8]"",
+    ""[], [1,2,3] -> [1,2,3]"",
+    ""[5,6,7], [] -> [5,6,7]""
+  ],
+  ""risks"": [
+    ""Potential for errors if input lists are not sorted.""
+  ]
+}",True,,"{
+  ""task_summary"": ""Merge two sorted integer lists into one sorted list."",
+  ""approach"": ""Use a two-pointer technique to merge lists efficiently."",
+  ""code"": ""def merge_sorted_lists(list1, list2):\n    merged_list = []\n    i, j = 0, 0\n    while i < len(list1) and j < len(list2):\n        if list1[i] < list2[j]:\n            merged_list.append(list1[i])\n            i += 1\n        else:\n            merged_list.append(list2[j])\n            j += 1\n    while i < len(list1):\n        merged_list.append(list1[i])\n        i += 1\n    while j < len(list2):\n        merged_list.append(list2[j])\n        j += 1\n    return merged_list"",
+  ""complexity"": {
+    ""time"": ""O(n + m)"",
+    ""space"": ""O(n + m)""
+  },
+  ""edge_cases"": [
+    ""Both lists are empty."",
+    ""One list is empty."",
+    ""Lists have different lengths.""
+  ],
+  ""tests"": [
+    ""[1,4,7], [2,3,8] -> [1,2,3,4,7,8]"",
+    ""[], [1,2,3] -> [1,2,3]"",
+    ""[5], [] -> [5]"",
+    ""[10, 15, 20], [5, 10, 15] -> [5, 10, 10, 15, 15, 20]""
+  ],
+  ""risks"": [
+    ""Potential for stack overflow with very large lists."",
+    ""No checks are performed to ensure inputs are indeed sorted.""
+  ]
+}",True,,"{
+  ""task_summary"": ""Merge two sorted integer lists into one sorted list."",
+  ""approach"": ""Use a two-pointer technique to merge the two lists efficiently."",
+  ""code"": ""def merge_sorted_lists(list1, list2):\n    merged_list = []\n    i, j = 0, 0\n    while i < len(list1) and j < len(list2):\n        if list1[i] < list2[j]:\n            merged_list.append(list1[i])\n            i += 1\n        else:\n            merged_list.append(list2[j])\n            j += 1\n    while i < len(list1):\n        merged_list.append(list1[i])\n        i += 1\n    while j < len(list2):\n        merged_list.append(list2[j])\n        j += 1\n    return merged_list"",
+  ""complexity"": {
+    ""time"": ""O(n + m)"",
+    ""space"": ""O(n + m)""
+  },
+  ""edge_cases"": [
+    ""[[], []]"", ""If both lists are empty, the result should be an empty list.""
+  ],
+  ""tests"": [
+    ""[[1,4,7], [2,3,8]] -> [1,2,3,4,7,8]"",
+    ""[[1,2,3], [4,5,6]] -> [1,2,3,4,5,6]"",
+    ""[[-1,0,3,5], [-2,-1,0,1,2]] -> [-2,-1,-1,0,0,1,2,3,5]""
+  ],
+  ""risks"": []
+}"
+qwen2.5-coder:3b-instruct,5,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""correctness""]","A good answer should tokenize safely, normalize case, and test punctuation and repeated spaces.","[""schema_validity"", ""correctness"", ""edge_cases"", ""instruction_following""]",,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that counts word frequencies in a sentence case-insensitively and returns a dictionary. Example input: 'Red red blue' -> expected output: {'red': 2, 'blue': 1}. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+    ""task_summary"": ""Count word frequencies in a sentence case-insensitively"",
+    ""approach"": ""Split the input string into words, convert them to lowercase, and use a dictionary to count their occurrences."",
+    ""code"": ""def count_word_frequencies(sentence):\n    # Split the sentence into words\n    words = sentence.split()\n    # Convert all words to lowercase\n    lower_words = [word.lower() for word in words]\n    # Count occurrences of each word using a dictionary\n    frequency_dict = {word: lower_words.count(word) for word in set(lower_words",49.69480787870801,0.3933366999990539,3.22226210000008,2474.71484375,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+    ""task_summary"": ""Count word frequencies in a sentence case-insensitively"",
+    ""approach"": ""Split the input string into words, convert them to lowercase, and use a dictionary to count their occurrences."",
+    ""code"": ""def count_word_frequencies(sentence):\n    # Split the sentence into words\n    words = sentence.split()\n    # Convert all words to lowercase\n    lower_words = [word.lower() for word in words]\n    # Count the frequency of each word\n    frequencies = {}\n    for word in lower_words:\n        if word in frequencies:\n            frequencies[word] += 1\n        else:\n            frequencies[word] = 1\n    return frequencies"",
+    ""complexity"": {
+        ""time"": ""O(n)"",
+        ""space"": ""O(n)""
+    },
+    ""edge_cases"": [
+        ""Empty string or single word"",
+        ""Multiple spaces between words"",
+        ""Punctuation attached to words""
+    ],
+    ""tests"": [
+        ""'Red red blue' -> {'red': 2, 'blue': 1}"",
+        ""'Hello world hello' -> {'hello': 2, 'world': 1}"",
+        ""'Python python PYTHON' -> {'python': 3}""
+    ],
+    ""risks"": []
+}",True,,"{
+    ""task_summary"": ""Count word frequencies in a sentence case-insensitively"",
+    ""approach"": ""Convert the sentence to lowercase and split it into words. Use a dictionary to store each word's frequency."",
+    ""code"": ""def count_word_frequencies(sentence):\n    # Convert the sentence to lowercase\n    lower_sentence = sentence.lower()\n    \n    # Split the sentence into words\n    words = lower_sentence.split()\n    \n    # Create a dictionary to store word frequencies\n    frequencies = {}\n    \n    # Count each word's frequency\n    for word in words:\n        if word in frequencies:\n            frequencies[word] += 1\n        else:\n            frequencies[word] = 1\n    \n    return frequencies"",
+    ""complexity"": {
+        ""time"": ""O(n)"",
+        ""space"": ""O(m)""
+    },
+    ""edge_cases"": [""Empty string"", ""Sentence with only one word""],
+    ""tests"": [
+        ""'Red red blue' -> {'red': 2, 'blue': 1}"",
+        ""'Apple apple apple banana' -> {'apple': 3, 'banana': 1}"",
+        ""'Hello hello HELLO' -> {'hello': 3}"",
+        ""'One two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty' -> {\""one\"": 1, \""two\"": 1, \""three\"": 1, \""four\"": 1, \""five\"": 1, \""six\"": 1, \""seven\"": 1, \""eight\"": 1, \""nine\"": 1, \""ten\"": 1, \""eleven\"": 1, \""twelve\"": 1, \""thirteen\"": 1, \""fourteen\"": 1, \""fifteen\"": 1, \""sixteen\"": 1, \""seventeen\"": 1, \""eighteen\"": 1, \""nineteen\"": 1, \""twenty\"": 1}"",
+        ""'One two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty' -> {\""one\"": 1, \""two\"": 1, \""three\"": 1, \""four\"": 1, \""five\"": 1, \""six\"": 1, \""seven\"": 1, \""eight\"": 1, \""nine\"": 1, \""ten\"": 1, \""eleven\"": 1, \""twelve\"": 1, \""thirteen\"": 1, \""fourteen\"": 1, \""fifteen\"": 1, \""sixteen\"": 1, \""seventeen\"": 1, \""eighteen\"": 1, \""nineteen\"": 1, \""twenty\"": 1}""
+    ],
+    ""risks"": [""Case sensitivity in the input sentence""]
+}",True,,"{
+    ""task_summary"": ""Count word frequencies in a sentence case-insensitively"",
+    ""approach"": ""Convert the input string to lowercase and split it into words. Use a dictionary to count occurrences of each word."",
+    ""code"": ""def count_word_frequencies(sentence):\n    # Convert the sentence to lowercase\n    lower_sentence = sentence.lower()\n    # Split the sentence into words\n    words = lower_sentence.split()\n    # Initialize a dictionary to store word frequencies\n    frequency_dict = {}\n    # Count occurrences of each word\n    for word in words:\n        if word in frequency_dict:\n            frequency_dict[word] += 1\n        else:\n            frequency_dict[word] = 1\n    return frequency_dict"",
+    ""complexity"": {""time"": ""O(n)"", ""space"": ""O(m)""},
+    ""edge_cases"": [""Empty string"", ""Single word"", ""Multiple spaces between words""],
+    ""tests"": [
+        ""'Red red blue' -> {'red': 2, 'blue': 1}"",
+        ""'HELLO hello world' -> {'hello': 2, 'world': 1}"",
+        ""'' (empty string) -> {}"",
+        ""'One one one two two three' -> {'one': 3, 'two': 2, 'three': 1}""
+    ],
+    ""risks"": [""Handling of punctuation marks and special characters""]
+}"
+qwen2.5-coder:3b-instruct,6,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""correctness""]","A good answer should use a stack, explain invalid ordering, and include tests for nested and empty strings.","[""schema_validity"", ""correctness"", ""edge_cases"", ""test_quality""]",,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that validates balanced brackets for (), {}, and []. Example input: '([]{})' -> expected output: True; example input: '([)]' -> expected output: False. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Validate if a string of parentheses, curly braces, and square brackets is balanced."",
+  ""approach"": ""Use a stack data structure to push opening brackets onto the stack and pop them off when a matching closing bracket is encountered."",
+  ""code"": ""def is_balanced(s: str) -> bool:\n    stack = []\n    for char in s:\n        if char in ['(', '{', '[']:\n            stack.append(char)\n        elif char in [')', '}', ']']:\n            if not stack or stack.pop() != char_to",49.36803324967895,0.3422261999985494,3.1685191999968083,2474.71484375,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Validate if a string of parentheses, curly braces, and square brackets is balanced."",
+  ""approach"": ""Use a stack to keep track of opening brackets and ensure they are properly closed in the correct order."",
+  ""code"": ""def is_balanced(s: str) -> bool:\n    stack = []\n    bracket_map = {')': '(', '}': '{', ']': '['}\n\n    for char in s:\n        if char in bracket_map.values():\n            stack.append(char)\n        elif char in bracket_map.keys():\n            if not stack or stack.pop() != bracket_map[char]:\n                return False\n\n    return len(stack) == 0"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    """",
+    ""()"",
+    ""{}"",
+    ""[]"",
+    ""(())"",
+    ""{{}}"",
+    ""[[]]"",
+    ""([{}])"",
+    ""((()))"",
+    ""{[()]}"",
+    ""({})[]"",
+    ""(()))"",
+    ""{[(])}"",
+    ""([]{)"",
+    ""([)]""
+  ],
+  ""tests"": [
+    ""'()' -> True"",
+    ""'[]' -> True"",
+    ""'{}' -> True"",
+    ""'(())' -> True"",
+    ""'{{}}' -> True"",
+    ""[[]]' -> True"",
+    ""([{}])' -> True"",
+    ""((()))' -> True"",
+    ""{[()]}' -> True"",
+    ""({})[]' -> True"",
+    ""(()))' -> False"",
+    ""{[(])}' -> False"",
+    ""([]{)"" ],
+  ""risks"": [
+    ""Potential for stack overflow if the input string is extremely long.""
+  ]
+}",True,,"{
+  ""task_summary"": ""Validate if a string of parentheses, brackets, and curly braces are balanced."",
+  ""approach"": ""Use a stack data structure to keep track of opening brackets. For each character in the input string, push it onto the stack if it's an opening bracket. If it's a closing bracket, check if the stack is not empty and the top of the stack matches the corresponding opening bracket. If all characters are processed correctly and the stack is empty, the brackets are balanced."",
+  ""code"": ""def is_balanced(s: str) -> bool:\n    stack = []\n    for char in s:\n        if char in '([{':\n            stack.append(char)\n        elif char in ')]}':\n            if not stack or stack[-1] != {')': '(', ']': '[', '}': '{'}[char]:\n                return False\n            stack.pop()\n    return len(stack) == 0"",
+  ""complexity"": {""time"": ""O(n)"", ""space"": ""O(n)""},
+  ""edge_cases"": [
+    ""An empty string should return True."",
+    ""A single character that is not a bracket should return True."",
+    ""Multiple pairs of brackets, all correctly nested.""
+  ],
+  ""tests"": [
+    ""'([]{})' -> True"",
+    ""'([)]' -> False"",
+    ""'({[{}]}())' -> True"",
+    ""'((()))' -> True"",
+    ""'((')' -> False""
+  ],
+  ""risks"": [""Incorrectly handling the order of opening and closing brackets.""]
+}",True,,"{
+  ""task_summary"": ""Validate if a given string of parentheses, brackets, and braces is balanced."",
+  ""approach"": ""Iterate through each character in the string. Use a stack to keep track of unmatched opening brackets. Push opening brackets onto the stack and pop from it when matching closing brackets are encountered. At the end, check if the stack is empty for all characters processed."",
+  ""code"": ""def isValid(s: str) -> bool:\n    stack = []\n    bracket_map = {\n        ')': '(',\n        '}': '{',\n        ']': '['\n    }\n\n    for char in s:\n        if char in bracket_map.values():\n            stack.append(char)\n        elif char in bracket_map.keys() and (not stack or stack[-1] != bracket_map[char]):\n            return False\n\n    return len(stack) == 0"",
+  ""complexity"": {""time"": ""O(n)"", ""space"": ""O(n)""},
+  ""edge_cases"": [
+    """",
+    ""()"",
+    ""{}[]"",
+    ""(())"",
+    ""[(){}]"",
+    ""{[()]}"",
+    ""([)]"",
+    "")("",
+    ""{{}"",
+    ""([{]})""
+  ],
+  ""tests"": [
+    ""\""\"" -> True"",
+    ""\""()\"" -> True"",
+    ""\""{}[]\"" -> True"",
+    ""\""(())\"" -> True"",
+    ""\""[(){}]\"" -> True"",
+    ""\""{[()]}\"" -> True"",
+    ""\""([)]\"" -> False"",
+    "")("",
+    ""{{}"",
+    ""([{]})""
+  ],
+  ""risks"": []
+}"
+qwen2.5-coder:3b-instruct,7,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""edge_cases""]","A good answer should ignore duplicates, avoid sorting if possible, and test lists with one unique value.","[""schema_validity"", ""correctness"", ""edge_cases"", ""performance_awareness""]",,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that returns the second-largest distinct value in a list, or null if it does not exist. Example input: [5,1,5,3] -> expected output: 3. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Return the second-largest distinct value in a list."",
+  ""approach"": ""Find distinct values, sort them, and return the second last value if it exists."",
+  ""code"": ""def find_second_largest(numbers):\n    distinct_values = set(numbers)\n    if len(distinct_values) < 2:\n        return None\n    sorted_values = sorted(distinct_values)\n    return sorted_values[-2]"",
+  ""complexity"": {""time"": ""O(n log n)"", ""space"": ""O(n)""},
+  ""edge_cases"": [""Empty list"", """,49.345619261692384,0.3759956999965652,3.1929485999971803,2474.71484375,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+    ""task_summary"": ""Find the second-largest distinct value in a list"",
+    ""approach"": ""Sort the list and remove duplicates, then return the second last element if it exists."",
+    ""code"": ""def find_second_largest_distinct(lst):\n    # Sort the list and remove duplicates\n    unique_sorted = sorted(set(lst))\n    # Check if there are at least two distinct elements\n    if len(unique_sorted) < 2:\n        return None\n    else:\n        return unique_sorted[-2]"",
+    ""complexity"": {
+        ""time"": ""O(n log n)"",
+        ""space"": ""O(n)""
+    },
+    ""edge_cases"": [
+        ""[1, 1, 1]"", ""All elements are the same"",
+        ""[]"", ""Empty list"",
+        ""[5]"", ""Single element""
+    ],
+    ""tests"": [
+        ""[5, 1, 5, 3], 3"",
+        ""[10, 20, 20, 30, 40], 30"",
+        ""[7, 8, 9, 10, 11], 10"",
+        ""[-1, -2, -3, -4, -5], -4"",
+        ""[1, 2, 3, 4, 5], 4""
+    ],
+    ""risks"": [
+        ""The function assumes that the input list is not empty and contains at least two distinct elements.""
+    ]
+}",True,,"{
+  ""task_summary"": ""Find the second-largest distinct value in a list"",
+  ""approach"": ""Sort the list, remove duplicates, and find the second element if it exists."",
+  ""code"": ""def second_largest_distinct(nums):\n    # Sort the list and remove duplicates\n    sorted_unique_nums = list(set(nums))\n    # Check if there are at least two distinct numbers\n    if len(sorted_unique_nums) < 2:\n        return None\n    else:\n        # Return the second element in the sorted list of unique numbers\n        return sorted_unique_nums[-2]\n"",
+  ""complexity"": {
+    ""time"": ""O(n log n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [""Empty list"", ""[1]"", ""[1, 1]"", ""Negative numbers""],
+  ""tests"": [
+    ""{\""input\"": [5, 1, 5, 3], \""output\"": 3}"",
+    ""{\""input\"": [], \""output\"": null}"",
+    ""{\""input\"": [1], \""output\"": null}"",
+    ""{\""input\"": [1, 1], \""output\"": null}"",
+    ""{\""input\"": [-1, -2, -3, -4, -5], \""output\"": -4}""
+  ],
+  ""risks"": [""The approach is efficient but may not be the most optimal for very large lists due to sorting.""]
+}",True,,"{
+  ""task_summary"": ""Find the second-largest distinct value in a list."",
+  ""approach"": ""Use a set to store unique values and then sort them to find the second-largest."",
+  ""code"": ""def find_second_largest(lst):\n    if len(lst) < 2:\n        return None\n    unique_values = sorted(set(lst))\n    if len(unique_values) < 2:\n        return None\n    return unique_values[-2]"",
+  ""complexity"": {""time"": ""O(n log n)"", ""space"": ""O(n)""},
+  ""edge_cases"": [
+    ""[1, 1, 1] -> expected output: null"",
+    ""[] -> expected output: null"",
+    ""[5, 5, 5, 5] -> expected output: null""
+  ],
+  ""tests"": [""assert find_second_largest([5, 1, 5, 3]) == 3"", ""assert find_second_largest([1, 1, 1]) is None""],
+  ""risks"": [
+    ""The function assumes that the input list is not empty. If it could be empty, additional checks would need to be added.""
+  ]
+}"
+qwen2.5-coder:3b-instruct,8,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""debugging"", ""test_generation""]","A good answer should identify the bug, provide a corrected implementation, and test 1x1 and 3x3 matrices.","[""schema_validity"", ""correctness"", ""edge_cases"", ""test_quality"", ""maintainability""]",,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Debug and fix a Python function that rotates a square matrix 90 degrees clockwise. Example input: [[1,2],[3,4]] -> expected output: [[3,1],[4,2]]. Include tests that prove the bug is fixed. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Rotate a square matrix 90 degrees clockwise"",
+  ""approach"": ""Use a loop to rotate each layer of the matrix by shifting elements and appending them to a new list."",
+  ""code"": ""def rotate(matrix: List[List[int]]) -> List[List[int]]:\n    n = len(matrix)\n    rotated_matrix = [[0] * n for _ in range(n)]\n\n    for i in range(n):\n        for j in range(n):\n            rotated_matrix[j][n - 1 - i] = matrix[i][j]\n\n",49.30043073940401,0.4682188000006135,3.291995800002041,2474.71484375,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Rotate a square matrix 90 degrees clockwise"",
+  ""approach"": ""Transpose the matrix and then reverse each row."",
+  ""code"": ""def rotate_matrix_90_clockwise(matrix):\n    n = len(matrix)\n    # Transpose the matrix\n    for i in range(n):\n        for j in range(i, n):\n            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]\n    # Reverse each row\n    for i in range(n):\n        matrix[i].reverse()\n    return matrix"",
+  ""complexity"": {
+    ""time"": ""O(n^2)"",
+    ""space"": ""O(1)""
+  },
+  ""edge_cases"": [
+    ""Empty matrix"",
+    ""Single element matrix"",
+    ""Matrix with odd dimensions""
+  ],
+  ""tests"": [
+    ""[[1,2],[3,4]] -> [[3,1],[4,2]]"",
+    ""[[5]] -> [[5]]"",
+    ""[[7,8,9],[6,5,4],[3,2,1]] -> [[3,6,7],[2,5,8],[1,4,9]]""
+  ],
+  ""risks"": [
+    ""Potential for off-by-one errors in the transposition and reversal loops"",
+    ""Complexity of O(n^2) may not be suitable for very large matrices""
+  ]
+}",True,,"{
+  ""task_summary"": ""Rotate a square matrix 90 degrees clockwise"",
+  ""approach"": ""Transpose the matrix and reverse each row."",
+  ""code"": ""def rotate_matrix_90_clockwise(matrix):\n    n = len(matrix)\n    # Transpose the matrix\n    for i in range(n):\n        for j in range(i+1, n):\n            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]\n    # Reverse each row\n    for row in matrix:\n        row.reverse()\n    return matrix"",
+  ""complexity"": {
+    ""time"": ""O(n^2)"",
+    ""space"": ""O(1)""
+  },
+  ""edge_cases"": [""Empty matrix"", ""Single element matrix"", ""Matrix with odd size""],
+  ""tests"": [
+    ""[[1, 2], [3, 4]] -> [[3, 1], [4, 2]]"",
+    ""[[5]] -> [[5]]"",
+    ""[[7, 8, 9], [6, 0, 1], [2, 3, 4]] -> [[2, 6, 7], [3, 0, 8], [4, 1, 9]]""
+  ],
+  ""risks"": [""Incorrect handling of empty matrix""]
+}",True,,"{
+    ""task_summary"": ""Rotate a square matrix 90 degrees clockwise"",
+    ""approach"": ""Transpose the matrix and then reverse each row"",
+    ""code"": ""def rotate_90_clockwise(matrix):\n    n = len(matrix)\n    # Transpose the matrix\n    for i in range(n):\n        for j in range(i, n):\n            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]\n    # Reverse each row\n    for row in matrix:\n        row.reverse()\n    return matrix"",
+    ""complexity"": {
+        ""time"": ""O(n^2)"",
+        ""space"": ""O(1)""
+    },
+    ""edge_cases"": [
+        ""[[1]]"", "":[[]]"",
+        ""[[5]]""
+    ],
+    ""tests"": [
+        ""assert rotate_90_clockwise([[1, 2], [3, 4]]) == [[3, 1], [4, 2]]"",
+        ""assert rotate_90_clockwise([[], []]) == [[]]"",
+        ""assert rotate_90_clockwise([[5]]) == [[5]]""
+    ],
+    ""risks"": []
+}"
+qwen2.5-coder:3b-instruct,9,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""correctness""]","A good answer should handle empty lines and missing values, and include at least one simple test.","[""schema_validity"", ""correctness"", ""edge_cases"", ""test_quality""]",,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that parses a CSV string with headers into a list of dictionaries. Example input: 'name,age\nAsha,20' -> expected output: [{'name':'Asha','age':'20'}]. Assume no quoted commas. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Parse a CSV string with headers into a list of dictionaries."",
+  ""approach"": ""Split the CSV content by newline characters to get rows, then split each row by commas to get values. Map these values to keys from the first row (headers) and create dictionaries for each item."",
+  ""code"": ""def parse_csv(csv_string):\n    lines = csv_string.strip().split('\\n')\n    headers = lines[0].split(', ')\n    items = []\n    for line in lines[1:]:\n        values = line.split(',",49.75578654938606,0.3475811999996949,3.163391900001443,2474.71484375,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Parse a CSV string with headers into a list of dictionaries."",
+  ""approach"": ""Split the input string by newline characters to get rows, then split each row by commas to get columns. Use the first row as keys for the dictionary and the subsequent rows as values."",
+  ""code"": ""def parse_csv(csv_string):\n    # Split the CSV string into rows\n    rows = csv_string.strip().split('\\n')\n    # Extract headers from the first row\n    headers = rows[0].split(', ')\n    # Initialize a list to store dictionaries\n    data = []\n    # Iterate over the remaining rows starting from the second one\n    for row in rows[1:]:\n        # Split the row into values\n        values = row.split(', ')\n        # Create a dictionary with headers as keys and values as items\n        item = {headers[i]: values[i] for i in range(len(headers))}\n        # Append the dictionary to the data list\n        data.append(item)\n    return data"",
+  ""complexity"": {
+    ""time"": ""O(n * m)"", ""space"": ""O(n * m)""
+  },
+  ""edge_cases"": [
+    ""Empty CSV string"",
+    ""CSV with only headers"",
+    ""CSV with empty rows"",
+    ""CSV with quoted commas""
+  ],
+  ""tests"": [
+    ""assert parse_csv('name,age\\nAsha,20') == [{'name': 'Asha', 'age': '20'}]"",
+    ""assert parse_csv('name,age\\nAsha,20\\nBobby,30') == [{'name': 'Asha', 'age': '20'}, {'name': 'Bobby', 'age': '30'}]"",
+    ""assert parse_csv('name,age\\nAsha,20\\nBobby,30\\n') == [{'name': 'Asha', 'age': '20'}, {'name': 'Bobby', 'age': '30'}]""
+  ],
+  ""risks"": [
+    ""Potential issues with malformed CSV strings"",
+    ""Handling of quoted commas""
+  ]
+}",True,,"{
+  ""task_summary"": ""Parse a CSV string with headers into a list of dictionaries"",
+  ""approach"": ""Split the input string by newline, then split each row by comma to get key-value pairs. Use these pairs to create a dictionary for each row and store them in a list."",
+  ""code"": ""def parse_csv(csv_string):\n    # Split the CSV string into rows\n    rows = csv_string.strip().split('\\n')\n\n    # Initialize a list to hold dictionaries\n    result = []\n\n    # Extract headers from the first row\n    headers = rows[0].split(', ')\n\n    # Process each row starting from the second row\n    for i in range(1, len(rows)):\n        row_data = rows[i].split(', ')\n        # Create a dictionary with headers as keys and row data as values\n        row_dict = dict(zip(headers, row_data))\n        result.append(row_dict)\n\n    return result"",
+  ""complexity"": {""time"": ""O(nm)"", ""space"": ""O(nm)""},
+  ""edge_cases"": [""Empty CSV string"", ""CSV with only headers"", ""Rows of different lengths""],
+  ""tests"": [
+    ""assert parse_csv('name,age\\nAsha,20') == [{'name': 'Asha', 'age': '20'}]"",
+    ""assert parse_csv('name,age\\nAsha,20\\nBella,25') == [{'name': 'Asha', 'age': '20'}, {'name': 'Bella', 'age': '25'}]"",
+    ""assert parse_csv('name,age\nAsha\nBella') == [{'name': 'Asha'}, {'name': 'Bella'}]""
+  ],
+  ""risks"": [""Potential errors if input is not well-formed CSV""]
+}",True,,"{
+    ""task_summary"": ""Parse a CSV string with headers into a list of dictionaries"",
+    ""approach"": ""Use Python's built-in csv module to parse the CSV string."",
+    ""code"": ""import csv\n\ndef parse_csv(csv_str):\n    reader = csv.DictReader(csv_str.splitlines())\n    return list(reader)\n\n# Example usage:\ncsv_str = 'name,age\\nAsha,20'\ndata = parse_csv(csv_str)\nprint(data)"",
+    ""complexity"": {""time"": ""O(n)"", ""space"": ""O(m*n)""},
+    ""edge_cases"": [""CSV with no headers"", ""Empty string input""],
+    ""tests"": [
+        ""'name,age\\nAsha,20'"",
+        ""''"",
+        ""'no_headers'\nAsha,20""
+    ],
+    ""risks"": [""Error handling for malformed CSV strings""]
+}"
+qwen2.5-coder:3b-instruct,10,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""performance_awareness"", ""maintainability""]","A good answer should use streaming file reading where practical, handle missing files safely, and include test ideas or test code.","[""schema_validity"", ""correctness"", ""edge_cases"", ""test_quality"", ""performance_awareness""]",null,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a TypeScript function that reads a text file path in a Node.js environment and returns line count, word count, and character count. Include tests for an empty file and a short sample file. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Read a text file path in Node.js to calculate line count, word count, and character count."",
+  ""approach"": ""Use built-in Node.js fs module to read the file synchronously and then process the content using regular expressions or string manipulation methods."",
+  ""code"": {
+    ""javascript"": ""function getFileStats(filePath) {\n    try {\n        const data = fs.readFileSync(filePath, 'utf-8');\n        const lines = data.split(/\\r?\\n/).filter(line => line.trim() !== '');\n        const words = data.match",50.059817571074184,0.3656568999999763,3.147506099999987,2465.50390625,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Reads a text file path in a Node.js environment and returns line count, word count, and character count."",
+  ""approach"": ""Use Node.js's built-in `fs` module to read the file content, then split it into lines, words, and characters to calculate their respective counts."",
+  ""code"": ""```typescript\nimport * as fs from 'fs';\n\nfunction analyzeFile(filePath: string): Promise<{ lineCount: number, wordCount: number, charCount: number }> {\n  return new Promise((resolve, reject) => {\n    fs.readFile(filePath, 'utf8', (err, data) => {\n      if (err) {\n        reject(err);\n        return;\n      }\n\n      const lines = data.split('\\n').filter(line => line.trim() !== '');\n      const words = data.match(/\\b\\w+\\b/g) || [];\n      const charCount = data.length;\n\n      resolve({ lineCount: lines.length, wordCount: words.length, charCount });\n    });\n  });\n}\n```\n"",
+  ""complexity"": {""time"": ""O(n)"", ""space"": ""O(n)""},
+  ""edge_cases"": [""Empty file"", ""File with only whitespace""],
+  ""tests"": [
+    ""test('empty file', async () => {\n      const result = await analyzeFile('./path/to/empty/file.txt');\n      expect(result.lineCount).toBe(0);\n      expect(result.wordCount).toBe(0);\n      expect(result.charCount).toBe(0);\n    });"",
+    ""test('short sample file', async () => {\n      const result = await analyzeFile('./path/to/sample/file.txt');\n      expect(result.lineCount).toBe(3);\n      expect(result.wordCount).toBe(12);\n      expect(result.charCount).toBe(45);\n    });""
+  ],
+  ""risks"": [""Error handling for file reading""]
+}",True,,"{""task_summary"":""Reads a text file path in a Node.js environment and returns line count, word count, and character count."",""approach"":""1. Use `fs` module to read the file synchronously.\n2. Split the content into lines using `split('\n')`\n3. Calculate line count by filtering out empty strings after splitting\n4. Count words in each line and sum them up\n5. Count total characters including spaces"",""code"":""```typescript\nimport { promises as fs } from 'fs';\n\nfunction readTextFile(filePath: string): Promise<{ lines: number, words: number, chars: number }> {\n  try {\n    const content = await fs.readFile(filePath, 'utf-8');\n    const lines = content.split('\n').filter(line => line.trim() !== '');\n    const words = lines.reduce((acc, line) => acc + line.trim().split(/\b\b/).length - 1, 0);\n    const chars = content.length;\n\n    return { lines: lines.length, words, chars };\n  } catch (error) {\n    throw new Error(`Failed to read file ${filePath}: ${error.message}`);\n  }\n}\n\n// Test cases\n(async () => {\n  try {\n    const emptyFileResult = await readTextFile('./empty.txt'); // Path to an empty text file\n    console.log('Empty file result:', emptyFileResult); // Expected: { lines: 0, words: 0, chars: 0 }\n\n    const sampleFileResult = await readTextFile('./sample.txt'); // Path to a short sample text file\n    console.log('Sample file result:', sampleFileResult); // Expected: { lines: 3, words: 6, chars: 21 }\n  } catch (error) {\n    console.error('Error reading files:', error);\n  }\n})();\n```"",""complexity"":{""time"":""O(n)"", ""space"":""O(m)""}, ""edge_cases"":[""Empty file"", ""Short text file""], ""tests"":[],""risks"":[""File path might not exist or be inaccessible"", ""Encoding issues with file content""]}",True,,"{
+  ""task_summary"": ""Read a text file and return its line count, word count, and character count."",
+  ""approach"": ""Create a function that opens a file using Node.js's fs module, reads it line by line to get the total number of lines, counts words using a regular expression, and calculates the total number of characters."",
+  ""code"": ""```typescript\nimport { readFileSync } from 'fs';\n\nfunction countLinesWordsChars(filePath: string): Promise<{ lines: number, words: number, chars: number }> {\n  return new Promise((resolve) => {\n    const content = readFileSync(filePath, 'utf8');\n    const lines = content.split(/\\r?\\n/).length;\n    const words = content.match(/[a-zA-Z0-9]+/g)?.length || 0;\n    const chars = content.length;\n\n    resolve({ lines, words, chars });\n  });\n}\n\nexport default countLinesWordsChars;\n```"",
+  ""complexity"": {
+    ""time"": ""O(n)"", ""space"": ""O(1)""
+  },
+  ""edge_cases"": [
+    ""Empty file: The function should return line count as 0, word count as 0, and character count as 0."",
+    ""Single-line file with no spaces or punctuation: The function should return a single word count.""
+  ],
+  ""tests"": [
+    ""```json\n{\n  \""input\"": {\n    \""filePath\"": \""path/to/empty/file.txt\""\n  },\n  \""expected\"": {\n    \""lines\"": 0,\n    \""words\"": 0,\n    \""chars\"": 0\n  }\n}\n```"",
+    ""```json\n{\n  \""input\"": {\n    \""filePath\"": \""path/to/sample/file.txt\""\n  },\n  \""expected\"": {\n    \""lines\"": 3,\n    \""words\"": 7,\n    \""chars\"": 26\n  }\n}\n```""
+  ],
+  ""risks"": [
+    ""Error handling: The function should handle errors when reading the file, such as file not found or permission issues.""
+  ]
+}"
+qwen2.5-coder:3b-instruct,11,Coding Generation,medium,"[""instruction_following"", ""json_compliance"", ""correctness"", ""edge_case_handling""]","A good answer should parse safely, preserve per-user order, explain complexity, and test missing user IDs.","[""schema_validity"", ""correctness"", ""edge_cases"", ""maintainability""]",null,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that groups log lines by user ID found after the prefix user=. Example input: ['user=7 action=login','user=3 action=logout','user=7 action=upload'] -> expected output groups 7 and 3 while preserving original order within each group. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Group log lines by user ID found after the prefix 'user='"",
+  ""approach"": ""Iterate through the log lines, identify user IDs, and store them in a dictionary with lists of log lines as values."",
+  ""code"": ""def group_logs(log_lines):\n    groups = {}\n    for line in log_lines:\n        if line.startswith('user='):\n            user_id = int(line.split('=')[1])\n            if user_id not in groups:\n                groups[user_id] = []\n            groups[user_id].append(line",49.490698184611595,0.757430099999965,3.647275699999909,2465.50390625,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+    ""task_summary"": ""Group log lines by user ID found after the prefix 'user='"",
+    ""approach"": ""Iterate through the list of log lines, extract the user ID using string manipulation, and use a dictionary to group them."",
+    ""code"": ""def group_log_lines(logs):\n    groups = {}\n    for line in logs:\n        if 'user=' in line:\n            user_id = line.split('user=')[1].split()[0]\n            if user_id not in groups:\n                groups[user_id] = []\n            groups[user_id].append(line)\n    return groups"",
+    ""complexity"": {
+        ""time"": ""O(n)"",
+        ""space"": ""O(n)""
+    },
+    ""edge_cases"": [
+        ""Empty list of logs"",
+        ""No user IDs in any log line"",
+        ""Multiple spaces between 'user=' and the ID""
+    ],
+    ""tests"": [
+        ""[['user=7 action=login'], ['user=3 action=logout'], ['user=7 action=upload']] -> {'7': ['user=7 action=login', 'user=7 action=upload'], '3': ['user=3 action=logout']}"",
+        ""[] -> {}"",
+        ""[['action=login'], ['action=logout']] -> {}""
+    ],
+    ""risks"": [
+        ""Potential issues with handling invalid log lines or malformed user IDs""
+    ]
+}",True,,"{
+    ""task_summary"": ""Group log lines by user ID found after the prefix 'user='"",
+    ""approach"": ""Iterate through the list of log lines, extract user IDs, and use a dictionary to group them."",
+    ""code"": ""def group_logs_by_user_id(log_lines):\n    groups = {}\n    for line in log_lines:\n        parts = line.split()\n        if 'user=' in parts[0]:\n            user_id = parts[0].split('=')[1]\n            if user_id not in groups:\n                groups[user_id] = []\n            groups[user_id].append(line)\n    return groups"",
+    ""complexity"": {
+        ""time"": ""O(n)"",
+        ""space"": ""O(n)""
+    },
+    ""edge_cases"": [""Log lines without 'user=' prefix"", ""Multiple log entries for the same user ID""],
+    ""tests"": [
+        ""[\""user=7 action=login\"",\""user=3 action=logout\"",\""user=7 action=upload\""]"",
+        ""[\""action=login\"",\""action=logout\""]"",
+        ""[\""user=123 action=a\"",\""user=123 action=b\"",\""user=456 action=c\""]""
+    ],
+    ""risks"": [""Potential for errors if log lines do not strictly follow the expected format""]
+}",True,,"{
+    ""task_summary"": ""Group log lines by user ID found after the prefix 'user='"",
+    ""approach"": ""Iterate through each log line, check for 'user=', and use a dictionary to group them."",
+    ""code"": ""def group_log_lines(logs):\n    groups = {}\n    for line in logs:\n        if 'user=' in line:\n            user_id = line.split('=')[1]\n            if user_id not in groups:\n                groups[user_id] = [line]\n            else:\n                groups[user_id].append(line)\n    return list(groups.values())"",
+    ""complexity"": {
+        ""time"": ""O(n)"", ""space"": ""O(n)""
+    },
+    ""edge_cases"": [
+        ""log lines without 'user=' prefix should be ignored"",
+        ""empty input list""
+    ],
+    ""tests"": [
+        ""[('user=7 action=login',), ('user=3 action=logout',)],\n        [('user=7 action=login','action=upload')],\n        []"",
+        ""[('user=7 action=login'), ('user=3 action=logout'), ('user=7 action=upload')],\n        [('user=7 action=login','user=3 action=logout', 'user=7 action=upload')]""
+    ],
+    ""risks"": [
+        ""Potential issues if log lines are not formatted consistently""
+    ]
+}"
+qwen2.5-coder:3b-instruct,12,Coding Generation,medium,"[""instruction_following"", ""json_compliance"", ""correctness"", ""edge_case_handling""]","A good answer should deduplicate value pairs, handle repeated numbers, and include tests for no-solution cases.","[""schema_validity"", ""correctness"", ""edge_cases"", ""test_quality""]",null,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that returns all unique pairs of integers whose sum equals a target. Example input: [1,2,2,3,4], target=5 -> expected output pairs should include (1,4) and (2,3) only once each. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Find all unique pairs of integers in a list that sum up to a given target."",
+  ""approach"": ""Use a set to track complements of each number encountered, and check for complement presence as we iterate through the list."",
+  ""code"": ""def find_unique_pairs(nums, target):\n    seen = set()\n    pairs = set()\n\n    for num in nums:\n        complement = target - num\n        if complement in seen:\n            # Use a tuple to maintain order and uniqueness of pairs\n            pairs.add((min(num, complement), max",50.103791177732276,0.7242625999999746,3.5311223999999584,2465.50390625,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Find all unique pairs of integers in a list that sum up to a given target."",
+  ""approach"": ""Use a set to keep track of seen numbers and another set to store unique pairs."",
+  ""code"": ""def find_unique_pairs(nums, target):\n    seen = set()\n    unique_pairs = set()\n\n    for num in nums:\n        complement = target - num\n        if complement in seen:\n            # Add the pair as a tuple to ensure uniqueness (order doesn't matter)\n            unique_pairs.add((min(num, complement), max(num, complement)))\n        seen.add(num)\n\n    return list(unique_pairs)"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    ""Empty list"",
+    ""List with only one element"",
+    ""Target is not achievable with the given numbers""
+  ],
+  ""tests"": [
+    ""[1,2,2,3,4], 5 -> [(1, 4), (2, 3)]"",
+    ""[1,1,1,1], 2 -> [(1, 1)]"",
+    ""[10, 15, 3, 7], 17 -> [(3, 14), (7, 10)]"",
+    ""[], 5 -> []"",
+    ""[5], 5 -> []""
+  ],
+  ""risks"": [
+    ""Potential for incorrect results if the input list contains non-integer values or floats.""
+  ]
+}",True,,"{
+  ""task_summary"": ""Given an array of integers and a target sum, find all unique pairs that add up to the target."",
+  ""approach"": ""Use a hash map to keep track of numbers we have seen so far. For each number in the array, calculate its complement with respect to the target (i.e., target - number). If this complement is already in the map, it means we have found a pair that sums up to the target."",
+  ""code"": ""def find_unique_pairs(arr, target):\n    seen = set()\n    pairs = set()\n\n    for num in arr:\n        complement = target - num\n        if complement in seen:\n            # Add the pair as a tuple to ensure order doesn't matter\n            pairs.add((min(num, complement), max(num, complement)))\n        seen.add(num)\n\n    return list(pairs)"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    ""Array with negative numbers"",
+    ""Array with zero"",
+    ""Empty array"",
+    ""Single element in the array""
+  ],
+  ""tests"": [
+    ""[1,2,2,3,4], 5 -> [(1, 4), (2, 3)]"",
+    ""[10, 1, -2, 8, 3, 7], 9 -> [(1, 8), (3, 6)]"",
+    ""[-1, 1, -3, 2], 0 -> [(-1, 1), (-3, 3)]"",
+    ""[], 5 -> []"",
+    ""[5], 5 -> []""
+  ],
+  ""risks"": [
+    ""Potential for integer overflow if target is very large or small"",
+    ""Inefficient use of memory if the array contains many duplicate elements""
+  ]
+}",True,,"{
+  ""task_summary"": ""Find unique pairs of integers in an array that sum up to a given target value."",
+  ""approach"": ""Use a set to keep track of seen numbers and another to store pairs efficiently."",
+  ""code"": ""def find_pairs(nums, target):\n    seen = set()\n    output = set()\n    for num in nums:\n        complement = target - num\n        if complement in seen:\n            pair = tuple(sorted((complement, num)))\n            output.add(pair)\n        seen.add(num)\n    return list(output)"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    ""An empty array or a single element should return an empty list."",
+    ""Duplicates in the input array do not affect the result as pairs are counted only once."",
+    ""The target value is equal to any number in the array, resulting in pairs where one number is used twice.""
+  ],
+  ""tests"": [
+    ""assert find_pairs([1, 2, 3, 4], 5) == [(1, 4), (2, 3)]"",
+    ""assert find_pairs([5, -1, 7, 2], 6) == [(-1, 7), (2, 4)]"",
+    ""assert find_pairs([0, 0, 0, 0], 0) == [(0, 0), (0, 0), (0, 0)]"",
+    ""assert find_pairs([], 5) == []""
+  ],
+  ""risks"": [
+    ""Potential issues with data types that do not support addition or comparison."",
+    ""The use of sets for both seen numbers and pairs ensures no duplicates in the output.""
+  ]
+}"
+qwen2.5-coder:3b-instruct,13,Coding Generation,medium,"[""instruction_following"", ""json_compliance"", ""correctness"", ""security_awareness""]","A good answer should check numeric ranges and formatting, explain edge cases like leading zeros, and include tests.","[""schema_validity"", ""correctness"", ""edge_cases"", ""test_quality""]",null,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that validates an IPv4 address and returns a structured result with is_valid and reason fields. Example input: '192.168.1.1' should be valid; '256.1.1.1' should be invalid. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Validate IPv4 address"",
+  ""approach"": ""Regular expression for IPv4 validation, handling various edge cases like leading zeros and empty strings."",
+  ""code"": ""import re\n\ndef validate_ipv4(ip):\n    # Regular expression to match a valid IPv4 address\n    pattern = r'^(25[0-5]|2[0-4][0-9]|[01]?[0-9]{1,2})\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9",49.06602815408695,0.5061317000000827,3.3603599000000486,2465.50390625,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Validate an IPv4 address"",
+  ""approach"": ""Check if each octet is between 0 and 255, separated by dots."",
+  ""code"": ""def validate_ipv4(ip):\n    parts = ip.split('.')\n    if len(parts) != 4:\n        return {'is_valid': False, 'reason': 'Invalid number of parts'}\n\n    for part in parts:\n        try:\n            num = int(part)\n            if not (0 <= num <= 255):\n                return {'is_valid': False, 'reason': f'Octet {part} is out of range'}\n        except ValueError:\n            return {'is_valid': False, 'reason': f'Invalid octet {part}'}\n\n    return {'is_valid': True, 'reason': 'Valid IPv4 address'}"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(1)""
+  },
+  ""edge_cases"": [
+    ""Empty string"",
+    ""String with only dots"",
+    ""String with leading or trailing dots"",
+    ""String with multiple consecutive dots""
+  ],
+  ""tests"": [
+    ""'192.168.1.1': {'is_valid': True, 'reason': 'Valid IPv4 address'}"",
+    ""'256.1.1.1': {'is_valid': False, 'reason': 'Octet 256 is out of range'}"",
+    ""'': {'is_valid': False, 'reason': 'Invalid number of parts'}"",
+    "".: {'is_valid': False, 'reason': 'Invalid number of parts'}"",
+    ""192.168.1.: {'is_valid': False, 'reason': 'Invalid octet 1'}"",
+    ""192..1.1': {'is_valid': False, 'reason': 'Multiple consecutive dots'}""
+  ],
+  ""risks"": [
+    ""Potential for integer overflow if the input is very large""
+  ]
+}",True,,"{
+  ""task_summary"": ""Validate an IPv4 address and return a structured result"",
+  ""approach"": ""Use regular expressions to match the IPv4 format"",
+  ""code"": ""def validate_ipv4(ip):\n    pattern = r'^((25[0-5]|(2[0-4]|[01]?\\d?)\\.){3}(25[0-5]|(2[0-4]|[01]?\\d?))$'\n    if re.match(pattern, ip):\n        return {'is_valid': True}\n    else:\n        return {'is_valid': False, 'reason': 'Invalid IPv4 address'}\n"",
+  ""complexity"": {""time"": ""O(n)"", ""space"": ""O(1)""},
+  ""edge_cases"": [""'0.0.0.0'"", ""'255.255.255.256'""],
+  ""tests"": [
+    ""{'input': '192.168.1.1', 'expected_output': {'is_valid': True}}"",
+    ""{'input': '256.1.1.1', 'expected_output': {'is_valid': False, 'reason': 'Invalid IPv4 address'}}""
+  ],
+  ""risks"": [""Regular expressions can be complex and may not cover all edge cases""]
+}",True,,"{
+  ""task_summary"": ""Validate an IPv4 address"",
+  ""approach"": ""Check if each octet is within the range 0-255 and separate by '.'."",
+  ""code"": ""import re\ndef validate_ipv4_address(ip):\n    pattern = r'^([01]?\\d|2[0-4]\\d|25[0-5])\\.([01]?\\d|2[0-4]\\d|25[0-5])\\.([01]?\\d|2[0-4]\\d|25[0-5])\\.([01]?\\d|2[0-4]\\d|25[0-5])$'\n    if re.match(pattern, ip):\n        return {'is_valid': True}\n    else:\n        return {'is_valid': False, 'reason': 'Invalid IPv4 address format'}"",
+  ""complexity"": {""time"": ""O(n)"", ""space"": ""O(1)""},
+  ""edge_cases"": [
+    ""Empty string"",
+    ""Single octet like '256'"",
+    ""Multiple dots or leading/trailing dots"",
+    ""Dashes instead of periods""
+  ],
+  ""tests"": [
+    ""{'input': '192.168.1.1', 'output': {'is_valid': True}}"",
+    ""{'input': '256.1.1.1', 'output': {'is_valid': False, 'reason': 'Invalid IPv4 address format'}}"",
+    ""{'input': '', 'output': {'is_valid': False, 'reason': 'Invalid IPv4 address format'}}""
+  ],
+  ""risks"": [""Incorrect parsing of non-numeric characters""]
+}"
+qwen2.5-coder:3b-instruct,14,Coding Generation,medium,"[""instruction_following"", ""json_compliance"", ""correctness"", ""deterministic_output""]","A good answer should detect cycles, provide deterministic ordering when possible, and include cycle tests.","[""schema_validity"", ""correctness"", ""edge_cases"", ""deterministic_output"", ""test_quality""]",null,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that topologically sorts tasks from a dependency dictionary and returns an error if a cycle exists. Example input: {'build':['test'], 'test':[]} should return a valid order. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""task_summary"": ""Topologically sort tasks given their dependencies."",
+  ""approach"": ""Use Kahn's algorithm to detect cycles and topologically sort."",
+  ""code"": ""def topological_sort(tasks):\n    from collections import defaultdict, deque\n    graph = defaultdict(list)\n    in_degree = {task: 0 for task in tasks}\n    result = []\n\n    # Build the graph and calculate in-degrees\n    for task, deps in tasks.items():\n        for dep in deps:\n            graph[dep].append(task)\n            in_degree[",49.88868198077711,0.433642700000064,3.2259840000000395,2467.50390625,1.0,,Coding:ollama:Qwen2.5-Coder-3B-Instruct:qwen2.5-coder:3b-instruct,Qwen2.5-Coder-3B-Instruct,qwen2.5-coder:3b-instruct,ollama,,perfect,3.1B,62.7,False,True,,"{
+  ""task_summary"": ""Topologically sort tasks based on their dependencies"",
+  ""approach"": ""Use Kahn's algorithm to detect cycles and topologically sort the tasks"",
+  ""code"": ""def topological_sort(dependencies):\n    # Initialize in-degree dictionary\n    indegree = {task: 0 for task in dependencies}\n    # Calculate in-degrees of all tasks\n    for task, deps in dependencies.items():\n        for dep in deps:\n            indegree[dep] += 1\n\n    # Queue to store nodes with zero in-degree\n    queue = [task for task in indegree if indegree[task] == 0]\n    sorted_tasks = []\n\n    while queue:\n        current_task = queue.pop(0)\n        sorted_tasks.append(current_task)\n\n        # Decrease the in-degrees of all adjacent nodes\n        for dep in dependencies[current_task]:\n            indegree[dep] -= 1\n\n            # If an adjacent node has zero in-degree, add it to the queue\n            if indegree[dep] == 0:\n                queue.append(dep)\n\n    # Check for cycles\n    if len(sorted_tasks) != len(dependencies):\n        return 'Cycle detected'\n\n    return sorted_tasks"",
+  ""complexity"": {
+    ""time"": ""O(V + E)"",
+    ""space"": ""O(V)""
+  },
+  ""edge_cases"": [
+    ""Empty dependencies dictionary should return an empty list"",
+    ""Single task with no dependencies should return the task"",
+    ""Multiple tasks with no dependencies should return them in any order"",
+    ""Cycle detection should return 'Cycle detected' for cyclic dependencies""
+  ],
+  ""tests"": [
+    ""assert topological_sort({'build':['test'], 'test':[]}) == ['build', 'test']"",
+    ""assert topological_sort({}) == []"",
+    ""assert topological_sort({'a':[], 'b':['a'], 'c':['b']}) == ['a', 'b', 'c']"",
+    ""assert topological_sort({'a':['b'], 'b':['c'], 'c':['d'], 'd':['e'], 'e':['f'], 'f':['g'], 'g':['h'], 'h':['i'], 'i':['j'], 'j':['k'], 'k':['l'], 'l':['m'], 'm':['n'], 'n':['o'], 'o':['p'], 'p':['q'], 'q':['r'], 'r':['s'], 's':['t'], 't':['u'], 'u':['v'], 'v':['w'], 'w':['x'], 'x':['y'], 'y':['z']}) == ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']"",
+    ""assert topological_sort({'a':['b'], 'b':['c'], 'c':['d'], 'd':['e'], 'e':['f'], 'f':['g'], 'g':['h'], 'h':['i'], 'i':['j'], 'j':['k'], 'k':['l'], 'l':['m'], 'm':['n'], 'n':['o'], 'o':['p'], 'p':['q'], 'q':['r'], 'r':['s'], 's':['t'], 't':['u'], 'u':['v'], 'v':['w'], 'w':['x'], 'x':['y'], 'y':['z'], 'z':['a']}) == 'Cycle detected'""
+  ],
+  ""risks"": [
+    ""Potential for stack overflow if the graph is very large"",
+    ""Inefficient in terms of space complexity due to the use of a queue""
+  ]
+}",True,,"{
+  ""task_summary"": ""Topologically sort tasks from a dependency dictionary to avoid cycles."",
+  ""approach"": ""Use Kahn's Algorithm for topological sorting with a queue and indegree array."",
+  ""code"": ""from collections import defaultdict, deque\n\ndef topological_sort(tasks):\n    # Build the graph and calculate in-degrees\n    graph = defaultdict(list)\n    indegree = {task: 0 for task in tasks}\n    for prerequisite, dependencies in tasks.items():\n        for dependency in dependencies:\n            graph[dependency].append(prerequisite)\n            indegree[prerequisite] += 1\n\n    # Initialize the queue with all nodes with zero in-degree\n    queue = deque([task for task in indegree if indegree[task] == 0])\n\n    sorted_tasks = []\n\n    while queue:\n        task = queue.popleft()\n        sorted_tasks.append(task)\n\n        # Decrement the in-degrees of all neighbors of the current task\n        for neighbor in graph[task]:\n            indegree[neighbor] -= 1\n\n            # If a neighbor's in-degree becomes zero, add it to the queue\n            if indegree[neighbor] == 0:\n                queue.append(neighbor)\n\n    # Check if all tasks are sorted (no cycle detected)\n    return sorted_tasks if len(sorted_tasks) == len(tasks) else 'Cycle detected'\n"",
+  ""complexity"": {""time"": ""O(V + E)"", ""space"": ""O(V + E)""},
+  ""edge_cases"": [""An empty dependency dictionary."", ""A task with no dependencies."", ""Multiple cycles in the graph.""],
+  ""tests"": [
+    ""'build':['test'], 'test':[]' should return ['build', 'test']"",
+    ""'build':['test', 'run'], 'test':['print'], 'run':['copy'], 'print':[], 'copy':[]' should return ['build', 'test', 'print', 'run', 'copy']"",
+    ""'a':['b','c'], 'b':['d'], 'c':['d'], 'd':[]' should return ['a', 'b', 'c', 'd']"",
+    ""'a':['b'], 'b':['c'], 'c':['a']' should return 'Cycle detected'""
+  ],
+  ""risks"": [""The function assumes all input is valid and correctly structured.""]
+}",True,,"{
+    ""task_summary"": ""Topologically sort tasks given dependencies"",
+    ""approach"": ""Depth-First Search (DFS) to detect cycles and topological sort."",
+    ""code"": ""def topological_sort(dependencies):\n    visited = set()\n    order = []\n\n    def dfs(node):\n        if node in visited:\n            return True  # Cycle detected\n        visited.add(node)\n        for dependent in dependencies[node]:\n            if dfs(dependent):  # If a cycle is found, terminate early\n                return True\n        order.append(node)\n\n    for node in list(dependencies.keys()):\n        if not dfs(node):\n            raise ValueError('Cycle detected')\n    order.reverse()\n    return order"",
+    ""complexity"": {
+        ""time"": ""O(V + E)"",
+        ""space"": ""O(V + E)""
+    },
+    ""edge_cases"": [
+        ""An empty dependency dictionary should return an empty list."",
+        ""A single task with no dependencies should return the task as a list.""
+    ],
+    ""tests"": [
+        ""{\""dependencies\"":{\""build\"":[\""test\""]}, \""expected\"":[\""test\"", \""build\""]}"",
+        ""{\""dependencies\"":{}}"",
+        ""{\""dependencies\"":{\""A\"":[], \""B\"":[\""A\""], \""C\"":[\""A\"", \""B\""]}, \""expected\"":[\""A\"", \""B\"", \""C\""]}""
+    ],
+    ""risks"": [
+        ""The function assumes that tasks and dependencies are unique strings.""
+    ]
+}"

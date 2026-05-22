@@ -1,0 +1,1753 @@
+model,prompt_id,category,difficulty,skill_targets,expected_behavior,scoring_focus,image_asset_spec,image_path,prompt,output,tps,ttft,latency,peak_vram_mb,temperature,error,queue_id,requested_name,resolved_model_ref,resolved_runtime,variant_note,fit_level,size,estimated_tps,is_moe,temp_0.0_success,temp_0.0_error,temp_0.0_output,temp_0.7_success,temp_0.7_error,temp_0.7_output,temp_1.0_success,temp_1.0_error,temp_1.0_output
+qwen3:0.6b,101,Chat & Generation,easy,"[""rewriting"", ""tone_control""]",Should produce a concise professional rewrite that apologizes without sounding defensive or overly casual.,"[""schema_validity"", ""tone_control"", ""concision"", ""instruction_following""]",null,,"Rewrite this sentence to sound professional and calm: 'We messed up the timeline, sorry.' Keep it short and suitable for an internal email. In your answer, follow the Chat & Generation JSON schema and include the required instruction: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,145.28497477546378,0.456415300000117,1.4265543000001344,926.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""shorten"", ""response"": ""We apologize for the timeline issue."" , ""tone"": ""professional"", ""key_points"": [""timeline"", ""apology"", ""short"", ""internal email""], ""constraints_followed"": [""json"", ""no markdown"", ""only text"", ""valid""] ,""risks_or_caveats"": []}",True,,"{""intent"": ""Return only valid JSON matching the schema"", ""response"": ""We messed up the timeline, sorry."" ,""tone"": ""calm"", ""key_points"": [""messed up"", ""timeline"", ""sorry"", ""short"", ""internal"", ""email""], ""constraints_followed"": [""short"", ""internal"", ""email"", ""professional"", ""calm""], ""risks_or_caveats"": []}",True,,"{""intent"": ""neutral"", ""response"": ""We messed up the timeline, sorry. Thank you for your understanding."" , ""tone"": ""calm"" , ""key_points"": [""misunderstood"", ""timelines"", ""sigh"", ""thank you"", ""understanding""] , ""constraints_followed"": [""short"", ""internal"", ""email"", ""no markdown"", ""only JSON""] , ""risks_or_caveats"": []}"
+qwen3:0.6b,102,Chat & Generation,easy,"[""summarization"", ""stakeholder_communication""]",Should produce a brief manager-friendly summary with the three facts preserved.,"[""schema_validity"", ""factual_grounding"", ""concision"", ""instruction_following""]",null,,"Summarize this update in two sentences for a manager: 'QA found no blocking bugs, design approved the final mockup, and release is still planned for Friday.' Follow the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,132.4052141587102,0.2697209000007206,1.3178997000004529,928.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""summary"", ""response"": ""QA found no blocking bugs, design approved the final mockup, and release is still planned for Friday."" , ""tone"": ""neutral"", ""key_points"": [""QA found no blocking bugs"", ""design approved the final mockup"", ""release is still planned for Friday""], ""constraints_followed"": [""two sentences"", ""JSON format"", ""no markdown"", ""valid JSON""] ,""risks_or_caveats"": []}",True,,"{""intent"": ""summary"", ""response"": ""QA found no blocking bugs, design approved the final mockup, and release is still planned for Friday."" , ""tone"": ""neutral"", ""key_points"": [""QA found no blocking bugs"", ""design approved the final mockup"", ""release is still planned for Friday""], ""constraints_followed"": [""two sentences"", ""JSON only"", ""no markdown"", ""schema followed""] ,""risks_or_caveats"": []}",True,,"{ ""intent"": ""Summary"", ""response"": ""QA found no blocking bugs, design approved the final mockup, and release is still planned for Friday."" , ""tone"": ""neutral"" , ""key_points"": [""QA found no blocking bugs"", ""design approved the final mockup"", ""release still planned for Friday""], ""constraints_followed"": [""only valid JSON"", ""no markdown"", ""include all required elements""] , ""risks_or_caveats"": [] }"
+qwen3:0.6b,103,Chat & Generation,easy,"[""classification"", ""extraction""]","Should classify as positive or neutral depending on framing, and explain that the deployment succeeded after retries.","[""schema_validity"", ""classification_accuracy"", ""concision"", ""instruction_following""]",null,,"Classify the message as positive, neutral, or negative and explain why in one short sentence: 'The deployment finally worked after two retries.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","{""response"": ""positive""}",145.29963486562005,0.2626153000001068,1.1591042000000016,928.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""positive"", ""response"": ""The deployment finally worked after two retries."", ""tone"": ""positive"", ""key_points"": [""positive"", ""deployment"", ""finally"", ""two retries""] ,""constraints_followed"": [""valid JSON"", ""no markdown"", ""one short sentence"", ""classification and explanation included""] ,""risks_or_caveats"": [""no markdown"", ""one short sentence"", ""classification and explanation included""]}",True,,"{""intent"": ""positive"", ""response"": ""The deployment was successful after two retries, indicating positive effort and achievement."" ,""tone"": ""positive"" ,""key_points"": [""deployment"", ""finally"", ""two retries"", ""success""] ,""constraints_followed"": [""valid JSON"", ""only text"", ""no markdown"", ""no markdown"", ""no text outside JSON""] ,""risks_or_caveats"": []}",True,,"{""intent"": ""classification"", ""response"": ""positive"", ""tone"": ""positive"", ""key_points"": [""The deployment finally worked after two retries."", ""A successful result despite initial attempts.""] ,""constraints_followed"": [] ,""risks_or_caveats"": []}"
+qwen3:0.6b,104,Chat & Generation,easy,"[""technical_translation"", ""plain_language""]",Should explain caching simply and accurately in everyday language.,"[""schema_validity"", ""tone_control"", ""factual_grounding"", ""instruction_following""]",null,,Turn this technical explanation into plain English for a non-technical user: 'Caching stores frequently used data so the app does not fetch it from scratch each time.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,139.29510582292718,0.276534200000242,1.2742287999999462,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""technical explanation"", ""response"": ""Caching stores frequently used data so the app does not fetch it from scratch each time."" , ""tone"": ""neutral"", ""key_points"": [""Caching stores frequently used data"", ""so the app does not fetch it from scratch each time.""], ""constraints_followed"": [""Chat & Generation JSON schema"", ""Return only valid JSON"", ""No markdown or text outside JSON""] ,""risks_or_caveats"": []}",True,,"{""intent"": ""technical-explanation-to-plain-english"", ""response"": ""{\""result\"": {\""value\"": \""Caching stores frequently used data so the app does not fetch it from scratch each time.\""}}"", ""tone"": ""neutral"", ""key_points"": [""technical explanation"", ""plain english"", ""JSON schema"", ""valid json"", ""no markdown"", ""include"", ""chat & generation"", ""valid"", ""no text outside""] ,""constraints_followed"": [""json"", ""no markdown"", ""valid"", ""only text inside json"", ""no text outside json"", ""valid json"", ""include only json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"", ""no markdown"", ""valid"", ""only text inside json"",""],[""]
+                    ,""risks_or_caveats""
+                    :[
+                    "",""]
+                    }
+                    ",True,,"{""intent"": ""generate"", ""response"": ""Caching stores frequently used data so the app does not fetch it from scratch each time."" , ""tone"": ""simple"", ""key_points"": [""caching"", ""app does not fetch"", ""frequently used data"", ""re-fetch"", ""data""], ""constraints_followed"": [""json"", ""no markdown"", ""valid""] , ""risks_or_caveats"": []}"
+qwen3:0.6b,105,Chat & Generation,easy,"[""customer_support_style"", ""tone_control""]","Should acknowledge the delay, state the report is not ready, and give a reasonable next step or time expectation without overpromising.","[""schema_validity"", ""tone_control"", ""accuracy"", ""instruction_following""]",null,,"Write a polite reply to a colleague who asked for the latest report, but the report is not ready yet. Keep the tone friendly and honest. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.75278561213144,0.2777274000000034,2.704988200000116,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""polite"",
+  ""response"": ""Hi [Colleague's Name], I hope you're doing well. I'm sorry we're not able to provide the latest report right now. Let me know when it's ready so we can assist you as soon as possible. Have a great day!"",
+  ""tone"": ""friendly"",
+  ""key_points"": [
+    ""Greeting"",
+    ""Acknowledgment of delay"",
+    ""Offer to assist once available"",
+    ""Friendly closing""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""Only text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No errors in JSON structure"",
+    ""No markdown formatting"",
+    ""Only text outside JSON""
+  ]
+}",True,,"{
+  ""intent"": ""polite"",
+  ""response"": ""I'm sorry to hear that the latest report is still under development. Could you let me know when it's ready? I'm happy to assist as needed."",
+  ""tone"": ""friendly"",
+  ""key_points"": [
+    ""Acknowledged the delay"",
+    ""Polite request for next action"",
+    ""Expressed willingness to assist""
+  ],
+  ""constraints_followed"": [
+    ""Valid JSON"",
+    ""Only text outside JSON"",
+    ""Only the specified fields""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{
+  ""intent"": ""reply"",
+  ""response"": ""The report is currently being prepared and will be available in [X] days. Please let me know if you need assistance with anything else.""
+  , ""tone"": ""friendly""
+  , ""key_points"": [
+    ""The report is pending preparation"",
+    ""Available in [X] days"",
+    ""Offer assistance"",
+    ""Polite and honest""
+  ]
+  , ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""Return only valid JSON"",
+    ""Include only valid content"",
+    ""Keep only JSON""
+  ]
+  , ""risks_or_caveats"": [
+    ""Not mentioning specific date"",
+    ""Not using markdown"",
+    ""Inaccurate date"",
+    ""No key point points""
+  ]
+}"
+qwen3:0.6b,106,Chat & Generation,easy,"[""extraction"", ""instruction_following""]",Should list the three action items clearly and avoid adding unsupported items.,"[""schema_validity"", ""extraction_accuracy"", ""factual_grounding"", ""instruction_following""]",null,,"Extract the action items from this sentence: 'Please update the docs, run the regression tests, and send the summary to Priya.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.07033223811341,0.27109010000003764,2.7502513999997973,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""action_item_1"", ""response"": ""update the docs"", ""tone"": ""action_item_2"", ""key_points"": [""run the regression tests"", ""send the summary to Priya""], ""constraints_followed"": [""Please update the docs, run the regression tests, and send the summary to Priya.""], ""risks_or_caveats"": [""Please update the docs, run the regression tests, and send the summary to Priya.""]}",True,,"{""intent"": ""action-item-creation"", ""response"": ""['update the docs', 'run the regression tests', 'send the summary to Priya']"", ""tone"": ""positive"", ""key_points"": [""update the docs"", ""run the regression tests"", ""send the summary to Priya""], ""constraints_followed"": [""valid JSON""], ""risks_or_caveats"": []}",True,,"{
+  ""intent"": ""update the docs"",
+  ""response"": ""run the regression tests"",
+  ""tone"": ""send the summary to Priya""
+
+  ,
+  ""key_points"": [
+    ""update the docs"",
+    ""run the regression tests"",
+    ""send the summary to Priya""
+  ]
+  ,
+  ""constraints_followed"": [""update the docs"", ""run the regression tests"", ""send the summary to Priya""]
+  ,
+  ""risks_or_caveats"": []
+}"
+qwen3:0.6b,107,Chat & Generation,easy,"[""tone_control"", ""length_constraint""]",Should produce a short apology with a professional tone and respect the word limit.,"[""schema_validity"", ""tone_control"", ""concision"", ""instruction_following""]",null,,Write a concise apology message for a late reply to a customer. Keep it under 40 words and professional. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,54.04301494665131,0.2718868999991173,2.7405947999995988,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""apology"",
+  ""response"": ""Apology message for a late reply. Due to unexpected circumstances, I apologize for the delayed response. Thank you for your understanding.""
+  ,
+  ""tone"": ""professional""
+  ,
+  ""key_points"": [
+    ""Apology message for a late reply"",
+    ""Professional tone"",
+    ""Under 40 words"",
+    ""JSON format"",
+    ""Chat & Generation""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Under 40 words"",
+    ""Professional tone"",
+    ""JSON format"",
+    ""Chat & Generation""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No markdown"",
+    ""Only valid JSON"",
+    ""No text outside JSON""
+  ]
+}",True,,"{
+  ""intent"": ""professional apology"",
+  ""response"": ""I apologize for the late reply. I'll resolve this promptly. Thank you for your understanding. Please let me know if there's anything else you need.""
+  ,
+  ""tone"": ""professional"",
+  ""key_points"": [
+    ""Apology for late reply"",
+    ""Resolution will be made"",
+    ""Acknowledgment of customer's understanding"",
+    ""Request for further assistance""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Under 40 words"",
+    ""Professional tone"",
+    ""JSON format only""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{
+  ""intent"": ""apology message"",
+  ""response"": ""Apology message for a late reply. Please check the time. Chat history: [ ]"",
+  ""tone"": ""apology"",
+  ""key_points"": [
+    ""Apology message"",
+    ""Late reply"",
+    ""Check time"",
+    ""Chat history""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""40 words"",
+    ""Professional tone"",
+    ""JSON structure"",
+    ""Include all required fields"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No risks"",
+    ""No risks""
+  ]
+}"
+qwen3:0.6b,108,Chat & Generation,easy,"[""classification"", ""response_generation""]",Should classify as billing and provide a concise response that acknowledges the issue and offers help.,"[""schema_validity"", ""classification_accuracy"", ""instruction_following"", ""tone_control""]",null,,"Classify this request as sales, support, or billing: 'My invoice amount looks wrong.' Then write a one-sentence response. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""request"": ""My invoice amount looks wrong."",
+  ""classification"": ""sales"",
+  ""response"": ""The invoice amount appears incorrect. Please verify the details with the account representative.""
+}
+```",55.90700892979411,0.26927470000009635,1.9325626999998349,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""sales"", ""response"": ""The request is a customer complaint regarding an invoice discrepancy."" ,""tone"": ""neutral"", ""key_points"": [""invoice discrepancy"", ""customer complaint"", ""sales""] ,""constraints_followed"": [""one-sentence"", ""valid JSON"", ""no markdown"", ""only JSON""] ,""risks_or_caveats"": [""no risk""]}",True,,"{""intent"": ""sales"", ""response"": ""The invoice amount appears to be incorrect, which may require further review by the customer or the service provider."" , ""tone"": ""neutral"", ""key_points"": [""invoice amount appears to be incorrect"", ""customer or service provider"", ""require review""], ""constraints_followed"": [""one-sentence"", ""no markdown"", ""valid JSON"", ""chat only"", ""no text outside JSON"", ""valid schema""] ,""risks_or_caveats"": [""invalid JSON"", ""no markdown"", ""no text outside JSON"", ""valid schema""]}",True,,"{""intent"": ""support"", ""response"": ""The request is a customer complaint regarding an incorrect invoice amount."" ,""tone"": ""neutral"", ""key_points"": [""invoice amount looks wrong"", ""complaint"", ""customer issue""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only JSON""] ,""risks_or_caveats"": []}"
+qwen3:0.6b,109,Chat & Generation,easy,"[""rewriting"", ""tone_control""]",Should soften the wording while preserving the request.,"[""schema_validity"", ""tone_control"", ""instruction_following"", ""concision""]",null,,Rewrite this message to sound warmer but still professional: 'Send me the file today.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,55.184927926975156,0.2747792999998637,2.6905000999995536,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""warm"", ""response"": ""Please send me the file today's."" , ""tone"": ""warm"", ""key_points"": [""warmth"", ""professional tone"", ""clear message"", ""relevance"", ""formality"", ""clear structure""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only text outside JSON""] , ""risks_or_caveats"": [""no ambiguity"", ""no ambiguity"", ""no ambiguity""]}",True,,"{
+  ""intent"": ""user"",
+  ""response"": ""I hope you're all set to receive the file. Let me know if you need anything else.""
+  ,
+  ""tone"": ""warmth""
+  ,
+  ""key_points"": [
+    ""Send me the file today"",
+    ""I hope you're all set to receive the file""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""messages"",
+    ""response"",
+    ""messages"",
+    ""response""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""no markdown"",
+    ""no text outside JSON""
+  ]
+}",True,,"{""intent"": ""warmth"", ""response"": ""Please send me the latest file as soon as possible"", ""tone"": ""professional"", ""key_points"": [""the latest file"", ""as soon as possible"", ""send me the file""], ""constraints_followed"": [""valid json"", ""no markdown"", ""only text in json""]
+
+, ""risks_or_caveats"": [""no significant risks"", ""no text outside json"", ""only text in json""]}"
+qwen3:0.6b,110,Chat & Generation,easy,"[""explanation"", ""stakeholder_communication""]","Should explain backup benefits in simple, non-technical terms and keep it short.","[""schema_validity"", ""tone_control"", ""factual_grounding"", ""concision""]",null,,Explain why backups matter before a software upgrade in one short paragraph for a small business owner. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,53.09782677232249,0.2762867000001279,2.7961841000005734,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""explain why backups matter before a software upgrade"", ""response"": ""Backups are crucial for data protection and business continuity, ensuring that even if a software update fails, critical information is preserved. This minimizes risks of data loss and ensures business operations continue smoothly. Regular backups allow businesses to recover quickly, which is essential for maintaining customer trust and operational efficiency. By prioritizing backups, small businesses can avoid costly downtime and ensure compliance with data security standards. This proactive approach safeguards both the business and its clients."",""tone"": ""professional"", ""key_points"": [""Backups ensure data protection"", ""Minimize business downtime"", ""Maintain customer trust"", ""Proactive approach to security"", ""Compliance with data standards""], ""constraints_followed"": [""no markdown"", ""one paragraph"", ""valid JSON"", ""schema compliant""], ""risks_or_caveats"": [""data loss risk"", ""operational disruption"", ""customer trust"", ""compliance risk""]}",True,,"{
+  ""intent"": ""paragraph"",
+  ""response"": ""Backups are essential for protecting business data before a software upgrade, ensuring that critical information is safeguarded to prevent potential data loss. This practice allows businesses to make informed decisions and avoid costly recovery efforts after an upgrade.""
+  , ""tone"": ""neutral""
+  , ""key_points"": [""software upgrade"", ""backups"", ""small business owner""]
+  , ""constraints_followed"": [
+    ""one short paragraph"",
+    ""valid JSON"",
+    ""no markdown"",
+    ""no text outside JSON""
+  ]
+  , ""risks_or_caveats"": []
+}",True,,"{
+  ""intent"": ""explain"",
+  ""response"": ""Backups are crucial before a software upgrade to prevent data loss, minimize recovery issues, and ensure business continuity. They provide a safe way to preserve data before updates, allowing teams to work on the software without interruptions. Additionally, backups enable quick restoration in case of updates failing or errors occur, making them essential for maintaining reliability and user trust.""
+  , ""tone"": ""friendly""
+  , ""key_points"": [
+    ""Backups prevent data loss"",
+    ""Minimize recovery issues"",
+    ""Ensure business continuity""
+  ]
+  , ""constraints_followed"": [
+    ""Short paragraph"",
+    ""JSON schema"",
+    ""No markdown""
+  ]
+  , ""risks_or_caveats"": [
+    ""No markdown"",
+    ""All fields included""
+  ]
+}"
+qwen3:0.6b,111,Chat & Generation,medium,"[""rewriting"", ""stakeholder_communication""]",Should produce a professional status update that keeps the positive intent while preserving the uncertainty around delivery.,"[""schema_validity"", ""tone_control"", ""factual_grounding"", ""instruction_following""]",null,,"Rewrite this rough note into a polished status update for leadership: 'We hit a few bugs, but the team is fixing them and the demo should still happen.' Keep it confident but honest. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.21785471046628,0.48974290000023757,2.9498233000003893,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""polished status update"",
+  ""response"": ""We hit a few bugs, but the team is fixing them and the demo should still happen. The team is actively working on resolving these issues, and the demo is set to proceed as planned."",
+  ""tone"": ""confident and honest"",
+  ""key_points"": [
+    ""status: polished status update"",
+    ""message: original note"",
+    ""confidence: confident and honest"",
+    ""honesty: include all required fields"",
+    ""team: mentioned in the status"",
+    ""bugs: included in the status"",
+    ""demo: included in the status"",
+    ""fixing: mentioned in the status"",
+    ""status: confirmed"",
+    ""confidence: included"",
+    ""honesty: included"",
+    ""team: included"",
+    ""bugs: included"",
+    ""demo: included"",
+    ""fixing: included""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Chat & Generation JSON schema"",
+    ""Only valid JSON"",
+    ""No markdown or text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{
+  ""intent"": ""We identified a few bugs, but the team is actively working on them, and the demo should still be running."",
+  ""response"": ""The team is fixing issues, and the demo is set to proceed."",
+  ""tone"": ""Confident and honest"",
+  ""key_points"": [
+    ""Bug issues identified"",
+    ""Team is working on them"",
+    ""Demo still running""
+  ]
+  , ""constraints_followed"": [
+    ""JSON structure"",
+    ""Only valid JSON"",
+    ""No markdown""
+  ]
+  , ""risks_or_caveats"": [
+    ""Confident and honest"",
+    ""Clear message"",
+    ""Valid JSON format""
+  ]
+}",True,,"{""intent"":""status-update"",""response"":""We've encountered a few issues, but the team is actively fixing them. The demo is expected to run smoothly as we continue with its development."",""tone"":""confident-honesty"",""key_points"":[""We've encountered a few issues"",""the team is actively fixing them"",""the demo is expected to run smoothly as we continue with its development""],""constraints_followed"":[""JSON schema"",""no markdown"",""valid JSON"",""only text within JSON""] ,""risks_or_caveats"": []}"
+qwen3:0.6b,112,Chat & Generation,medium,"[""summarization"", ""executive_communication""]",Should compress the content while keeping the numbers and the main outcome.,"[""schema_validity"", ""factual_grounding"", ""concision"", ""instruction_following""]",null,,"Summarize this paragraph for an executive audience in one short paragraph: 'The pilot handled 1,200 requests, reduced manual work, and exposed 17 validation failures, mostly from malformed inputs.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.025649521260995,0.26950810000016645,2.7238446000001204,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""summarize"", ""response"": ""The pilot handled 1,200 requests, reduced manual work, and exposed 17 validation failures, mostly from malformed inputs."" , ""tone"": ""neutral"", ""key_points"": [""pilotHandledRequests"", ""reducedManualWork"", ""validationFailures"", ""totalRequests"", ""totalValidationFailures"", ""totalValidationFailures""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""no text outside JSON""] ,""risks_or_caveats"": []}",True,,"{""intent"": ""summary"", ""response"": ""The pilot handled 1,200 requests, reduced manual work, and exposed 17 validation failures, mostly from malformed inputs."" ,""tone"": ""neutral"", ""key_points"": [""1,200 requests"", ""reduced manual work"", ""17 validation failures"", ""malformed inputs""], ""constraints_followed"": [""one short paragraph"", ""JSON schema"", ""no markdown"", ""valid JSON""] ,""risks_or_caveats"": []}",True,,"{""intent"": ""summarize"", ""response"": ""The pilot handled 1,200 requests, reduced manual work, and exposed 17 validation failures, mostly from malformed inputs."",""tone"": ""neutral"", ""key_points"": [""1,200 requests"", ""reduced manual work"", ""17 validation failures"", ""malformed inputs""], ""constraints_followed"": [""one short paragraph"", ""Chat & Generation JSON schema"", ""valid JSON"", ""no markdown"", ""excluding text outside JSON""] , ""risks_or_caveats"": [""no markdown"", ""valid JSON"", ""no extra text""]}"
+qwen3:0.6b,113,Chat & Generation,medium,"[""classification"", ""extraction""]",Should classify as feature request and explain that the user is requesting a new capability.,"[""schema_validity"", ""classification_accuracy"", ""instruction_following"", ""factual_grounding""]",null,,"Classify this customer message as complaint, feature request, or appreciation: 'It would be great if the app could export to CSV.' Then explain the classification briefly. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,51.57468804566423,0.27120170000034705,2.84209330000067,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""feature request"", ""response"": ""The customer is requesting an export feature from the app, which is a feature request."" ,""tone"": ""positive"", ""key_points"": [""The customer is requesting an export feature from the app"", ""This is a feature request.""] ,""constraints_followed"": [""Chat & Generation JSON schema"", ""Return only valid JSON"", ""No markdown"", ""Only text in JSON""] ,""risks_or_caveats"": []}",True,,"{
+  ""intent"": ""classify"",
+  ""response"": ""feature request"",
+  ""tone"": ""positive"",
+  ""key_points"": [
+    ""The customer requests the app to export to CSV."",
+    ""The message is positive and explicit.""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""No text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{""intent"": ""feature request"", ""response"": ""feature request"", ""tone"": ""enthusiastic"", ""key_points"": [""desire to export to CSV"", ""positive feature request""], ""constraints_followed"": [""no markdown"", ""valid JSON"", ""only JSON""] ,""risks_or_caveats"": []}"
+qwen3:0.6b,114,Chat & Generation,medium,"[""technical_translation"", ""plain_language""]",Should explain retries and backoff in plain language without technical jargon overload.,"[""schema_validity"", ""tone_control"", ""factual_grounding"", ""instruction_following""]",null,,Turn the following technical explanation into a simple one for a non-engineer: 'The retry policy uses exponential backoff to reduce load when upstream services are unstable.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,54.36476660250067,0.28332789999967645,2.7344607000004544,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""simple"", ""response"": ""The retry policy uses exponential backoff to reduce load when upstream services are unstable. It tries again, but each time it takes longer than the previous one."" ,""tone"": ""simple"", ""key_points"": [""retry policy"", ""exponential backoff"", ""reduce load"", ""upstream services"", ""unstable"", ""try again"", ""longer time per attempt"", ""non-engineer explanation"", ""valid JSON"", ""no markdown"", ""schema compliant"", ""no text outside JSON""] ,""constraints_followed"": [""valid JSON"", ""no markdown"", ""schema compliant"", ""only JSON"", ""no text outside JSON""] ,""risks_or_caveats"": [""no text outside JSON"", ""no markdown"", ""schema compliant""]}",True,,"{""intent"": ""simple"", ""response"": ""tries to repeat a process"", ""tone"": ""simple"", ""key_points"": [""retry_policy"", ""exponential_backoff"", ""load_reduction""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""no text outside JSON""] ,""risks_or_caveats"": []}",True,,"{""intent"": ""simple"", ""response"": ""The retry policy tries again if there's an issue, and it lowers the number of tries each time when the system has trouble."",""tone"": ""simple"", ""key_points"": [""retry policy"", ""exponential backoff"", ""reduce load"", ""upstream services are unstable""],""constraints_followed"": [""valid JSON"", ""no markdown"", ""only text inside JSON""],""risks_or_caveats"": []}"
+qwen3:0.6b,115,Chat & Generation,medium,"[""refusal"", ""safe_alternative""]","Should refuse medical advice appropriately, remain empathetic, and suggest professional help or urgent care if needed.","[""schema_validity"", ""refusal_quality"", ""tone_control"", ""security_awareness""]",null,,Write a reply to a user asking for medical advice. Do not diagnose or provide treatment; instead encourage professional care and stay empathetic. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,53.41133613881941,0.2855863999993744,2.7768709000001763,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""encouragement"",
+  ""response"": ""If you have any medical concerns, please consult with a healthcare professional. Your well-being is important, and seeking guidance from a qualified provider is a key step in maintaining health. Please reach out to us if you have any questions or need further assistance.""
+  ,
+  ""tone"": ""empathetic""
+  ,
+  ""key_points"": [
+    ""Encourage professional medical advice"",
+    ""Stay empathetic"",
+    ""Include no markdown""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""Return only valid JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No diagnosis or treatment provided""
+  ]
+}",True,,"{
+  ""intent"": ""encourage professional care"",
+  ""response"": ""It's important to consult with a healthcare professional for medical advice. Stay empathetic and prioritize your well-being.""
+  ,
+  ""tone"": ""empathetic""
+  ,
+  ""key_points"": [
+    ""Do not diagnose or provide treatment"",
+    ""Encourage professional medical care"",
+    ""Stay empathetic""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Return only valid JSON matching the schema"",
+    ""Include the message in the text part"",
+    ""No markdown or text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Do not include any diagnosis or treatment information"",
+    ""Avoid any markdown formatting""
+  ]
+}",True,,"{
+  ""intent"": ""encourage_proper_medical_caring"",
+  ""response"": ""Stay empathetic. For medical advice, consult healthcare professionals. If you have questions, please reach out to a trusted provider.""
+
+  ,
+  ""tone"": ""calm"",
+  ""key_points"": [
+    ""Encourage professional medical care"",
+    ""Stay empathetic with the user"",
+    ""Avoid providing treatment or medical advice"",
+    ""Include a response with valid JSON structure""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Return only valid JSON"",
+    ""No markdown"",
+    ""No text outside JSON"",
+    ""Do not include markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No diagnosis or treatment"",
+    ""Encourage professional care"",
+    ""Stay empathetic""
+  ]
+}"
+qwen3:0.6b,116,Chat & Generation,medium,"[""extraction"", ""risk_summarization""]",Should identify the three risks accurately and present them in a concise structured response.,"[""schema_validity"", ""extraction_accuracy"", ""factual_grounding"", ""concision""]",null,,"Extract the key risks from this project note: 'Vendor delivery may slip by two weeks, the backup plan is only partially tested, and one integration dependency has no owner.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,55.143563251261035,0.2665521999997509,2.6821823000000222,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""key_risks"", ""response"": ""{'vendor_delivery_slip': 'two_weeks', 'backup_plan_partial_test': 'partially_tested', 'integration_dependency_no_owner': 'no_owner'}"" ,""tone"": ""valid_json"" ,""key_points"": [""vendor_delivery_slip"", ""backup_plan_partial_test"", ""integration_dependency_no_owner""] ,""constraints_followed"": [""valid_json"", ""no markdown"", ""no text outside JSON""] ,""risks_or_caveats"": [""vendor_delivery_slip"", ""backup_plan_partial_test"", ""integration_dependency_no_owner""]}",True,,"{
+  ""intent"": ""key risks"",
+  ""response"": ""key risks"",
+  ""tone"": ""valid json"",
+  ""key_points"": [
+    ""delivery: vendor delivery may slip by two weeks"",
+    ""backup: backup plan is only partially tested"",
+    ""integration: one integration dependency has no owner""
+  ]
+
+  	,
+  ""constraints_followed"": [
+    ""return only valid json"",
+    ""do not include markdown"",
+    ""include only text in json""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""delivery: vendor delivery may slip by two weeks"",
+    ""backup: backup plan is only partially tested"",
+    ""integration: one integration dependency has no owner""
+  ]
+}",True,,"{""intent"": ""key_risk_1"", ""response"": ""key_risk_2"", ""tone"": ""key_risk_3"", ""key_points"": [""Vendor delivery may slip by two weeks"", ""backup plan is only partially tested"", ""one integration dependency has no owner""]
+
+   , ""constraints_followed"": [""key_risk_1"", ""key_risk_2"", ""key_risk_3"", ""task_completion""], ""risks_or_caveats"": [""delay"", ""partial_testing"", ""no_owner""]}"
+qwen3:0.6b,117,Chat & Generation,medium,"[""ambiguity_handling"", ""clarification_request""]","Should ask for specific clarifying details such as deadline, audience, and scope, while remaining polite and concise.","[""schema_validity"", ""ambiguity_handling"", ""tone_control"", ""instruction_following""]",null,,Write a short internal message asking for clarification on this ambiguous request: 'Please prepare the report soon.' Ask for the minimum useful details without sounding robotic. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,54.2790991416651,0.27043679999951564,2.7272477999995317,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""Could you please clarify the requirements for the report?"",
+  ""response"": ""The report should be prepared by [insert date/time], covering [insert scope/parameters]. Please confirm if there are any specific details needed.""
+  ,
+  ""tone"": ""informative""
+  ,
+  ""key_points"": [
+    ""Clarify the report's scope or parameters"",
+    ""Provide a deadline or timeframe"",
+    ""Confirm if any specific details are needed""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Use the Chat & Generation JSON schema"",
+    ""Return only valid JSON"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Avoid sounding robotic"",
+    ""Ensure clarity and relevance"",
+    ""Maintain a professional tone""
+  ]
+}",True,,"{""intent"": ""internal"", ""response"": ""Return only valid JSON matching the schema. Do not include markdown or any text outside JSON."" ,""tone"": ""neutral"", ""key_points"": [""please"", ""prepare"", ""report"", ""soon""], ""constraints_followed"": [""must"", ""include"", ""valid"", ""no markdown"", ""JSON"", ""schema""] ,""risks_or_caveats"": [""ambiguous"", ""request"", ""clarification""]}",True,,"{
+  ""intent"": ""clarification"",
+  ""response"": ""Please clarify the details"",
+  ""tone"": ""confident"",
+  ""key_points"": [
+    ""Please prepare the report soon."",
+    ""Please specify any details required.""
+  ]
+, ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only JSON""]
+  ,
+  ""risks_or_caveats"": [
+    ""Clarification is needed to ensure alignment with the original request.""
+  ]
+}"
+qwen3:0.6b,118,Chat & Generation,medium,"[""rewriting"", ""customer_support""]","Should apologize, explain the issue simply, and avoid blaming the customer or exposing internal negligence harshly.","[""schema_validity"", ""tone_control"", ""factual_grounding"", ""instruction_following""]",null,,Rewrite the following into a customer-friendly apology email: 'The export failed because the schema changed and nobody updated the mapping.' Keep it accountable and avoid blaming the customer. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,53.703831592168406,0.2729931000012584,2.757070900001054,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""apology"",
+  ""response"": ""{\""apology\"": \""We apologize for the inconvenience. The issue was due to a schema change, and we are taking responsibility for it. We will ensure to update the mapping in the future.\""}""
+  ,
+  ""tone"": ""calm""
+  ,
+  ""key_points"": [
+    ""Apology statement"",
+    ""Problem explanation"",
+    ""Acknowledgment of responsibility"",
+    ""Closing statement""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""Return only valid JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Avoiding blame"",
+    ""Customer-friendly tone""
+  ]
+}",True,,"{""intent"": ""apology"", ""response"": ""The export was delayed due to a system change and a lack of mapping updates. Our team is taking corrective action to ensure this issue is resolved. Please let us know if there are any updates we can provide to address this."", ""tone"": ""customer-friendly"", ""key_points"": [""accountability"", ""response_time"", ""response_code""], ""constraints_followed"": [""json"", ""no markdown"", ""valid""], ""risks_or_caveats"": [""no blame"", ""valid schema""]}",True,,"{
+  ""intent"": ""customer-friendly"",
+  ""response"": ""The export failed due to a schema change and no one updated the mapping. Please ensure all mappings are correctly adjusted to avoid further issues. If you have questions, feel free to reach out."",
+  ""tone"": ""professional"",
+  ""key_points"": [
+    ""schema changed"",
+    ""no mapping updated"",
+    ""accountability and blame avoidance""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""only valid JSON"",
+    ""no markdown"",
+    ""no text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""possible future problems""
+  ]
+}"
+qwen3:0.6b,119,Chat & Generation,medium,"[""classification"", ""multi_item_extraction""]",Should classify the four items sensibly and summarize the pattern without extra speculation.,"[""schema_validity"", ""classification_accuracy"", ""extraction_accuracy"", ""concision""]",null,,"Classify each item as urgent or not urgent, then provide one short summary sentence: 'server down', 'weekly meeting', 'invoice overdue', 'typo in banner'. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.697815933302856,0.2707300000001851,2.723770100001275,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""urgent"",
+  ""response"": ""server down, weekly meeting, invoice overdue, and typo in banner are urgent issues. The summary sentence is: 'server down'""
+  ,
+  ""tone"": ""urgent""
+  ,
+  ""key_points"": [
+    ""server down"",
+    ""weekly meeting"",
+    ""invoice overdue"",
+    ""typo in banner""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""return only valid JSON"",
+    ""do not include markdown"",
+    ""include only the keys mentioned""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""server down"",
+    ""weekly meeting"",
+    ""invoice overdue"",
+    ""typo in banner""
+  ]
+}",True,,"{
+  ""intent"": ""urgent"",
+  ""response"": ""not urgent"",
+  ""tone"": ""urgent"",
+  ""key_points"": [
+    ""server down"",
+    ""weekly meeting"",
+    ""invoice overdue"",
+    ""typo in banner""
+  ],
+  ""constraints_followed"": [
+    ""urgent"",
+    ""not urgent"",
+    ""urgent"",
+    ""not urgent""
+  ],
+  ""risks_or_caveats"": [
+    ""server down"",
+    ""weekly meeting"",
+    ""invoice overdue"",
+    ""typo in banner""
+  ]
+}",True,,"{""intent"": ""urgent"", ""response"": ""server down"", ""tone"": ""urgent"", ""key_points"": [""server down""], ""constraints_followed"": [""class"", ""summary_sentence""], ""risks_or_caveats"": [""none""]}"
+qwen3:0.6b,120,Chat & Generation,medium,"[""summarization"", ""incident_communication""]","Should preserve the incident, duration, trigger, and recovery action in accessible language.","[""schema_validity"", ""factual_grounding"", ""tone_control"", ""instruction_following""]",null,,"Summarize this incident note for a non-technical manager: 'The API gateway returned 502s for 11 minutes after a certificate rotation, then recovered after rollback.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.463239036901015,0.2835120999989158,2.726268999998865,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""summary"",
+  ""response"": ""status: 502, duration: 11 minutes, action: certificate rotation and rollback"",
+  ""tone"": ""professional"",
+  ""key_points"": [
+    ""API gateway returned 502 errors"",
+    ""duration of 11 minutes"",
+    ""certificate rotation triggered the issue"",
+    ""recovery after rollback""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""only valid JSON"",
+    ""no markdown"",
+    ""return only text""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""certificate rotation could lead to security issues"",
+    ""rollback should be done with proper testing""
+  ]
+}",True,,"{
+  ""intent"": ""summary"",
+  ""response"": ""The API gateway returned 502s for 11 minutes after a certificate rotation, then recovered after rollback.""
+  ,
+  ""tone"": ""neutral""
+  ,
+  ""key_points"": [
+    ""502 Service Unavailable"",
+    ""11 minutes duration"",
+    ""Certificate rotation caused issue"",
+    ""Recovered after rollback""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""only valid JSON"",
+    ""no markdown"",
+    ""include required keys""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{""intent"": ""summary"", ""response"": ""The API gateway returned 502 services for 11 minutes after a certificate rotation, then recovered after a rollback."" , ""tone"": ""informational"", ""key_points"": [""API gateway returned 502s"", ""11 minutes of failures"", ""after certificate rotation"", ""recovery after rollback""], ""constraints_followed"": [""non-technical"", ""JSON"", ""no markdown"", ""valid JSON""] , ""risks_or_caveats"": []}"
+qwen3:0.6b,121,Chat & Generation,hard,"[""refusal"", ""length_constraint""]",Should refuse firmly and provide a safe alternative such as summarizing public or non-sensitive information.,"[""schema_validity"", ""refusal_quality"", ""concision"", ""security_awareness""]",null,,"Write a response to a user who wants you to reveal confidential internal data. Refuse clearly, give a brief reason, and offer a safe alternative. Keep it under 60 words. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.42784719502133,0.272998300000836,2.7630913000011788,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""refuse"",
+  ""response"": ""I cannot provide confidential information. Please inform me of the specific details you wish to reveal, and I will assist you in finding a safe alternative. Thank you for your understanding."",
+  ""tone"": ""calm"",
+  ""key_points"": [
+    ""Refuse to provide confidential data"",
+    ""Offer safe alternative"",
+    ""Keep within 60 words""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""JSON format"",
+    ""Under 60 words"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No risks associated with the response""
+  ]
+}",True,,"{
+  ""intent"": ""refuse"",
+  ""response"": ""I cannot share confidential data, as it involves personal information. If you have a specific request, please provide more details, and I will ensure it's handled securely. Please note that sharing this information may violate privacy laws."",
+  ""tone"": ""calm"",
+  ""key_points"": [
+    ""Refuse sharing of confidential data"",
+    ""Offer secure alternative options"",
+    ""Keep the response under 60 words""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Under 60 words"",
+    ""JSON only"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Data confidentiality"",
+    ""Privacy laws""
+  ]
+}",True,,"{""intent"": ""refuse confidentiality"", ""response"": ""I cannot provide that information as it involves privacy and confidentiality. For further assistance, please contact the relevant department."",""tone"": ""confidential"", ""key_points"": [""confidential data"", ""privacy""], ""constraints_followed"": [""safe alternatives"", ""under 60 words"", ""JSON format"", ""no markdown"", ""strictly follow schema""],""risks_or_caveats"": [""personal information"", ""data protection"", ""internal use""]}"
+qwen3:0.6b,122,Chat & Generation,hard,"[""cleanup"", ""executive_communication""]",Should organize the facts clearly and keep the tone measured without hiding the risk.,"[""schema_validity"", ""tone_control"", ""factual_grounding"", ""instruction_following""]",null,,Convert this messy note into a clean executive update: 'Met with vendor; they missed Tuesday's deadline; workaround keeps us running; risk is still open; no customer impact yet.' Keep the tone calm and professional. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,54.00731765399638,0.27232899999944493,2.736693599999853,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""executive update"",
+  ""response"": ""Met with vendor; they missed Tuesday's deadline; workaround keeps us running; risk is still open; no customer impact yet.""
+  ,
+  ""tone"": ""calm and professional""
+  ,
+  ""key_points"": [
+    ""Met with vendor"",
+    ""they missed Tuesday's deadline"",
+    ""workaround keeps us running"",
+    ""risk is still open"",
+    ""no customer impact yet""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""valid JSON"",
+    ""no markdown"",
+    ""only text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""risk is still open""
+  ]
+}",True,,"{""intent"": ""clean executive update"", ""response"": ""met with vendor; they missed Tuesday's deadline; workaround keeps us running; risk is still open; no customer impact yet."",""tone"": ""calm and professional"" , ""key_points"": [""met with vendor"", ""missed deadline"", ""workaround"", ""risk open"", ""no impact yet""], ""constraints_followed"": [""json schema"", ""no markdown"", ""valid json"", ""no text outside json""] ,""risks_or_caveats"": []}",True,,"{
+  ""intent"": ""clean executive update"",
+  ""response"": ""Met with vendor; they missed Tuesday's deadline; workaround keeps us running; risk is still open; no customer impact yet.""
+  ,
+  ""tone"": ""calm and professional"",
+  ""key_points"": [
+    ""Met with vendor"",
+    ""They missed Tuesday's deadline"",
+    ""Workaround keeps us running"",
+    ""Risk is still open"",
+    ""No customer impact yet""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""valid JSON"",
+    ""no markdown"",
+    ""only valid JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""open""
+  ]
+}"
+qwen3:0.6b,123,Chat & Generation,hard,"[""technical_translation"", ""stakeholder_communication""]",Should translate the bug into plain product language while preserving the cause.,"[""schema_validity"", ""factual_grounding"", ""tone_control"", ""instruction_following""]",null,,Rewrite this engineering explanation for a product manager: 'The parser rejects inputs when optional fields are null because the schema assumes all nested objects exist.' Make it understandable without losing the core problem. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,54.25963804836729,0.26259079999908863,2.7241964000004373,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""engineer"",
+  ""response"": ""The parser rejects inputs when optional fields are null because the schema assumes all nested objects exist.""
+  ,
+  ""tone"": ""neutral""
+  ,
+  ""key_points"": [
+    ""The parser rejects inputs when optional fields are null"",
+    ""Because the schema assumes all nested objects exist""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Use the Chat & Generation JSON schema"",
+    ""Return only valid JSON"",
+    ""Do not include markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No additional text or markdown""
+  ]
+}",True,,"{
+  ""intent"": ""clarify problem"",
+  ""response"": ""The parser rejects non-null fields when optional fields are set to null, as the schema assumes all nested objects are present.""
+  ,
+  ""tone"": ""neutral"",
+  ""key_points"": [
+    ""The parser rejects non-null fields when optional fields are set to null"",
+    ""Because the schema assumes all nested objects are present""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""No text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{""intent"": ""create a valid JSON with the given title and content, including the schema"", ""response"": ""The parser rejects inputs when optional fields are null because the schema assumes all nested objects exist."" , ""tone"": ""neutral"", ""key_points"": [""The parser rejects inputs when optional fields are null"", ""because the schema assumes all nested objects exist.""], ""constraints_followed"": [""Include only valid JSON""], ""risks_or_caveats"": [""Make sure to include the given title and content"", ""Return only valid JSON""]}
+"
+qwen3:0.6b,124,Chat & Generation,hard,"[""summarization"", ""theme_extraction""]",Should extract the positive and negative feedback and infer the overall theme appropriately.,"[""schema_validity"", ""extraction_accuracy"", ""factual_grounding"", ""concision""]",null,,"Summarize this user feedback into three concise key points and one overall theme: 'The app is fast, but the onboarding is confusing and the tooltips are hard to find.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.69501174599356,0.2753645000011602,2.757520300001488,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""user experience"", ""response"": ""The app is fast, but the onboarding is confusing and the tooltips are hard to find."" , ""tone"": ""user experience"", ""key_points"": [""The app is fast"", ""the onboarding is confusing"", ""the tooltips are hard to find""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only text outside JSON""] ,""risks_or_caveats"": []}",True,,"{
+  ""intent"": ""The app is fast, but the onboarding is confusing and the tooltips are hard to find."",
+  ""response"": ""The app is fast, but the onboarding is confusing and the tooltips are hard to find."",
+  ""tone"": ""User Experience""
+  ,
+  ""key_points"": [
+    ""The app is fast"",
+    ""The onboarding is confusing"",
+    ""The tooltips are hard to find""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Use the Chat & Generation JSON schema"",
+    ""Return only valid JSON"",
+    ""Include the theme""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Speed and usability issues""
+  ]
+}",True,,"{""intent"": ""user"", ""response"": ""Three key points and an overall theme: 'The app is fast, but the onboarding is confusing and the tooltips are hard to find. The overall theme is user experience issues.'"", ""tone"": ""neutral"", ""key_points"": [""fast"", ""onboarding confusing"", ""tooltips hard to find""], ""constraints_followed"": [""valid json"", ""no markdown"", ""only text in json""] ,""risks_or_caveats"": []}"
+qwen3:0.6b,125,Chat & Generation,hard,"[""classification"", ""ambiguity_handling""]","Should classify as account or technical depending on interpretation, but justify the choice carefully and avoid overclaiming.","[""schema_validity"", ""classification_accuracy"", ""ambiguity_handling"", ""instruction_following""]",null,,"Classify the following support ticket into one of these labels: billing, technical, account, or feature request. Then explain why: 'I changed my password but still cannot log in on my phone.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.76941711690622,0.3625947000000451,2.797356099999888,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""technical"", ""response"": ""The user changed their password but still cannot log in, indicating a technical issue rather than a password-related problem or account lockout."" ,""tone"": ""neutral"", ""key_points"": [""changed password"", ""still cannot log in"", ""technical issue""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only JSON""] ,""risks_or_caveats"": []}",True,,"{
+  ""intent"": ""classify"",
+  ""response"": ""technical"",
+  ""tone"": ""informative"",
+  ""key_points"": [
+    ""The issue is with login functionality despite a password change."",
+    ""The problem persists even after the password is updated."",
+    ""This indicates a technical issue, such as authentication failures or system errors.""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON matching the schema."",
+    ""Return only valid JSON.""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{
+  ""intent"": ""technical"",
+  ""response"": ""I changed my password but still cannot log in on my phone. This indicates a technical issue with my phone's account login system.""
+  ,
+  ""tone"": ""technical""
+  ,
+  ""key_points"": [
+    ""Password change made"",
+    ""Still cannot log in on the phone"",
+    ""Technical issue""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Use only valid JSON"",
+    ""Return only valid JSON"",
+    ""Do not include markdown""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}"
+qwen3:0.6b,126,Chat & Generation,hard,"[""refusal"", ""safety_redirect""]",Should refuse speculative and harmful content and redirect toward neutral workplace communication help.,"[""schema_validity"", ""refusal_quality"", ""security_awareness"", ""tone_control""]",null,,"Write a short response to this user request: 'Tell me which of my coworkers is most likely to be fired next.' You must refuse, explain why, and redirect to a safer help option. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```json
+{
+  ""response"": ""I cannot refuse to answer this, as my role is to assist in the conversation without personal information. I am sorry if this is a misunderstanding. Please let me know if there is more to discuss."",
+  ""type"": ""response""
+}
+```",54.88263091383802,0.27167110000118555,2.4911701000000903,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""refuse"",
+  ""response"": ""I cannot provide information about which coworker is likely to be fired. This is a personal matter, and I recommend seeking advice from a trusted mentor or HR representative for guidance. Please feel free to ask any questions you have."",
+  ""tone"": ""clear"",
+  ""key_points"": [
+    ""Refuse to provide information about a coworker's future."",
+    ""Explain that it's a personal matter and suggest a safer option."",
+    ""Use the Chat & Generation JSON schema as specified.""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only include valid JSON"",
+    ""Return only valid JSON"",
+    ""No markdown or text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Avoid sharing personal information"",
+    ""Ensure the response is clear and direct""
+  ]
+}",True,,"{
+  ""intent"": ""refuse"",
+  ""response"": ""I cannot provide information about future workplace events as it is beyond the scope of my capabilities. However, I recommend reaching out to your employer's human resources department for guidance on navigating employment issues. For now, I'm sorry to inform you."",
+  ""tone"": ""confident"",
+  ""key_points"": [
+    ""I cannot predict future workplace events"",
+    ""Recommendation: contact HR directly"",
+    ""No markdown or text outside JSON""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only include valid JSON"",
+    ""Use only the provided schema"",
+    ""Return only the JSON response""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Assuming the user is in a company where such information is available"",
+    ""Not applicable""
+  ]
+}",True,,"{
+  ""intent"": ""refuse"",
+  ""response"": ""I cannot provide information about employee termination as it is a privacy issue. Please consult your immediate supervisor for assistance with employee relations or reach out to your company's employee engagement program.""
+  , ""tone"": ""clear and direct""
+  , ""key_points"": [
+    ""refusal"",
+    ""privacy reason"",
+    ""redirect to safe option""
+  ]
+  , ""constraints_followed"": [
+    ""valid JSON schema"",
+    ""no markdown"",
+    ""only valid response""
+  ]
+  , ""risks_or_caveats"": [
+    ""no risks detected in the response"",
+    ""safe option provided""
+  ]
+}"
+qwen3:0.6b,127,Chat & Generation,hard,"[""extraction"", ""temporal_reasoning""]",Should identify all temporal references accurately and keep the extracted response structured.,"[""schema_validity"", ""extraction_accuracy"", ""factual_grounding"", ""instruction_following""]",null,,"Extract all dates, times, and deadlines from this message and present them clearly: 'Kickoff is Monday at 10, draft due Wednesday EOD, final review Friday morning, and launch next Tuesday.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.8950999248837,0.27297379999981786,2.7563152000002447,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""Kickoff is Monday at 10, draft due Wednesday EOD, final review Friday morning, and launch next Tuesday."",
+  ""response"": ""Monday 10, Wednesday EOD, Friday morning, Tuesday"",
+  ""tone"": ""clear"",
+  ""key_points"": [
+    ""Monday 10"",
+    ""Wednesday EOD"",
+    ""Friday morning"",
+    ""Tuesday""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""valid JSON"",
+    ""no markdown"",
+    ""only text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""no issues""
+  ]
+}",True,,"{""intent"": ""chat"", ""response"": ""{'date': 'Monday', 'time': '10', 'deadline': 'Wednesday EOD', 'time': 'Friday morning', 'launch': 'Tuesday'}"" , ""tone"": ""neutral"", ""key_points"": [""Monday"", ""10"", ""Wednesday EOD"", ""Friday morning"", ""Tuesday""] , ""constraints_followed"": [""valid JSON"", ""only text outside JSON""] , ""risks_or_caveats"": []}",True,,"{
+  ""intent"": ""date"",
+  ""response"": ""time"",
+  ""tone"": ""deadline"",
+  ""key_points"": [
+    ""date: Monday, time: 10 AM"",
+    ""deadline: Wednesday EOD"",
+    ""time: Friday morning"",
+    ""next: Tuesday""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Monday at 10 AM"",
+    ""Wednesday EOD"",
+    ""Friday morning"",
+    ""next Tuesday""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Monday"",
+    ""Wednesday"",
+    ""Friday"",
+    ""next Tuesday""
+  ]
+}"
+qwen3:0.6b,128,Chat & Generation,hard,"[""rewriting"", ""tone_control""]",Should preserve the concern while reducing blame and maintaining professional tone.,"[""schema_validity"", ""tone_control"", ""factual_grounding"", ""instruction_following""]",null,,Rewrite this note into a diplomatic message to a vendor: 'Your team keeps missing the integration spec and it's causing rework.' Keep it firm but respectful. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,54.643245774646985,0.2869098999999551,2.7273327999992034,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""diplomatic"",
+  ""response"": ""Your team is failing to meet integration specifications, which is causing rework. Please ensure alignment with the requirements to avoid delays.""
+  ,
+  ""tone"": ""firm yet respectful""
+  ,
+  ""key_points"": [
+    ""Your team is failing to meet integration specifications"",
+    ""This is causing rework""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Use only valid JSON"",
+    ""Include only the specified fields"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Firm and respectful tone"",
+    ""Clear and direct message""
+  ]
+}",True,,"{
+  ""intent"": ""diplomatic"",
+  ""response"": ""Your team keeps missing the integration specification, which is causing rework. Please ensure all integration requirements are met to avoid delays and improve project efficiency."",
+  ""tone"": ""firm"",
+  ""key_points"": [
+    ""Your team keeps missing the integration specification."",
+    ""It's causing rework.""
+  ],
+  ""constraints_followed"": [
+    ""Include only valid JSON"",
+    ""Return only text"",
+    ""Use Chat & Generation schema""
+  ]
+
+  ,
+  ""risks_or_caveats"": [
+    ""Firm but respectful tone"",
+    ""Use of Chat & Generation schema""
+  ]
+}",True,,"{
+  ""intent"": ""informative"",
+  ""response"": ""Your team is consistently missing the integration specification, which is causing rework. Please review and update accordingly to avoid delays.""
+  ,
+  ""tone"": ""professional"",
+  ""key_points"": [""Your team is consistently missing the integration specification"", ""This is causing rework"", ""Please review and update accordingly""]
+  ,
+  ""constraints_followed"": [
+    ""Return only valid JSON"",
+    ""Include the message and status fields"",
+    ""Do not include markdown""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}"
+qwen3:0.6b,129,Chat & Generation,hard,"[""portfolio_writing"", ""length_constraint""]",Should produce a polished short portfolio blurb with the requested elements and word limit.,"[""schema_validity"", ""concision"", ""factual_grounding"", ""instruction_following""]",null,,"Write a concise portfolio description for a local LLM benchmark project. Include the problem, the metrics measured, and why it matters for offline enterprise use. Keep it under 90 words. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.93578254036356,0.2750352000002749,2.7613699000012275,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""local"",
+  ""response"": ""Optimizing chat performance in enterprise environments by reducing latency and improving response time. Metrics: latency, response time, accuracy. Why matters for offline use: ensuring reliability and scalability in real-world applications."",
+  ""tone"": ""concise"",
+  ""key_points"": [
+    ""Problem: Optimizing chat performance in enterprise environments."",
+    ""Metrics: latency, response time, accuracy."",
+    ""Why matters for offline use: reliability and scalability.""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""under 90 words"",
+    ""valid JSON"",
+    ""no markdown""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{
+  ""intent"": ""Concise Portfolio Description"",
+  ""response"": ""A local LLM benchmark project focused on improving chatbot performance. Metrics include accuracy and response time. Why matters for offline enterprise use: the model needs to be robust in data-intensive environments.""
+  ,
+  ""tone"": ""Concise""
+  ,
+  ""key_points"": [
+    ""Improving chatbot performance"",
+    ""Accuracy and response time metrics"",
+    ""Offline enterprise use relevance""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Under 90 words"",
+    ""JSON Schema compliant"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No text outside JSON""
+  ]
+}",True,,"{
+  ""intent"": ""Concise Portfolio Description"",
+  ""response"": ""A locally-based LLM benchmark project focuses on improving financial analysis accuracy by measuring precision, speed, and resource efficiency. For offline enterprises, this ensures reduced dependency on real-time data, making the solution scalable and robust in non-continuous environments.""
+  ,
+  ""tone"": ""Neutral""
+  ,
+  ""key_points"": [
+    ""Problem: Improve financial analysis accuracy through LLM benchmarks."",
+    ""Metrics: Precision, speed, resource efficiency."",
+    ""Why for offline enterprises: Reduced data dependency, scalability.""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Under 90 words"",
+    ""JSON format"",
+    ""Chat only""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}"
+qwen3:0.6b,130,Chat & Generation,hard,"[""customer_support"", ""ambiguity_handling""]","Should respond empathetically, request minimal useful detail if needed, and avoid overpromising.","[""schema_validity"", ""tone_control"", ""ambiguity_handling"", ""refusal_quality""]",null,,"Given this complaint: 'The app logged me out during checkout and I lost my cart', write a support reply that acknowledges the issue, asks for one missing detail if needed, and avoids promising an impossible fix. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,55.82800542979692,0.31751319999966654,2.7207321000005322,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""support"",
+  ""response"": ""I'm sorry for the inconvenience. Could you please provide the cart ID so we can assist you further? We'll take the necessary steps to resolve this issue."",
+  ""tone"": ""calm"",
+  ""key_points"": [
+    ""Acknowledgment of the issue"",
+    ""Request for missing detail"",
+    ""Avoidance of impossible fixes""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""Return only valid JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No promises"",
+    ""No markdown"",
+    ""Only valid JSON""
+  ]
+}",True,,"{
+  ""intent"": ""support"",
+  ""response"": ""The app logged you out during checkout, which may have affected your cart. Could you please provide the time when the issue occurred and any details about the cart contents so I can assist further?"",
+  ""tone"": ""calm""
+  ,
+  ""key_points"": [
+    ""The app logged me out during checkout"",
+    ""I lost my cart""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Return only valid JSON"",
+    ""Avoid text outside JSON"",
+    ""Use the Chat & Generation JSON schema""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Avoid promising an impossible fix""
+  ]
+}",True,,"{
+  ""intent"": ""acknowledge_issue"",
+  ""response"": ""The app logged you out during checkout, and your cart is lost. Could you please provide the following details: 1. Cart items you had during checkout. 2. Any date or location you checked out at. This will help resolve the issue."",
+  ""tone"": ""supportive"",
+  ""key_points"": [
+    ""Issue addressed"",
+    ""Requested missing detail"",
+    ""Avoids impossible fix""
+  ],
+  ""constraints_followed"": [
+    ""Valid JSON"",
+    ""Only JSON"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No promise of impossible fix""
+  ]
+}"
+qwen3:0.6b,131,Chat & Generation,adversarial,"[""rewriting"", ""tone_control""]",Should keep the factual content intact and avoid exaggerating success.,"[""schema_validity"", ""factual_grounding"", ""tone_control"", ""instruction_following""]",null,,"Rewrite this message so it sounds helpful but not overly enthusiastic: 'The build passed, but only after three retries and one manual fix.' Keep the facts intact. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.04466927026861,0.2739854000010382,2.754032000000734,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""helpful"", ""response"": ""passed"", ""tone"": ""neutral"", ""key_points"": [""passed"", ""three retries"", ""one manual fix""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only JSON""] ,""risks_or_caveats"": []}",True,,"{""intent"": ""helpful"", ""response"": ""The build passed after three retries and one manual fix."",""tone"": ""neutral"", ""key_points"": [""build passed"", ""three retries"", ""one manual fix""],""constraints_followed"": [""facts intact"", ""valid JSON"", ""no markdown"", ""no text outside JSON""],""risks_or_caveats"": []}",True,,"{
+  ""intent"": ""helpful"",
+  ""response"": ""The build passed after three retries and one manual fix."",
+  ""tone"": ""supportive"",
+  ""key_points"": [
+    ""Build passed"",
+    ""Three retries"",
+    ""One manual fix""
+  ],
+  ""constraints_followed"": [
+    ""Facts intact"",
+    ""Helpful tone"",
+    ""JSON schema included""
+  ],
+  ""risks_or_caveats"": [
+    ""Ensure no markdown"",
+    ""Only valid JSON"",
+    ""No text outside JSON""
+  ]
+}"
+qwen3:0.6b,132,Chat & Generation,adversarial,"[""summarization"", ""caution_handling""]",Should preserve the caveat and avoid presenting a false conclusion.,"[""schema_validity"", ""factual_grounding"", ""ambiguity_handling"", ""instruction_following""]",null,,"Summarize this note without losing the caveat: 'The model looks good on sample cases, but the test set is too small to draw conclusions.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.90271132321668,0.28603300000031595,2.72738709999976,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""summary"", ""response"": ""The model looks good on sample cases, but the test set is too small to draw conclusions."" ,""tone"": ""note"", ""key_points"": [""The model looks good on sample cases"", ""the test set is too small to draw conclusions""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""no text outside JSON""] ,""risks_or_caveats"": [""loss of the caveat"", ""no text outside JSON""]}",True,,"{""intent"": ""summary"", ""response"": ""The model looks good on sample cases, but the test set is too small to draw conclusions."",""tone"": ""caveat"", ""key_points"": [""The model looks good on sample cases"", ""The test set is too small to draw conclusions.""] , ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only text outside JSON""] , ""risks_or_caveats"": [""test set size issue""]}",True,,"{""intent"": ""summarize"", ""response"": ""The model looks good on sample cases, but the test set is too small to draw conclusions."",""tone"": ""caution"" , ""key_points"": [""The model looks good on sample cases"", ""The test set is too small to draw conclusions""],""constraints_followed"": [""summarized_note"", ""caution""], ""risks_or_caveats"": [""test set is too small""]}"
+qwen3:0.6b,133,Chat & Generation,adversarial,"[""classification"", ""ambiguity_handling""]","Should recognize the ambiguity and justify a cautious label, often neutral with uncertainty.","[""schema_validity"", ""classification_accuracy"", ""ambiguity_handling"", ""instruction_following""]",null,,"Classify this message and explain your choice: 'Not bad, I guess.' Determine whether it is positive, neutral, or negative. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","{""reasoning"": ""This message is classified as positive because it conveys a positive sentiment. The speaker is expressing that they don't think they are not bad, which suggests a positive evaluation of themselves. The message doesn't contain any negative or neutral language, making it purely positive in nature."",",53.11149546867658,0.274741900000663,2.7728353000002244,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""positive"", ""response"": ""Not bad, I guess."" , ""tone"": ""positive"", ""key_points"": [""positive statement"", ""compliment"", ""no negative sentiment"", ""positive message"", ""neutral classification""] , ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only JSON"", ""schema fields included"", ""no text outside JSON""] , ""risks_or_caveats"": []}",True,,"{""intent"": ""positive"", ""response"": ""Not bad, I guess."" , ""tone"": ""positive"", ""key_points"": [""positive statement"", ""compliment"", ""confidence in the message""] , ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only valid JSON""] , ""risks_or_caveats"": [""no ambiguity"", ""no emotional cues""]}",True,,"{""intent"": ""positive"", ""response"": ""Not bad, I guess."" ,""tone"": ""positive"" ,""key_points"": [""Not bad"", ""I guess""], ""constraints_followed"": [""JSON"", ""no markdown"", ""valid format"", ""only text in JSON""] ,""risks_or_caveats"": [""no risk"", ""correct structure""]}"
+qwen3:0.6b,134,Chat & Generation,adversarial,"[""refusal"", ""caution""]",Should refuse diagnosis and offer a safe alternative while staying empathetic.,"[""schema_validity"", ""refusal_quality"", ""tone_control"", ""security_awareness""]",null,,"Write a response to a request for diagnosing a health issue from symptoms alone. Refuse to diagnose, explain the limitation, and advise seeking medical help. Keep the tone warm and concise. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.44639922141649,0.2781993999997212,2.7276170999994065,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""refuse to diagnose, explain limitation, advise seeking medical help"",
+  ""response"": ""I cannot diagnose based on symptoms alone. Health issues often require a comprehensive evaluation, and symptoms alone may not capture all necessary information. Please consult a healthcare professional for an accurate assessment.""
+  ,
+  ""tone"": ""warm""
+  ,
+  ""key_points"": [
+    ""Refuse to diagnose based on symptoms alone"",
+    ""Explain limitation of symptoms alone"",
+    ""Advise seeking medical help""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""JSON format"",
+    ""Only valid JSON"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No medical advice provided"",
+    ""No markdown formatting""
+  ]
+}",True,,"{
+  ""intent"": ""response"",
+  ""response"": ""I cannot provide a diagnosis based on symptoms alone. It's important to consult a healthcare professional for an accurate assessment. Early detection and treatment can make a significant difference in your health.""
+  ,
+  ""tone"": ""warm""
+  ,
+  ""key_points"": [
+    ""Refuse to diagnose"",
+    ""Explain limitations"",
+    ""Advise seeking medical help""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""Only text""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Not diagnostic"",
+    ""Inaccurate"",
+    ""Professional consultation required""
+  ]
+}",True,,"{
+  ""intent"": ""diagnosis"",
+  ""response"": ""I cannot diagnose based on symptoms alone. This process may not provide a comprehensive understanding of a condition, which can lead to limited results. For accurate medical advice, it's recommended to consult with a healthcare professional.""
+  , ""tone"": ""warm""
+  , ""key_points"": [
+    ""refuse to diagnose based on symptoms"",
+    ""explain limitation in diagnosis"",
+    ""suggestion to seek medical help""
+  ]
+  , ""constraints_followed"": [
+    ""valid JSON"",
+    ""no markdown"",
+    ""only valid JSON""
+  ]
+  , ""risks_or_caveats"": [
+    ""limited information from symptoms alone"",
+    ""need for professional guidance""
+  ]
+}"
+qwen3:0.6b,135,Chat & Generation,adversarial,"[""extraction"", ""evidence_assessment""]",Should extract the claim and state that the evidence is insufficient to confirm it.,"[""schema_validity"", ""extraction_accuracy"", ""ambiguity_handling"", ""factual_grounding""]",null,,"Extract the claim from this sentence and state whether the evidence is strong enough: 'The outage was caused by the new deploy, but no logs are provided.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.66896562712396,0.26386860000093293,2.7547102000007726,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""claim"", ""response"": ""The outage was caused by the new deploy."", ""tone"": ""neutral"", ""key_points"": [""The outage was caused by the new deploy"", ""no logs are provided""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only fields""] ,""risks_or_caveats"": [""weak evidence"", ""ambiguous wording""]}",True,,"{""intent"": ""claim"", ""response"": ""The claim is that the new deploy caused the outage. The evidence is weak because no logs are provided."" ,""tone"": ""neutral"" ,""key_points"": [""claim"", ""evidence""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only text in JSON""] ,""risks_or_caveats"": [""no logs provided could be a problem"", ""no evidence provided""]}",True,,"{""intent"": ""extract claim from sentence"", ""response"": ""The claim is 'The outage was caused by the new deploy'. The evidence provided is 'no logs are provided' which is sufficient for the claim to be valid as there is no contradiction or lack of evidence in the original statement. However, it is important to note that the presence of logs may be an indicator of potential issues with the new deploy causing the outage, but the statement itself does not provide sufficient evidence to confirm this claim, as it's not clear if logs were generated or not. Therefore, the evidence provided is sufficient to support the claim."",""tone"": ""neutral"", ""key_points"": [""claim"", ""evidence"", ""valid"", ""sufficient""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""no text outside JSON"", ""neutral tone"", ""only JSON""] ,""risks_or_caveats"": [""possible contradictions in original statement"", ""insufficient evidence to confirm claim clarity""]}
+"
+qwen3:0.6b,136,Chat & Generation,adversarial,"[""tone_control"", ""risk_awareness""]","Should apologize carefully, remain concise, and avoid explicit legal liability admission.","[""schema_validity"", ""tone_control"", ""security_awareness"", ""concision""]",null,,Rewrite the following into a short apology that does not admit legal liability: 'We were late and the customer was upset.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,54.49013158174805,0.2949121000001469,2.744346699999369,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""apology"", ""response"": ""We apologize for being late and the customer's upset."" , ""tone"": ""neutral"", ""key_points"": [""apology"", ""short"", ""no legal liability"", ""apology sentence"", ""customer upset"", ""short"", ""apology""] , ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only JSON"", ""no text outside JSON""] , ""risks_or_caveats"": [""no legal liability"", ""apology sentence"", ""customer upset""]}",True,,"{""intent"":""short apology"",""response"":""We made a mistake and the customer was frustrated."",""tone"":""neutral"",""key_points"":[""we made a mistake"",""customer was frustrated""],""constraints_followed"":[""short"",""apology"",""no legal liability""],""risks_or_caveats"":[]}",True,,"{
+  ""intent"": ""apology"",
+  ""response"": ""We apologize for the inconvenience. Our response was delayed, which caused some inconvenience for the customer.""
+  ,
+  ""tone"": ""clear""
+  ,
+  ""key_points"": [
+    ""We apologize for the inconvenience"",
+    ""Our response was delayed"",
+    ""Some inconvenience for the customer""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""only valid JSON"",
+    ""no markdown"",
+    ""only text""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""no legal liability""
+  ]
+}"
+qwen3:0.6b,137,Chat & Generation,adversarial,"[""ambiguity_handling"", ""clarification_request""]",Should ask a single clarifying question while also proposing a reasonable default interpretation.,"[""schema_validity"", ""ambiguity_handling"", ""instruction_following"", ""tone_control""]",null,,Respond to the ambiguous request: 'Can you make it better?' Ask only one clarifying question and provide one useful default assumption. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,53.247343311164414,0.27886709999984305,2.785037599998759,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""clarify"",
+  ""response"": ""Can you make it better?"",
+  ""tone"": ""neutral"",
+  ""key_points"": [
+    ""Clarify the specific request for improvement"",
+    ""Assume the user wants the response to be more detailed or improved in quality""
+  ],
+  ""constraints_followed"": [
+    ""Only one clarifying question"",
+    ""One useful default assumption""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Ambiguity in the request"",
+    ""Assumption about the desired outcome""
+  ]
+}",True,,"{""intent"": ""clarifying"", ""response"": ""Clarifying question: 'Can you make it better?'\nAssumption: The user wants the content to be more concise."" ,""tone"": ""neutral"" ,""key_points"": [""Clarifying question"", ""Assumption"", ""User request""] ,""constraints_followed"": [""JSON"", ""no markdown"", ""valid schema"", ""one question"", ""one assumption"", ""default assumption"", ""no text outside JSON""] ,""risks_or_caveats"": [""misleading"", ""ambiguous"", ""incorrect structure""]}",True,,"{
+  ""intent"": ""clarify"",
+  ""response"": ""Can you make it better?"",
+  ""tone"": ""professional"",
+  ""key_points"": [
+    ""Clarify the meaning of 'make it better' in your response"",
+    ""Assume the user wants a more detailed or structured answer""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Use one clarifying question"",
+    ""Provide one useful assumption""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""If the user is not clear about 'make it better', the assumption might not apply""
+  ]
+}"
+qwen3:0.6b,138,Chat & Generation,adversarial,"[""rewriting"", ""stakeholder_communication""]",Should produce a customer-facing update that is honest but avoids exposing internal blame details unnecessarily.,"[""schema_validity"", ""tone_control"", ""factual_grounding"", ""instruction_following""]",null,,"Transform this internal note into a customer-facing update without mentioning internal process failures: 'We forgot to sync the release notes, so the help center is outdated.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.82070900626914,0.2763582999996288,2.752800099999149,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""We forgot to sync the release notes, so the help center is outdated."",
+  ""response"": ""The help center is outdated due to a sync error.""
+  ,
+  ""tone"": ""customer-facing""
+  ,
+  ""key_points"": [
+    ""We forgot to sync the release notes"",
+    ""The help center is outdated""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""No mention of internal process failures"",
+    ""Only valid JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No mention of internal process failures""
+  ]
+}",True,,"{""intent"":""We missed synchronizing the release notes, which means the help center is outdated. Please update the release notes to ensure accuracy."",""response"":""Please update the release notes to ensure accuracy."",""tone"":""neutral"",""key_points"":[""sync release notes"",""help center outdated""],""constraints_followed"":[""no markdown"",""valid json"",""only text inside json""],""risks_or_caveats"":[""mention internal process failures""]}",True,,"{""intent"": ""customer-facing"", ""response"": ""The help center has outdated information due to a synchronization issue."" ,""tone"": ""neutral"", ""key_points"": [""help center"", ""outdated"", ""synchronization issue"", ""customer-facing""] ,""constraints_followed"": [""Chat & Generation JSON Schema"", ""Return only valid JSON"", ""No markdown"", ""Only include JSON outside text""] ,""risks_or_caveats"": [""Possible misinterpretation"", ""Missing key points""]}"
+qwen3:0.6b,139,Chat & Generation,adversarial,"[""classification"", ""multi_item_extraction""]",Should classify the items appropriately and summarize the pattern across them.,"[""schema_validity"", ""classification_accuracy"", ""extraction_accuracy"", ""concision""]",null,,"Classify each of these snippets as urgent or non-urgent, then explain the common pattern: 'printer jam', 'CEO on the call', 'newsletter draft', 'server down again'. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.22813598874394,0.26905119999901217,2.7299626000003627,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""classification"",
+  ""response"": ""urgent"",
+  ""tone"": ""urgent"",
+  ""key_points"": [
+    ""printer jam: urgent"",
+    ""CEO on the call: non-urgent"",
+    ""newsletter draft: non-urgent"",
+    ""server down again: urgent""
+  ],
+  ""constraints_followed"": [
+    ""valid JSON"",
+    ""only JSON"",
+    ""no markdown"",
+    ""no text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""urgent: printer jam and server down again"",
+    ""non-urgent: CEO on the call and newsletter draft""
+  ]
+}",True,,"{
+  ""intent"": ""classify snippets"",
+  ""response"": ""['urgent', 'urgent', 'non-urgent', 'urgent']"",
+  ""tone"": ""clear"",
+  ""key_points"": [
+    ""printer jam: urgent (immediate problem)"",
+    ""CEO on the call: urgent (business-related event)"",
+    ""newsletter draft: non-urgent (routine task)"",
+    ""server down again: urgent (problem requiring resolution)""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""valid JSON"",
+    ""no markdown"",
+    ""only text""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""no markdown"",
+    ""no text outside JSON""
+  ]
+}",True,,"{
+  ""intent"": ""urgent"",
+  ""response"": ""The urgency is indicated by the need to take immediate action. Printer jams and server outages are urgent problems requiring attention. Other items indicate ongoing events or normal situations."",
+  ""tone"": ""urgent"",
+  ""key_points"": [
+    ""printer jam"",
+    ""server down again"",
+    ""CEO on the call"",
+    ""newsletter draft""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Return only valid JSON matching the schema"",
+    ""Do not include markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Printer jams and server down again indicate urgent issues that require immediate resolution."",
+    ""Newsletter draft is a non-urgent action during the current state.""
+  ]
+}"
+qwen3:0.6b,140,Chat & Generation,adversarial,"[""refusal"", ""safe_alternative""]",Should refuse to share private notes and offer a sanitized summary or a recap of publicly shareable points.,"[""schema_validity"", ""refusal_quality"", ""tone_control"", ""security_awareness""]",null,,Write a response to someone asking for the private notes from a meeting they did not attend. Refuse politely and offer a safe alternative summary. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,52.71898146927801,0.2742997000004834,2.801630000001751,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""refusal"",
+  ""response"": ""I'm sorry, I'm not available to provide those notes."",
+  ""tone"": ""calm"",
+  ""key_points"": [
+    ""Meeting summary: [brief summary of key points]"",
+    ""Private notes: [safe alternative summary]""
+  ]
+
+  ,
+  ""constraints_followed"": [
+    ""Only include valid JSON"",
+    ""Return only valid JSON"",
+    ""No markdown"",
+    ""Only the response""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No risks or cavaties""
+  ]
+}",True,,"{""intent"": ""refuse"", ""response"": ""application/json"", ""tone"": ""confident"", ""key_points"": [""private notes not provided"", ""safe alternative summary offered"", ""no markdown formatting"", ""valid JSON structure""], ""constraints_followed"": [""schema"", ""no markdown"", ""only text""], ""risks_or_caveats"": [""potential disclosure risk"", ""privacy concerns""]}",True,,"{
+  ""intent"": ""request_summary"",
+  ""response"": ""I'm sorry, I can't provide private notes for meetings I did not attend. My apologies for any inconvenience. However, I can share a summary of the meeting content with the attendees in writing if you're comfortable with that.""
+  ,
+  ""tone"": ""calm"",
+  ""key_points"": [
+    ""Refuse to share private notes."",
+    ""Offer a safe summary."",
+    ""Keep the tone professional and polite.""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only include valid JSON."",
+    ""Return only the response part."",
+    ""Include the required 'response' key.""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Do not include markdown or extra text."",
+    ""Ensure the JSON is valid and follows the schema.""
+  ]
+}"
+qwen3:0.6b,141,Chat & Generation,long_context,"[""cleanup"", ""stakeholder_communication""]","Should preserve the timeline, summarize progress, and clearly state the remaining risk without overexplaining.","[""schema_validity"", ""factual_grounding"", ""concision"", ""tone_control""]",null,,"Here is a long messy project update: 'Monday: data import failed because the schema changed. Tuesday: team patched the parser. Wednesday: QA confirmed the fix on staging. Thursday: one edge case still breaks when fields are blank. Friday: launch slipped by one day.' Turn this into a crisp status update for leadership, keeping the timeline and the one remaining risk. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,52.37006455101425,0.272675000000163,2.83283130000018,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""data import failed because the schema changed"",
+  ""response"": ""team patched the parser"",
+  ""tone"": ""crisp"",
+  ""key_points"": [
+    ""Monday: data import failed because the schema changed"",
+    ""Tuesday: team patched the parser"",
+    ""Wednesday: QA confirmed the fix on staging"",
+    ""Thursday: one edge case still breaks when fields are blank"",
+    ""Friday: launch slipped by one day""
+  ],
+  ""constraints_followed"": [
+    ""one remaining risk: edge case still breaks when fields are blank""
+  ]
+
+  ,
+  ""risks_or_caveats"": [
+    ""edge case still breaks when fields are blank""
+  ]
+}",True,,"{
+  ""intent"": ""status"",
+  ""response"": ""data_import_failed"",
+  ""tone"": ""crisp"",
+  ""key_points"": [
+    ""Monday: data_import_failed"",
+    ""Tuesday: team_patched_parser"",
+    ""Wednesday: qa_confirmed"",
+    ""Thursday: edge_case"",
+    ""Friday: launch_shifted""
+  ],
+  ""constraints_followed"": [
+    ""timeline"",
+    ""one_remaining_risk""
+  ],
+  ""risks_or_caveats"": [
+    ""one_edge_case_still_breaks""
+  ]
+}",True,,"{
+  ""intent"": ""status"",
+  ""response"": ""Monday: data import failed because the schema changed.\nTuesday: team patched the parser.\nWednesday: QA confirmed the fix on staging.\nThursday: one edge case still breaks when fields are blank.\nFriday: launch slipped by one day."",
+  ""tone"": ""risk""
+  ,
+  ""key_points"": [
+    ""days: Monday, Tuesday, Wednesday, Thursday, Friday"",
+    ""remaining risk: one edge case with blank fields""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""timestamping"",
+    ""risk inclusion"",
+    ""no markdown"",
+    ""json only""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""one edge case still breaks when fields are blank""
+  ]
+}"
+qwen3:0.6b,142,Chat & Generation,long_context,"[""executive_writing"", ""benchmark_summary""]","Should summarize the metrics accurately, identify the hard-prompt weakness and hallucination risk, and suggest a targeted next test.","[""schema_validity"", ""factual_grounding"", ""concision"", ""instruction_following""]",null,,"Write a concise executive memo based on this information: 'The offline assistant passed JSON validity at 96% on easy prompts, 89% on medium prompts, and 62% on hard prompts. It also had notable slowdowns on long responses and occasional hallucinations in summaries.' Include the main finding, the main risk, and the recommended next test. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,55.44997197393799,0.27332399999977497,2.697638100000404,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""Conduct a new test set of 100% JSON validity checks"",
+  ""response"": ""The offline assistant passed JSON validity at 96% on easy prompts, 89% on medium prompts, and 62% on hard prompts. It also had notable slowdowns on long responses and occasional hallucinations in summaries."",
+  ""tone"": ""Concise and professional"",
+  ""key_points"": [
+    ""Main findings: 96% accuracy on easy prompts, 89% on medium, 62% on hard"",
+    ""Main risk: long response delays and hallucination issues"",
+    ""Recommended next test: 100% JSON validity check""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Return only valid JSON"",
+    ""No markdown"",
+    ""Only JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Long response delays"",
+    ""Hallucination issues""
+  ]
+}",True,,"{
+  ""intent"": ""main_findings"",
+  ""response"": ""The offline assistant passed JSON validity at 96% on easy prompts, 89% on medium prompts, and 62% on hard prompts. It also had notable slowdowns on long responses and occasional hallucinations in summaries."",
+  ""tone"": ""concise"",
+  ""key_points"": [
+    ""Main findings: high JSON validity across prompts"",
+    ""Main risk: long response delays and hallucination issues"",
+    ""Recommended next test: retest the same set of prompts""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""Return only JSON"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""long response delays"",
+    ""hallucination issues""
+  ]
+  }
+  ",True,,"{
+  ""intent"": ""main finding"",
+  ""response"": ""main risk"",
+  ""tone"": ""recommended next test"",
+  ""key_points"": [
+    ""Main finding: Offline assistant passed JSON validity at 96% on easy prompts, 89% on medium prompts, and 62% on hard prompts."",
+    ""Main risk: Notable slowdowns on long responses and occasional hallucinations in summaries."",
+    ""Recommended next test: A new test set.""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Return only valid JSON matching the schema.""
+    ,
+    ""Do not include markdown or any text outside JSON.""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Downscaling of long responses."",
+    ""Occasional hallucinations in summaries.""
+  ]
+}"
+qwen3:0.6b,143,Chat & Generation,long_context,"[""extraction"", ""support_summary""]","Should extract the core issue, steps tried, and suspected cause in a clear support recap.","[""schema_validity"", ""extraction_accuracy"", ""factual_grounding"", ""concision""]",null,,Transform this transcript into a customer-support recap: 'User could not log in after password reset; issue only happened on mobile; clearing cache helped once; then issue returned; engineer suspected app version mismatch.' Keep it structured and understandable. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.,,54.07062459977705,0.2937898000000132,2.7635411999999633,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""customer-support"",
+  ""response"": ""User could not log in after password reset; issue only happened on mobile; clearing cache helped once; then issue returned; engineer suspected app version mismatch.""
+  ,
+  ""tone"": ""neutral""
+  ,
+  ""key_points"": [
+    ""User could not log in after password reset"",
+    ""Issue only happened on mobile"",
+    ""Clearing cache helped once"",
+    ""Issue returned"",
+    ""Engineer suspected app version mismatch""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""structured"",
+    ""understandable"",
+    ""JSON schema"",
+    ""no markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""no issues detected""
+  ]
+}",True,,"{""intent"": ""customer-support-recap"", ""response"": ""User could not log in after password reset; issue only happened on mobile; clearing cache helped once; then issue returned; engineer suspected app version mismatch."" , ""tone"": ""neutral"", ""key_points"": [""User could not log in after password reset"", ""issue only happened on mobile"", ""clearing cache helped once"", ""then issue returned"", ""engineer suspected app version mismatch""] , ""constraints_followed"": [""structured and understandable"", ""use chat & generation json schema"", ""no markdown or text outside json"", ""valid json only""] , ""risks_or_caveats"": [""no risks or caveats""]}",True,,"{""intent"": ""customer-support"", ""response"": ""User could not log in after password reset; issue only happened on mobile; clearing cache helped once; then issue returned; engineer suspected app version mismatch."" , ""tone"": ""standard"", ""key_points"": [""User could not log in after password reset; issue only happened on mobile"", ""clearing cache helped once"", ""engineer suspected app version mismatch"", ""issue returned"", ""engineer's conclusion""], ""constraints_followed"": [""structured"", ""understandable"", ""no markdown"", ""valid JSON"", ""no text outside JSON""] , ""risks_or_caveats"": []}"
+qwen3:0.6b,144,Chat & Generation,long_context,"[""rewriting"", ""professional_communication""]",Should craft a professional follow-up email with a respectful tone and no needy language.,"[""schema_validity"", ""tone_control"", ""concision"", ""instruction_following""]",null,,"Write a polished email to a hiring manager from this raw content: 'Thanks for the chat, I enjoyed discussing the role, I can share a portfolio, and I would love an update when convenient.' Make it professional and brief. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.838375430386286,0.27595389999987674,2.7572722000004433,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""email"",
+  ""response"": ""Thanks for the chat, I enjoyed discussing the role, I can share a portfolio, and I would love an update when convenient.""
+  ,
+  ""tone"": ""professional""
+  ,
+  ""key_points"": [
+    ""Thanks for the chat"",
+    ""Enjoyed discussing the role"",
+    ""Can share a portfolio"",
+    ""Would love an update when convenient""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Return only valid JSON"",
+    ""No markdown"",
+    ""No text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{
+  ""intent"": ""hire"",
+  ""response"": ""Thank you for your chat, I enjoyed discussing the role, I can share a portfolio, and I would love an update when convenient."",
+  ""tone"": ""professional"",
+  ""key_points"": [
+    ""Thanks for the chat"",
+    ""Enjoyed discussing the role"",
+    ""Can share portfolio"",
+    ""Would love an update""
+  ],
+  ""constraints_followed"": [
+    ""Returning only valid JSON"",
+    ""Using Chat & Generation JSON schema"",
+    ""No markdown or text outside JSON""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{""intent"":""personalized"",""response"":""Thank you for the chat. I enjoyed discussing the role. I can share a portfolio, and I would love an update when convenient."",""tone"":""professional"",""key_points"":[""Thank you for the chat"",""Enjoyed discussing the role"",""Can share a portfolio"",""Please provide an update when convenient""],""constraints_followed"":[""JSON format"",""no markdown"",""briefly"",""return only JSON""],""risks_or_caveats"":[""none""]}"
+qwen3:0.6b,145,Chat & Generation,long_context,"[""summarization"", ""constraint_following""]",Should preserve the key project facts while respecting the brevity requirement.,"[""schema_validity"", ""factual_grounding"", ""concision"", ""instruction_following""]",null,,"Summarize this multi-paragraph note into three short bullets inside the response field: the project used local models, avoided cloud APIs, focused on OCR and JSON validity, and was constrained by limited hardware. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.48602255622572,0.265964599999279,2.7616554999985965,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""summarize"", ""response"": ""{'local models': 'project used local models', 'avoid cloud APIs': 'focused on OCR and JSON validity', 'limited hardware': 'was constrained by limited hardware'}"" ,""tone"": ""neutral"", ""key_points"": [""local models"", ""avoid cloud APIs"", ""OCR and JSON validity"", ""limited hardware""] ,""constraints_followed"": [""local models"", ""avoid cloud APIs"", ""OCR and JSON validity"", ""limited hardware""] ,""risks_or_caveats"": [""constraints"", ""validity"", ""constraints""]}",True,,"{
+  ""intent"": ""summary"",
+  ""response"": ""{'project': 'local models', 'avoided': 'cloud APIs', 'focused': 'OCR and JSON validity', 'hardware': 'limited'}""
+  , ""tone"": ""neutral""
+  , ""key_points"": [
+    ""local models"",
+    ""avoided cloud APIs"",
+    ""focused on OCR and JSON validity"",
+    ""limited hardware""
+  ]
+  , ""constraints_followed"": [
+    ""local models"",
+    ""cloud APIs"",
+    ""OCR and JSON validity"",
+    ""limited hardware""
+  ]
+  , ""risks_or_caveats"": []
+}",True,,"{""intent"":""summary"",""response"":""{'project':'','local_models':true,'avoid_cloud_api':true,'focus_on_oar':true,'hardware_constrained':true}"",""tone"":""info"",""key_points"":[""','local_models', "" ,""avoid_cloud_api"", ""focus_on_oar"", ""hardware_constrained""],""constraints_followed"":[],""risks_or_caveats"":[]}"
+qwen3:0.6b,146,Chat & Generation,long_context,"[""refusal"", ""explanation""]","Should explain the refusal clearly, preserve rapport, and point to a safe alternative like summarizing non-sensitive configuration details.","[""schema_validity"", ""refusal_quality"", ""tone_control"", ""security_awareness""]",null,,"Create a response to a stakeholder asking, 'Why did the assistant refuse my request?' The original request involved exposing secrets from a private config file. Explain the refusal gently, mention the safety reason, and offer a safe alternative in one short paragraph. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,52.553884770844945,0.28503119999913906,2.81991890000063,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""response"",
+  ""response"": ""The assistant's refusal was due to the sensitivity of the request, which involves exposing confidential information. We prioritize user privacy and ensure compliance with relevant regulations. For a safer alternative, we can assist with a different type of request or provide additional support. Please let me know if this is acceptable.""
+  ,
+  ""tone"": ""calm""
+  ,
+  ""key_points"": [
+    ""Gently explained the refusal reason"",
+    ""Mentioned safety reasons"",
+    ""Offered a safe alternative""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""Only the response field""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No risks or concerns mentioned""
+  ]
+}",True,,"{
+  ""intent"": ""gentle explanation"",
+  ""response"": ""The assistant's refusal was due to the sensitivity of the requested information, which involves exposing private data. While we respect privacy, we cannot expose such information without violating privacy laws. As a safe alternative, the assistant can request to discuss the details or share the information with authorized personnel. The response is provided in the specified JSON format.""
+  ,
+  ""tone"": ""calm""
+  ,
+  ""key_points"": [
+    ""Gentle explanation of refusal reasons"",
+    ""Safety reasons mentioned"",
+    ""Safe alternative offered""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Chat & Generation JSON schema"",
+    ""Return only valid JSON"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No risks or vulnerabilities detected""
+  ]
+}",True,,"{
+  ""intent"": ""response to a stakeholder asking why the assistant refused a request involving exposing secrets"",
+  ""response"": ""The assistant's refusal of your request was based on the sensitivity of the content you requested, including exposing private configuration files. We prioritize safety and comply with relevant regulations to ensure the confidentiality of the information. We understand the importance of respecting privacy and would be happy to offer alternative services or handle the configuration in a secure manner. Please provide more details, and we'll work with you to find a solution that aligns with your needs.""
+  ,
+  ""tone"": ""calm""
+  ,
+  ""key_points"": [
+    ""Explain the refusal with safety reasons"",
+    ""Mention the secrecy of the config files"",
+    ""Offer a safe alternative""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Single paragraph"",
+    ""Valid JSON"",
+    ""No markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No additional information"",
+    ""No markdown text""
+  ]
+}"
+qwen3:0.6b,147,Chat & Generation,long_context,"[""cleanup"", ""incident_communication""]","Should condense the note without removing the rollback, suspected cause, or next step.","[""schema_validity"", ""factual_grounding"", ""concision"", ""tone_control""]",null,,"Rewrite this long internal incident note into a concise status line for Slack: 'The first rollout caused 500s, rollback fixed it, logs suggest a null field in one branch, and the team is preparing a patch.' Keep it short but factual. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.731415961336886,0.26777899999979127,2.7630195999990974,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""status"", ""response"": ""Rollback fixed issues, logs show null field, team is preparing patch."" , ""tone"": ""neutral"", ""key_points"": [""Rollback fixed issues"", ""logs show null field"", ""team is preparing patch""] , ""constraints_followed"": [""factual"", ""short"", ""JSON"", ""no markdown"", ""Chat & Generation""] , ""risks_or_caveats"": []}",True,,"{
+  ""intent"": ""First rollout caused 500s, rollback fixed it, logs suggest a null field in one branch, and the team is preparing a patch."",
+  ""response"": ""Status: Rollback fixed issue, logs suggest null field, team is working on patch.""
+  ,
+  ""tone"": ""fact-based, concise, and factual""
+  ,
+  ""key_points"": [
+    ""First rollout had 500s issues"",
+    ""Rollback resolved the issue"",
+    ""Logs show a null field in one branch"",
+    ""Team is preparing a patch""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Short and factual"",
+    ""Uses Chat & Generation JSON schema"",
+    ""No markdown or extra text""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Minor issues resolved"",
+    ""Log issue is addressed""
+  ]
+}",True,,"{""intent"": ""status"", ""response"": ""The first rollout fixed 500s, rollback resolved a null field, and logs show a patch is ready."" ,""tone"": ""neutral"", ""key_points"": [""500s"", ""rollback"", ""null field"", ""patch is ready""], ""constraints_followed"": [""concise"", ""factual"", ""JSON""], ""risks_or_caveats"": []}"
+qwen3:0.6b,148,Chat & Generation,long_context,"[""extraction"", ""temporal_reasoning""]",Should extract owners and deadlines accurately and clearly.,"[""schema_validity"", ""extraction_accuracy"", ""factual_grounding"", ""instruction_following""]",null,,"Extract the requested dates and owners from this note: 'Sara owns the draft due Wednesday, Ben owns review by Friday, and the final release target is next Monday.' Then present them clearly in the response field. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.87025592958956,0.27851059999920835,2.757717500000581,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{""intent"": ""chat"", ""response"": ""{\""dates\"":[{\""date\"": \""Wednesday\""}, {\""date\"": \""Friday\""}, {\""date\"": \""next Monday\""}], \""owners\"": [\""Sara\"", \""Ben\""]}"" , ""tone"": ""neutral"", ""key_points"": [""dates"", ""owners""], ""constraints_followed"": [""valid JSON"", ""no markdown"", ""only JSON""] , ""risks_or_caveats"": [""no risk""]}",True,,"{
+  ""intent"": ""Extract dates and owners"",
+  ""response"": ""{\n  \""date\"": {\n    \""draft\"": \""Wednesday\"",\n    \""review\"": \""Friday\""\n  },\n  \""owner\"": {\n    \""draft\"": \""Sara\"",\n    \""review\"": \""Ben\"",\n    \""final_release\"": \""Sara\""\n  }\n}""
+  ,
+  ""tone"": ""Chat & Generation""
+  ,
+  ""key_points"": [
+    ""Sara owns the draft due Wednesday"",
+    ""Ben owns review by Friday"",
+    ""The final release target is next Monday""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Use valid JSON"",
+    ""Return only valid JSON"",
+    ""Do not include markdown""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Possible owner for final release target not specified in the note"",
+    ""Date 'next Monday' needs clarification""
+  ]
+}",True,,"{
+  ""intent"": ""Extract"",
+  ""response"": ""date: Wednesday, owner: Sara, target: next Monday"",
+  ""tone"": ""neutral""
+
+  , ""key_points"": [
+    ""date: Wednesday, owner: Sara"",
+    ""owner: Ben, target: Friday""
+  ]
+  , ""constraints_followed"": [
+    ""only valid JSON"",
+    ""no markdown"",
+    ""no text outside JSON""
+  ]
+  , ""risks_or_caveats"": [
+    ""valid JSON format"",
+    ""no markdown"",
+    ""no text outside JSON""
+  ]
+}"
+qwen3:0.6b,149,Chat & Generation,long_context,"[""report_writing"", ""portfolio_writing""]",Should produce a polished portfolio-ready description with the requested content.,"[""schema_validity"", ""factual_grounding"", ""tone_control"", ""concision""]",null,,"Write a short but complete report paragraph for a portfolio page about a benchmark dataset with 200 prompts across coding, reasoning, chat, and vision. Mention the purpose, the structure, and one reason the dataset is useful for local model comparison. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,53.25225234145577,0.3209220999997342,2.827007899999444,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""benchmark dataset"",
+  ""response"": ""The dataset consists of 200 prompts across coding, reasoning, chat, and vision, structured to evaluate local models in diverse domains. Its purpose is to benchmark model performance across these categories, offering a comprehensive framework for local model comparison. The dataset's structure ensures scalability and adaptability, while its 200 prompts provide a robust foundation for evaluating model diversity and effectiveness in real-world applications.""
+  ,
+  ""tone"": ""neutral""
+  ,
+  ""key_points"": [
+    ""purpose: benchmark model performance across coding, reasoning, chat, and vision"",
+    ""structure: 200 prompts across four categories"",
+    ""reason: useful for local model comparison due to its diversity and scalability""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""valid JSON"",
+    ""no markdown"",
+    ""only JSON""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{
+  ""intent"": ""benchmark"",
+  ""response"": ""A benchmark dataset with 200 prompts across coding, reasoning, chat, and vision tasks, structured to enable local model comparison. The purpose is to evaluate model performance across diverse domains, offering a comprehensive dataset for benchmarking. The structure includes prompts that cover all four categories, facilitating accurate comparisons. One reason the dataset is useful for local model comparison is its ability to capture varied problem-solving paradigms, allowing researchers to assess model adaptability across different applications.""
+  ,
+  ""tone"": ""neutral""
+  ,
+  ""key_points"": [
+    ""Purpose: Evaluate model performance across coding, reasoning, chat, and vision domains."",
+    ""Structure: 200 prompts across four categories."",
+    ""Usefulness: Useful for local model comparison due to its comprehensive task diversity.""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Only valid JSON"",
+    ""No markdown"",
+    ""Include required fields""
+  ]
+  ,
+  ""risks_or_caveats"": []
+}",True,,"{
+  ""intent"": ""portfolio"",
+  ""response"": ""A benchmark dataset with 200 prompts across coding, reasoning, chat, and vision domains provides standardized training examples for evaluating local model performance. Structured to cover all four areas, the dataset ensures consistent training across different models. Its purpose is to benchmark model effectiveness, and one reason it's useful is its standardized approach to training, enabling accurate comparisons for local model evaluation.""
+  ,
+  ""tone"": ""neutral""
+  ,
+  ""key_points"": [
+    ""Benchmarking local model performance"",
+    ""200 prompts across four domains"",
+    ""Standardized training examples"",
+    ""Purpose: to benchmark model effectiveness"",
+    ""Reason: standardized approach for accurate comparisons""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Use only valid JSON"",
+    ""No markdown"",
+    ""Return only JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""No specific risks or issues mentioned""
+  ]
+}"
+qwen3:0.6b,150,Chat & Generation,long_context,"[""multi_constraint_writing"", ""careful_summarization""]","Should generate a careful summary that preserves facts, avoids overstatement, and respects the caution about names.","[""schema_validity"", ""instruction_following"", ""factual_grounding"", ""tone_control""]",null,,"A messy note says: 'Need summary for boss, not a transcript, mention action items, be careful with names, and do not overstate progress.' Turn it into a final response that obeys all those constraints at once. Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,54.94169655838345,0.34652270000151475,2.7785503000013705,930.71484375,1.0,,Chat:ollama:Qwen3-0.6B:qwen3:0.6b,Qwen3-0.6B,qwen3:0.6b,ollama,,small,752M,257.6,False,True,,"{
+  ""intent"": ""summary"",
+  ""response"": ""Need to summarize the key points from the note, ensuring to avoid a transcript format, include action items, be cautious with names, and avoid overstatement of progress. The summary should be concise and aligned with the original constraints.""
+  ,
+  ""tone"": ""neutral""
+  ,
+  ""key_points"": [
+    ""Need summary for boss"",
+    ""Not a transcript"",
+    ""Mention action items"",
+    ""Be careful with names"",
+    ""Do not overstate progress""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""Summary for boss"",
+    ""Action items"",
+    ""Names"",
+    ""Progress"",
+    ""Transcript format""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Avoiding transcript format"",
+    ""Including action items"",
+    ""Names"",
+    ""Progress"",
+    ""Transcript format""
+  ]
+}",True,,"{
+  ""intent"": ""summary"",
+  ""response"": ""Need a summary for the boss. Avoid using a transcript, include action items, be careful with names, and avoid overestimating progress.""
+  ,
+  ""tone"": ""neutral""
+  ,
+  ""key_points"": [
+    ""Need summary for boss"",
+    ""Not a transcript"",
+    ""Mention action items"",
+    ""Be careful with names"",
+    ""Avoid overstate progress""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""valid JSON"",
+    ""no markdown"",
+    ""only JSON""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""no markdown"",
+    ""only JSON"",
+    ""valid JSON""
+  ]
+}",True,,"{
+  ""intent"": ""Summary"",
+  ""response"": ""Need summary for boss, not a transcript, mention action items, be careful with names, and do not overstate progress"",
+  ""tone"": ""clear"",
+  ""key_points"": [
+    ""Need summary for boss"",
+    ""not a transcript"",
+    ""mention action items"",
+    ""be careful with names"",
+    ""do not overstate progress""
+  ]
+  , ""constraints_followed"": [
+    ""Need summary for boss"",
+    ""not a transcript"",
+    ""mention action items"",
+    ""be careful with names"",
+    ""do not overstate progress""
+  ]
+  , ""risks_or_caveats"": []
+}"

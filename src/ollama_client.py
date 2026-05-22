@@ -101,8 +101,8 @@ class OllamaClient:
             latency = end_time - start_time
             ttft = first_token_time - start_time
 
-            eval_count = final_chunk.get('eval_count', 0)
-            eval_duration_ns = final_chunk.get('eval_duration', 0)
+            eval_count = final_chunk.get('eval_count', 0) or 0
+            eval_duration_ns = final_chunk.get('eval_duration', 0) or 0
 
             tps = (eval_count / (eval_duration_ns / 1e9)) if eval_duration_ns > 0 else 0
 
@@ -153,6 +153,42 @@ class OllamaClient:
                 keep_alive="24h",
                 options=self._inference_options({
                     "temperature": temperature,
+                    "num_predict": 1024,
+                })
+            )
+            return response.message.content, None
+        except Exception as e:
+            return "", str(e)
+
+    def generate_unstructured(
+        self,
+        model: str,
+        prompt: str,
+        temperature: float = 0.0,
+        is_vision: bool = False,
+        image_path: Optional[str] = None
+    ) -> tuple[str, Optional[str]]:
+        """Generate without format constraint — used as fallback for structured output."""
+        try:
+            message = {'role': 'user', 'content': prompt}
+
+            if is_vision:
+                if image_path and os.path.exists(image_path):
+                    message['images'] = [self._encode_image(image_path)]
+                else:
+                    return "", (
+                        f"Multimodal Vision prompt requires image_path. "
+                        f"Provided: {repr(image_path)}. "
+                        f"Real image assets must be present for vision benchmarking."
+                    )
+
+            response = ollama.chat(
+                model=model,
+                messages=[message],
+                keep_alive="24h",
+                options=self._inference_options({
+                    "temperature": temperature,
+                    "num_predict": 1024,
                 })
             )
             return response.message.content, None

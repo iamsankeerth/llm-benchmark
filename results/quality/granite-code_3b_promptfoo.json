@@ -1,0 +1,8 @@
+{
+  "model": "granite-code:3b",
+  "label": "granite-3b-code-base-2k",
+  "total_tests": 35,
+  "passed": 23,
+  "failed": 12,
+  "pass_rate": 65.7
+}

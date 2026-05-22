@@ -445,6 +445,11 @@ def get_status():
     # Phase detection from log
     current_phase, current_phase_label = _detect_phase(log_tail)
 
+    # Fallback: infer phase from model state when log markers are scrolled out
+    if current_phase == "idle" and status == "in_progress":
+        current_phase = "test_a"
+        current_phase_label = "Test A: Phase 1 (CSV Data)"
+
     # Enhanced ETA calculations
     per_prompt_eta = _calc_per_prompt_eta(elapsed_sec, prompts_completed) if status == "in_progress" else "-"
     total_model_eta = _calc_total_model_eta(current_phase, prompts_completed, total_prompts, elapsed_sec) if status == "in_progress" else "-"

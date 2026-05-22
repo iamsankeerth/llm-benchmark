@@ -1,0 +1,8 @@
+{
+  "model": "qwen3:0.6b",
+  "label": "Qwen3-0.6B",
+  "total_tests": 35,
+  "passed": 11,
+  "failed": 24,
+  "pass_rate": 31.4
+}

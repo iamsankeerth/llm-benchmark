@@ -1,0 +1,8 @@
+{
+  "model": "llama3.2:3b",
+  "label": "Llama-3.2-3B-Instruct",
+  "total_tests": 35,
+  "passed": 26,
+  "failed": 9,
+  "pass_rate": 74.3
+}

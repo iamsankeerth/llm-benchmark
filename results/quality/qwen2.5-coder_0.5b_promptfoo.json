@@ -1,0 +1,8 @@
+{
+  "model": "qwen2.5-coder:0.5b",
+  "label": "Qwen2.5-Coder-0.5B",
+  "total_tests": 35,
+  "passed": 19,
+  "failed": 16,
+  "pass_rate": 54.3
+}

@@ -1,0 +1,8 @@
+{
+  "model": "gemma2:2b",
+  "label": "gemma-2-2b-it",
+  "total_tests": 35,
+  "passed": 27,
+  "failed": 8,
+  "pass_rate": 77.1
+}

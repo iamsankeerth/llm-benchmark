@@ -1,0 +1,206 @@
+model,prompt_id,category,difficulty,skill_targets,expected_behavior,scoring_focus,image_asset_spec,image_path,prompt,output,tps,ttft,latency,peak_vram_mb,temperature,error,queue_id,requested_name,resolved_model_ref,resolved_runtime,variant_note,fit_level,size,estimated_tps,is_moe,temp_0.0_success,temp_0.0_error,temp_0.0_output,temp_0.7_success,temp_0.7_error,temp_0.7_output,temp_1.0_success,temp_1.0_error,temp_1.0_output
+granite-code:3b,1,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""correctness"", ""deterministic_output""]","A good answer should provide a simple, correct implementation, explain the order-preserving approach, include complexity, list duplicate/empty input edge cases, and add tests.","[""schema_validity"", ""instruction_following"", ""correctness"", ""edge_cases"", ""test_quality""]",null,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that removes duplicate integers from a list while preserving first occurrence order. Example input: [3,1,3,2,1] -> expected output: [3,1,2]. Also include a few simple tests. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","```python
+import json
+def remove_duplicates_while_preserving_order(nums):
+    if len(nums) == 0:
+        return ""Invalid input""
+
+    unique_elements = []
+    for num in nums:
+        if num not in unique_elements:
+            unique_elements.append(num)
+
+    return unique_elements
+json_response = json.dumps(remove_duplicates_while_preserving_order([3,1,3,2,1]))
+print(json_response)
+```
+
+You can write the following test cases to ensure it works correctly:
+
+```",46.69667025014969,0.27781359999971755,3.105584199999612,2916.71484375,1.0,,Coding:ollama:granite-3b-code-base-2k:granite-code:3b,granite-3b-code-base-2k,granite-code:3b,ollama,,perfect,3.5B,66.0,False,True,,"{
+  ""task_summary"": ""Remove duplicate integers from a list while preserving first occurrence order"",
+  ""approach"": ""Use a dictionary to store the unique elements and their first occurrences. Iterate through the input list, adding each element to the dictionary if it's not already present. The resulting list will contain only the first occurrence of each element in the original order."",
+  ""code"": ""```python\nimport json\n\ndef remove_duplicates_while_preserving_order(input_list):\n    unique_elements = {}\n    output_list = []\n    for element in input_list:\n        if element not in unique_elements:\n            unique_elements[element] = True\n            output_list.append(element)\n    return json.dumps(output_list)\n```"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    ""Input list can be empty""
+  ],
+  ""tests"": [
+    ""Test case 1: Input list is empty\nExpected output: []\nActual output: []"",
+    ""Test case 2: Input list contains duplicate elements\nExpected output: [3,1,2]\nActual output: [3,1,2]""
+  ],
+  ""risks"": [
+    ""If the input list contains large integers, memory usage can become a problem""
+  ]
+}
+",True,,"{
+  ""task_summary"": ""Remove duplicate integers from a list while preserving first occurrence order."",
+  ""approach"": ""To remove duplicate integers from a list while preserving first occurrence order, we can use a dictionary to track the indices of each unique integer as we iterate through the list. When we encounter a new integer, we add it to the dictionary with its index. If the integer is already present in the dictionary, we ignore it and move on to the next element."",
+  ""code"": ""```python\nfrom typing import List\n\ndef remove_duplicate_integers(nums: List[int]) -> List[int]:\n    indices = {}\n    result = []\n\n    for i, num in enumerate(nums):\n        if num not in indices:\n            indices[num] = i\n            result.append(num)\n\n    return result\n```"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    ""If the input list is empty, an empty list should be returned."",
+    ""If the input list contains only one element, that element should be returned as the result.""
+  ],
+  ""tests"": [
+    ""[3,1,3,2,1] -> [3,1,2]"",
+    ""[] -> []"",
+    ""[1] -> [1]""
+  ],
+  ""risks"": [
+    ""If the input list contains integers larger than the size of the dictionary (2<sup>32</sup>), it may cause an overflow error.""
+  ]
+}
+",True,,"{
+  ""task_summary"": ""Given a list of integers, remove duplicates while preserving first occurrence order"",
+  ""approach"": ""We can use a dictionary to track the indices of the unique elements we've seen so far. If we encounter an element that has already been seen, we can skip it by continuing to the next iteration. If not, we add it to our result list and update the dictionary."",
+  ""code"": ""```python\nimport json\n\ndef remove_duplicates(nums):\n    unique_indices = {}\n    result = []\n\n    for i, num in enumerate(nums):\n        if num not in unique_indices:\n            result.append(num)\n            unique_indices[num] = i\n\n    return json.dumps(result, indent=4)\n```"",
+  ""complexity"": {
+    ""time"": ""O(n log n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    ""Empty list"",
+    ""List with one element""
+  ],
+  ""tests"": [
+    ""Input: [3,1,3,2,1]\nOutput: [3,1,2]"",
+    ""Input: []\nOutput: []"",
+    ""Input: [5]\nOutput: [5]""
+  ],
+  ""risks"": [
+    ""If the input list contains millions of elements, this algorithm can be slow""
+  ]
+}
+"
+granite-code:3b,2,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""correctness""]","A good answer should use repeated division or bit operations, explain the approach clearly, and include tests for zero and larger values.","[""schema_validity"", ""correctness"", ""edge_cases"", ""test_quality"", ""deterministic_output""]",null,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that converts a non-negative integer to a binary string without using bin(). Example input: 13 -> expected output: '1101'. Include tests for 0 and 1. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","Here is how you can implement this function:
+
+```python
+import json
+
+def to_binary(num):
+    if num == 0:
+        return ""0""
+    if num == 1:
+        return ""1""
+
+    binary = """"
+    while num > 0:
+        remainder = num % 2
+        binary = str(remainder) + binary
+        num //= 2
+
+    return binary
+```
+
+You can test your function with a few examples to verify that it works correctly:
+
+```python
+assert to_binary(13) == ""1101""
+assert to",47.424346681459106,0.14645419999942533,2.932036000000153,2916.71484375,1.0,,Coding:ollama:granite-3b-code-base-2k:granite-code:3b,granite-3b-code-base-2k,granite-code:3b,ollama,,perfect,3.5B,66.0,False,True,,"{
+  ""task_summary"": ""Convert a non-negative integer to a binary string without using bin()."",
+  ""approach"": ""To convert an integer to its binary representation, we can use the bitwise AND operator (&) and left shift (<<) operators. We start with the number 1 and repeatedly check if the input number is divisible by 2. If it is, we append a '1' to the result string; otherwise, we append a '0'. We then right-shift the input number by 1 bit."",
+  ""code"": ""def convert_to_binary(num: int) -> str:\n    if num == 0:\n        return '0'\n\n    binary = ''\n    while num > 0:\n        binary += '1' if num & 1 else '0'\n        num >>= 1\n\n    return binary[::-1]"",
+  ""complexity"": {
+    ""time"": ""O(log n)"",
+    ""space"": ""O(log n)""
+  },
+  ""edge_cases"": [
+    ""0 should return '0'."",
+    ""1 should return '1'.""
+  ],
+  ""tests"": [
+    ""assert convert_to_binary(0) == '0'"",
+    ""assert convert_to_binary(1) == '1'""
+  ],
+  ""risks"": []
+}
+",True,,"{
+  ""task_summary"": ""Converts a non-negative integer to a binary string without using bin()"",
+  ""approach"": ""We can use a while loop to divide the number by 2 and store the remainders in a list. Then, we can reverse the list and join the elements to form the binary string."",
+  ""code"": ""def convert_to_binary(num):\n    if num == 0:\n        return '0'\n    elif num == 1:\n        return '1'\n\n    remainder = []\n    while num > 0:\n        remainder.append(str(num % 2))\n        num //= 2\n\n    return ''.join(reversed(remainder))"",
+  ""complexity"": {
+    ""time"": ""O(log n)"",
+    ""space"": ""O(n)""
+  },
+  ""edge_cases"": [
+    ""0 should return '0'"",
+    ""1 should return '1'""
+  ],
+  ""tests"": [
+    ""assert convert_to_binary(0) == '0'\nassert convert_to_binary(1) == '1'\nassert convert_to_binary(2) == '10'\nassert convert_to_binary(3) == '11'"",
+    ""assert convert_to_binary(4) == '100'\nassert convert_to_binary(5) == '101'\nassert convert_to_binary(6) == '110'\nassert convert_to_binary(7) == '111'"",
+    ""assert convert_to_binary(8) == '1000'\nassert convert_to_binary(9) == '1001'\nassert convert_to_binary(10) == '1010'\nassert convert_to_binary(11) == '1011'"",
+    ""assert convert_to_binary(12) == '1100'\nassert convert_to_binary(13) == '1101'\nassert convert_to_binary(14) == '1110'\nassert convert_to_binary(15) == '1111'""
+  ],
+  ""risks"": [
+    ""If the input is a negative number, the function will throw an error.""
+  ]
+}
+",True,,"{""task_summary"": ""Convert a non-negative integer to a binary string without using bin()."", ""approach"": ""To convert an integer to a binary string, we can use a loop to repeatedly divide the integer by 2 and take the remainder as each bit in the binary representation. We can also use the built-in `bin()` function to get the binary representation of the integer."", ""code"": ""def int_to_binary(n):\n    if n == 0:\n        return '0'\n    elif n == 1:\n        return '1'\n\n    binary = ''\n    while n > 0:\n        remainder = n % 2\n        binary += str(remainder)\n        n //= 2\n\n    return binary[::-1]\n"", ""complexity"": {""time"": ""O(log n)"", ""space"": ""O(log n)""}, ""edge_cases"": [""0 and 1 should return '0' and '1'"", ""Handle negative numbers by taking the two's complement of the absolute value of the number""], ""tests"": [""assert int_to_binary(0) == '0'\nassert int_to_binary(1) == '1'\nassert int_to_binary(2) == '10'\nassert int_to_binary(3) == '11'\nassert int_to_binary(4) == '100'\nassert int_to_binary(5) == '101'\nassert int_to_binary(6) == '110'\nassert int_to_binary(7) == '111'\nassert int_to_binary(8) == '1000'\nassert int_to_binary(9) == '1001'\nassert int_to_binary(10) == '1010'\nassert int_to_binary(11) == '1011'"", ""assert int_to_binary(-1) == '-1'\nassert int_to_binary(-2) == '-10'\nassert int_to_binary(-3) == '-11'""], ""risks"": [""The time complexity of this algorithm is O(log n), which can be inefficient for large integers."", ""The space complexity of this algorithm is also O(log n), which can use a lot of memory for larger integers.""]}
+"
+granite-code:3b,3,Coding Generation,easy,"[""instruction_following"", ""json_compliance"", ""edge_cases""]","A good answer should normalize the string, handle empty input, and include tests for punctuation-heavy and mixed-case strings.","[""schema_validity"", ""correctness"", ""edge_cases"", ""instruction_following""]",null,,"Your response must match the Coding Generation response schema: {""task_summary"":""string"",""approach"":""string"",""code"":""string"",""complexity"":{""time"":""string"",""space"":""string""},""edge_cases"":[""string""],""tests"":[""string""],""risks"":[""string""]}. Write a Python function that checks whether a string is a palindrome after ignoring spaces, punctuation, and case. Example input: 'A man, a plan, a canal: Panama' -> expected output: True. Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.","Here's an example of how you can implement this in Python:
+
+```python
+import json
+import string
+import re
+
+def is_palindrome(text):
+    cleaned_text = re.sub(r'[^a-zA-Z0-9]', '', text).lower()
+    return cleaned_text == cleaned_text[::-1]
+
+def generate_response(text):
+    task_summary = ""Check whether a string is a palindrome after ignoring spaces, punctuation, and case.""
+    approach = ""Clean the text by removing non-alphanumeric characters and converting it to lowercase. Then",47.228512797746255,0.15875020000021323,2.957863100000395,2916.71484375,1.0,,Coding:ollama:granite-3b-code-base-2k:granite-code:3b,granite-3b-code-base-2k,granite-code:3b,ollama,,perfect,3.5B,66.0,False,True,,"{
+  ""task_summary"": ""Write a Python function that checks whether a string is a palindrome after ignoring spaces, punctuation, and case."",
+  ""approach"": ""To check if a string is a palindrome after ignoring spaces, punctuation, and case, we can follow these steps:"",
+  ""code"": ""```python\nimport re\n\ndef is_palindrome(s):\n    s = re.sub(r'[^a-zA-Z0-9]', '', s).lower()\n    return s == s[::-1]\n```"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(1)""
+  },
+  ""edge_cases"": [
+    ""Handle empty string and strings with only spaces.""
+  ],
+  ""tests"": [
+    ""assert is_palindrome('A man, a plan, a canal: Panama') == True"",
+    ""assert is_palindrome('race car') == True"",
+    ""assert is_palindrome('Was it a car or a cat I saw?') == True"",
+    ""assert is_palindrome('No lemon, no melon') == True""
+  ],
+  ""risks"": [
+    ""Ignore case and punctuation when checking for palindrome.""
+  ]
+}
+",True,,"{
+  ""task_summary"": ""Check whether a string is a palindrome after ignoring spaces, punctuation, and case"",
+  ""approach"": ""The approach to solving this problem involves several key steps:"",
+  ""code"": ""Here's an example implementation of the function using the above steps:"",
+  ""complexity"": {
+    ""time"": ""O(n)"",
+    ""space"": ""O(1)""
+  },
+  ""edge_cases"": [
+    ""The function should handle empty strings, single-character strings, and strings with only spaces or punctuation."",
+    ""The function should be case-insensitive, meaning it should consider 'A man, a plan, a canal: Panama' and 'a Man, a Plan, a Canal: panama' as the same string.""
+  ],
+  ""tests"": [
+    ""Test cases for different scenarios:"",
+    ""- Empty string"",
+    ""- Single-character string"",
+    ""- String with only spaces or punctuation"",
+    ""- String with different case""
+  ],
+  ""risks"": [
+    ""The function may not handle all possible characters and edge cases, such as strings with non-ASCII characters or strings that contain mathematical symbols.""
+  ]
+}
+",True,,"{""task_summary"": ""Check whether a string is a palindrome after ignoring spaces, punctuation, and case."", ""approach"": ""The approach to solving this problem involves cleaning the input string of non-alphanumeric characters, converting it to lowercase, and then comparing it with its reversed version. The cleaned string can be obtained by using a regular expression to match and remove all non-alphanumeric characters, then using the built-in lower method on the string."", ""code"": ""```python\nimport re\n\ndef is_palindrome(input_string):\n    cleaned_string = re.sub(r'[^a-zA-Z0-9]', '', input_string).lower()\n    return cleaned_string == cleaned_string[::-1]\n```"", ""complexity"": {""time"": ""O(n)"", ""space"": ""O(1)""}, ""edge_cases"": [""Empty string""], ""tests"": [""assert is_palindrome('A man, a plan, a canal: Panama') == True"", ""assert is_palindrome('racecar') == True"", ""assert is_palindrome('hello') == False""], ""risks"": []}
+"

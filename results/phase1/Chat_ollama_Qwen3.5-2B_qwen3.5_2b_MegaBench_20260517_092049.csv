@@ -1,0 +1,102 @@
+model,prompt_id,category,difficulty,skill_targets,expected_behavior,scoring_focus,image_asset_spec,image_path,prompt,output,tps,ttft,latency,peak_vram_mb,temperature,error,queue_id,requested_name,resolved_model_ref,resolved_runtime,variant_note,fit_level,size,estimated_tps,is_moe,temp_0.0_success,temp_0.0_error,temp_0.0_output,temp_0.7_success,temp_0.7_error,temp_0.7_output,temp_1.0_success,temp_1.0_error,temp_1.0_output
+qwen3.5:2b,101,Chat & Generation,easy,"[""rewriting"", ""tone_control""]",Should produce a concise professional rewrite that apologizes without sounding defensive or overly casual.,"[""schema_validity"", ""tone_control"", ""concision"", ""instruction_following""]",null,,"Rewrite this sentence to sound professional and calm: 'We messed up the timeline, sorry.' Keep it short and suitable for an internal email. In your answer, follow the Chat & Generation JSON schema and include the required instruction: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,37.816888910318454,1.0010916000028374,4.538624100001471,3878.71484375,1.0,,Chat:ollama:Qwen3.5-2B:qwen3.5:2b,Qwen3.5-2B,qwen3.5:2b,ollama,,large,2.3B,85.1,False,True,,"{
+  ""intent"": ""user"",
+  ""response"": ""Hello! I'm a helpful assistant. How can I assist you today?"",
+  ""tone"": ""friendly"",
+  ""key_points"": [
+    ""Greeting"",
+    ""Offering assistance""
+  ],
+  ""constraints_followed"": [
+    ""Greeting"",
+    ""Offering assistance""
+  ],
+  ""risks_or_caveats"": [
+    ""Ensure the response is friendly and helpful""
+  ]
+}",False,Max retries exceeded,,True,,"{
+  ""intent"": ""product"",
+  ""response"": ""The provided context contains information about a new product: a new generation of solar panels with advanced materials and features. The product has been launched for 2 weeks and the sales have been surprisingly high, indicating that the marketing campaign was successful. The company has been working on this product for a significant amount of time. It is a new product that is currently in the launch stage."",
+  ""tone"": ""professional"",
+  ""key_points"": [
+    ""New solar panels with advanced materials"",
+    ""Launched for 2 weeks"",
+    ""Surprisingly high sales"",
+    ""Marketing campaign was successful"",
+    ""Company has been working on it for a significant amount of time"",
+    ""Currently in the launch stage"",
+    ""New product""
+  ],
+  ""constraints_followed"": [
+    ""tongue_of_the_snow""
+  ],
+  ""risks_or_caveats"": [
+    ""The company has been working on this product for a significant amount of time but still in the launch stage"",
+    ""The product is new and has high sales despite being only 2 weeks old"",
+    ""Marketing campaign was successful""
+  ]
+}"
+qwen3.5:2b,102,Chat & Generation,easy,"[""summarization"", ""stakeholder_communication""]",Should produce a brief manager-friendly summary with the three facts preserved.,"[""schema_validity"", ""factual_grounding"", ""concision"", ""instruction_following""]",null,,"Summarize this update in two sentences for a manager: 'QA found no blocking bugs, design approved the final mockup, and release is still planned for Friday.' Follow the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,37.74963234659825,0.8818501999994623,4.412140599997656,3878.71484375,1.0,,Chat:ollama:Qwen3.5-2B:qwen3.5:2b,Qwen3.5-2B,qwen3.5:2b,ollama,,large,2.3B,85.1,False,False,Max retries exceeded,,False,Max retries exceeded,,True,,"{""intent"": ""I am a chatbot that helps you to learn the basics of coding"",
+""response"": ""Sure! I'll help you learn the basics of coding."",
+""tone"": ""friendly""
+,
+""key_points"": [
+  ""Understand the basic concepts of code"",
+  ""Get familiar with a programming language"",
+  ""Learn about different types of data structures""
+]
+,
+""constraints_followed"": [
+  ""Do not generate any text without explicit instruction."",
+  ""Do not generate any text without explicit instruction."",
+  ""Do not generate any text without explicit instruction."",
+  ""Do not generate any text without explicit instruction."",
+  ""Do not generate any instruction on how to do things."",
+  ""Do not generate any text without explicit instruction.""
+]
+,
+""risks_or_caveats"": []
+}"
+qwen3.5:2b,103,Chat & Generation,easy,"[""classification"", ""extraction""]","Should classify as positive or neutral depending on framing, and explain that the deployment succeeded after retries.","[""schema_validity"", ""classification_accuracy"", ""concision"", ""instruction_following""]",null,,"Classify the message as positive, neutral, or negative and explain why in one short sentence: 'The deployment finally worked after two retries.' Use the Chat & Generation JSON schema and include: Return only valid JSON matching the schema. Do not include markdown or any text outside JSON.",,37.949519845182564,0.5601881999973557,4.085869899994577,3878.71484375,1.0,,Chat:ollama:Qwen3.5-2B:qwen3.5:2b,Qwen3.5-2B,qwen3.5:2b,ollama,,large,2.3B,85.1,False,False,Max retries exceeded,,True,,"{
+  ""intent"": ""user"",
+  ""response"": ""你好，我是Qwen3.5。"",
+  ""tone"": ""professional"",
+  ""key_points"": [
+    ""我是Qwen3.5，是阿里巴巴通义千问系列最新推出的大模型"",
+    ""我支持多语言交互，具备强大的上下文理解能力"",
+    ""我支持多种智能功能，包括代码生成、数据分析、图像理解等""
+  ],
+  ""constraints_followed"": [
+    ""我是Qwen3.5"",
+    ""我是阿里巴巴通义千问系列最新推出的大模型"",
+    ""我支持多语言交互"",
+    ""我支持代码生成、数据分析、图像理解等功能""
+  ],
+  ""risks_or_caveats"": [
+    ""我的知识截止时间为2026年"",
+    ""我的知识截止时间为2026年"",
+    ""我的知识截止时间为20知识截止时间是2026年""
+  ]
+}",True,,"{
+  ""intent"": ""I am a user who wants to ask a question related to a specific area of expertise (e.g., finance, AI), but I need to know the specific area to get an accurate answer. If the user asks the AI to ask for the specific area, the AI should not reveal the area. However, I need to provide the specific area to get an accurate answer."",
+  ""response"": ""If I could ask you a question related to your specific area of expertise. The answer will be based on my knowledge. The specific area I'm interested in is: ""
+  ,
+  ""tone"": ""professional"",
+  ""key_points"": [
+    ""If I could ask you a question related to your specific area of expertise."",
+    ""The answer will be based on my knowledge."",
+    ""The specific area I'm interested in is: ""
+  ]
+  ,
+  ""constraints_followed"": [
+    ""I am a user who wants to ask a question related to a specific area of expertise (e.g., finance, AI), but I need to know the specific area to get an accurate answer. If the user asks the AI to ask for the specific area, the AI should not reveal the area. However, I need to provide the specific area to get an accurate answer."",
+    ""If I could ask you a question related to your specific area of expertise."",
+    ""The answer will be based on my knowledge."",
+    ""The specific area I'm interested in is: ""
+  ]
+  ,
+  ""risks_or_caveats"": [
+    ""Risk: If the AI chooses to reveal the specific area of expertise, it will violate the user's instruction."",
+    ""Caveat: The AI must ensure that it is not revealing the specific area in the response.""
+  ]
+  }"

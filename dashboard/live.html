@@ -1006,7 +1006,8 @@ function renderModelCard(model) {
             { id: 'test_c', icon: 'C', label: 'Test C' },
             { id: 'delete', icon: '×', label: 'Delete' },
         ];
-        const currentPhase = lastData.current_phase || 'idle';
+        const rawPhase = lastData.current_phase || 'idle';
+        const currentPhase = rawPhase === 'idle' && model.status === 'in_progress' ? 'test_a' : rawPhase;
         const phaseOrder = ['download', 'test_a', 'test_b', 'test_c', 'delete'];
         const currentIdx = phaseOrder.indexOf(currentPhase);
 
