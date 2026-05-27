@@ -16,6 +16,7 @@ so the benchmark never silently runs the wrong model variant.
 """
 
 from compatible_models import COMPATIBLE_MODELS, GOOD_FIT_MOE
+from src.model_entry import ModelEntry
 
 # ---------------------------------------------------------------------------
 # Known Ollama tags derived from model_commands.md Ollama section + TESTED_MODELS
@@ -206,23 +207,22 @@ def build_model_queue() -> list[dict]:
             return
         seen_ids.add(queue_id)
 
-        entry = {
-            "queue_id": queue_id,
-            "requested_name": name,
-            "category": category,
-            "source": ident["source"],
-            "resolved_runtime": ident["resolved_runtime"],
-            "resolved_model_ref": ident["resolved_model_ref"],
-            "variant_note": ident["variant_note"],
-            "ollama_tag": tag,
-            "hf_repo": hf_repo,
-            "size": model.get("size", "?"),
-            "estimated_tps": model.get("tps", 0),
-            "fit_level": fit_level,
-            "is_moe": model.get("moe", is_moe),
-            "status": ident["status"],
-        }
-        queue.append(entry)
+        queue.append(ModelEntry(
+            queue_id=queue_id,
+            requested_name=name,
+            category=category,
+            source=ident["source"],
+            resolved_runtime=ident["resolved_runtime"],
+            resolved_model_ref=ident["resolved_model_ref"],
+            variant_note=ident["variant_note"],
+            ollama_tag=tag,
+            hf_repo=hf_repo,
+            size=model.get("size", "?"),
+            estimated_tps=model.get("tps", 0),
+            fit_level=fit_level,
+            is_moe=model.get("moe", is_moe),
+            status=ident["status"],
+        ).to_dict())
 
     # --- Coding ---
     for m in COMPATIBLE_MODELS["coding"]["perfect"]:

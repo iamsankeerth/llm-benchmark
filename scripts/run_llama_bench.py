@@ -21,9 +21,18 @@ import argparse
 from pathlib import Path
 from datetime import datetime
 
+if sys.platform == "win32":
+    os.environ["PYTHONIOENCODING"] = "utf-8"
+    os.environ["ANSI_COLORS_DISABLED"] = "1"
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 # Ensure project root is on path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import MODEL_QUEUE, RESULTS_DIR
+from config import MODEL_QUEUE
+from src.artifact_store import BenchmarkArtifactStore
+from src.lifecycle import RuntimeHandle, acquire_runtime, cleanup_runtime
+from src.model_entry import as_model_entry
 
 # ─── Configuration ───────────────────────────────────────────────────────────
 
@@ -48,8 +57,9 @@ BENCH_SETTINGS = {
     "batch_size": 2048,    # Default batch size
 }
 
-PERF_DIR = os.path.join(RESULTS_DIR, "perf")
-os.makedirs(PERF_DIR, exist_ok=True)
+artifact_store = BenchmarkArtifactStore()
+PERF_DIR = str(artifact_store.perf_dir)
+artifact_store.perf_dir.mkdir(parents=True, exist_ok=True)
 
 
 def log(msg):
@@ -250,53 +260,17 @@ def run_llama_bench(gguf_path: str, model_name: str, settings: dict = None) -> d
     return parsed
 
 
-def download_model(model_entry: dict) -> str | None:
+def download_model(model_entry: dict) -> RuntimeHandle | None:
     """
-    Download a model via Ollama to ensure the GGUF blob exists on disk.
-    Returns the ollama tag on success, None on failure.
+    Acquire the model runtime to ensure the GGUF blob exists on disk.
+    Returns a runtime handle on success, None on failure.
     """
-    ollama_tag = model_entry.get("ollama_tag") or model_entry.get("resolved_model_ref", "")
-    if not ollama_tag:
-        return None
-
-    log(f"  Downloading {ollama_tag} via Ollama...")
-    try:
-        result = subprocess.run(
-            ["ollama", "pull", ollama_tag],
-            capture_output=True, encoding="utf-8", errors="replace",
-            timeout=600,
-        )
-        if result.returncode == 0:
-            log(f"  ✓ Downloaded {ollama_tag}")
-            return ollama_tag
-        else:
-            log(f"  ✗ Pull failed: {result.stderr.strip()[-200:]}")
-            return None
-    except subprocess.TimeoutExpired:
-        log(f"  ✗ Download timed out (10 min)")
-        return None
-    except FileNotFoundError:
-        log(f"  ✗ 'ollama' command not found")
-        return None
+    return acquire_runtime(model_entry, log=log)
 
 
 def delete_model(ollama_tag: str):
     """Delete a model from Ollama to free disk space."""
-    if not ollama_tag:
-        return
-    log(f"  Deleting {ollama_tag} from Ollama...")
-    try:
-        result = subprocess.run(
-            ["ollama", "rm", ollama_tag],
-            capture_output=True, encoding="utf-8", errors="replace",
-            timeout=60,
-        )
-        if result.returncode == 0:
-            log(f"  ✓ Deleted {ollama_tag}")
-        else:
-            log(f"  Warning: ollama rm failed: {result.stderr.strip()}")
-    except Exception as e:
-        log(f"  Warning: Could not delete: {e}")
+    cleanup_runtime(RuntimeHandle(ollama_tag, None, {"resolved_runtime": "ollama"}), log=log)
 
 
 def run_all_benchmarks(dry_run=False, single_model=None):
@@ -317,12 +291,12 @@ def run_all_benchmarks(dry_run=False, single_model=None):
     # Identify eligible models (Ollama or GGUF-backed)
     eligible = []
     for m in MODEL_QUEUE:
-        if m.get("status") != "pending":
+        entry = as_model_entry(m)
+        if not entry.is_runnable:
             continue
-        runtime = m.get("resolved_runtime", "")
-        if runtime not in ("ollama", "huggingface_gguf"):
+        if not entry.is_runtime("ollama", "huggingface_gguf"):
             continue
-        if single_model and single_model.lower() not in m["requested_name"].lower():
+        if single_model and single_model.lower() not in entry.requested_name.lower():
             continue
         eligible.append(m)
 
@@ -331,15 +305,17 @@ def run_all_benchmarks(dry_run=False, single_model=None):
     if dry_run:
         log("\n--- DRY RUN MODE ---")
         for m in eligible:
-            tag = m.get("ollama_tag") or m.get("resolved_model_ref", "?")
-            log(f"  Would bench: {m['requested_name']} (tag: {tag})")
+            entry = as_model_entry(m)
+            tag = entry.ollama_tag or entry.resolved_model_ref or "?"
+            log(f"  Would bench: {entry.requested_name} (tag: {tag})")
         return
 
     # Run benchmarks with ephemeral lifecycle
     all_results = {}
     for idx, m in enumerate(eligible, 1):
-        name = m["requested_name"]
-        queue_id = m["queue_id"]
+        entry = as_model_entry(m)
+        name = entry.requested_name
+        queue_id = entry.queue_id
         
         target_model = os.environ.get("BENCHMARK_SINGLE_MODEL")
         if target_model and queue_id != target_model:
@@ -347,29 +323,27 @@ def run_all_benchmarks(dry_run=False, single_model=None):
             
         skip_lifecycle = os.environ.get("BENCHMARK_SKIP_LIFECYCLE") == "1"
         
-        ollama_tag = m.get("ollama_tag") or m.get("resolved_model_ref", "")
+        ollama_tag = entry.ollama_tag or entry.resolved_model_ref
 
         log(f"\n[{idx}/{len(eligible)}] {name}")
 
         # Check if already benchmarked
-        result_file = os.path.join(PERF_DIR, f"{queue_id.replace(':', '_').replace('/', '_')}_llama_bench.json")
-        if os.path.isfile(result_file):
-            log(f"  Already benchmarked, skipping (delete {os.path.basename(result_file)} to re-run)")
-            try:
-                with open(result_file) as f:
-                    all_results[queue_id] = json.load(f)
-            except Exception:
-                pass
+        result_file = artifact_store.llama_bench_result_path(queue_id)
+        if result_file.is_file():
+            log(f"  Already benchmarked, skipping (delete {result_file.name} to re-run)")
+            existing = artifact_store.load_llama_bench_result(queue_id)
+            if existing:
+                all_results[queue_id] = existing
             continue
 
         # ── STEP 1: DOWNLOAD ──
         if skip_lifecycle:
-            downloaded_tag = ollama_tag
-            log(f"  [Orchestrator] Skipping download, assuming {downloaded_tag} is ready.")
+            runtime_handle = RuntimeHandle(ollama_tag, None, m)
+            log(f"  [Orchestrator] Skipping download, assuming {runtime_handle.model_ref} is ready.")
         else:
-            downloaded_tag = download_model(m)
+            runtime_handle = download_model(m)
             
-        if not downloaded_tag:
+        if not runtime_handle:
             log(f"  ✗ Skipping (download failed)")
             continue
 
@@ -392,9 +366,7 @@ def run_all_benchmarks(dry_run=False, single_model=None):
                 result["queue_id"] = queue_id
                 result["bench_duration_sec"] = round(elapsed, 1)
 
-                # Save individual result
-                with open(result_file, "w") as f:
-                    json.dump(result, f, indent=2)
+                artifact_store.save_llama_bench_result(queue_id, result)
 
                 all_results[queue_id] = result
 
@@ -409,18 +381,10 @@ def run_all_benchmarks(dry_run=False, single_model=None):
         finally:
             # ── STEP 4: DELETE (always runs) ──
             if not skip_lifecycle:
-                delete_model(downloaded_tag)
+                cleanup_runtime(runtime_handle, log=log)
 
     # Save summary
-    summary_file = os.path.join(PERF_DIR, "llama_bench_summary.json")
-    summary = {
-        "timestamp": datetime.now().isoformat(),
-        "settings": BENCH_SETTINGS,
-        "total_models": len(all_results),
-        "results": all_results,
-    }
-    with open(summary_file, "w") as f:
-        json.dump(summary, f, indent=2)
+    artifact_store.save_llama_bench_summary(BENCH_SETTINGS, all_results)
 
     # Print summary table
     log("\n" + "=" * 80)

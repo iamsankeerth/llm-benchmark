@@ -5,6 +5,7 @@ import pandas as pd
 from rich.console import Console
 from config import REPORTS_DIR, RESULTS_DIR, MODEL_QUEUE
 from pathlib import Path
+from src.artifact_store import BenchmarkArtifactStore
 
 console = Console()
 
@@ -16,6 +17,7 @@ QUALITY_DIR = os.path.join(RESULTS_DIR, "quality")  # promptfoo JSON files
 class ModelComparator:
     def __init__(self):
         os.makedirs(REPORTS_DIR, exist_ok=True)
+        self.store = BenchmarkArtifactStore()
         self.report_path = os.path.join(REPORTS_DIR, "model_comparison_report.md")
 
     @staticmethod
@@ -172,8 +174,8 @@ class ModelComparator:
         ).reset_index()
 
         # ── Load llama-bench & promptfoo data ───────────────────────────────
-        perf_data    = self._load_llama_bench()
-        quality_data = self._load_promptfoo()
+        perf_data    = self.store.load_llama_bench()
+        quality_data = self.store.load_promptfoo()
 
         has_perf    = len(perf_data) > 0
         has_quality = len(quality_data) > 0
@@ -228,7 +230,7 @@ class ModelComparator:
             unsupported_queue = sum(1 for m in MODEL_QUEUE if m["status"] == "provider_unsupported")
             deferred_queue = sum(1 for m in MODEL_QUEUE if m["status"] == "deferred_vision")
 
-            progress_path = Path(__file__).parent.parent / "test_progress.json"
+            progress_path = self.store.progress_file
             tracked_models: dict = {}
             if progress_path.exists():
                 try:

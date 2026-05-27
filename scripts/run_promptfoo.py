@@ -1,4 +1,4 @@
-"""
+﻿"""
 Promptfoo Integration Runner
 =============================
 Generates a promptfoo YAML config from MODEL_QUEUE and runs quality evaluations.
@@ -16,36 +16,19 @@ Usage:
 
 import os
 import sys
-import json
-import shutil
 import subprocess
 import argparse
-from pathlib import Path
-from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import MODEL_QUEUE, RESULTS_DIR
+from src.quality_eval import QualityEvaluator
 
 PROMPTFOO_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "promptfoo")
 
 
 def _find_promptfoo() -> str:
     """Find the promptfoo CLI executable. Returns full path or raises."""
-    # 1. Check if it's on PATH
-    found = shutil.which("promptfoo")
-    if found:
-        return found
-    # 2. Check common npm global install location on Windows
-    npm_global = os.path.join(os.environ.get("APPDATA", ""), "npm", "promptfoo.cmd")
-    if os.path.isfile(npm_global):
-        return npm_global
-    # 3. Try npx as fallback
-    npx = shutil.which("npx")
-    if npx:
-        return npx  # caller must prepend "promptfoo" to args
-    raise FileNotFoundError(
-        "promptfoo not found. Install with: npm install -g promptfoo"
-    )
+    return QualityEvaluator.find_promptfoo()
 QUALITY_DIR = os.path.join(RESULTS_DIR, "quality")
 os.makedirs(PROMPTFOO_DIR, exist_ok=True)
 os.makedirs(QUALITY_DIR, exist_ok=True)
@@ -57,32 +40,13 @@ def log(msg):
     print(f"[promptfoo] {msg}")
 
 
+def _evaluator() -> QualityEvaluator:
+    return QualityEvaluator(MODEL_QUEUE, PROMPTFOO_DIR, RESULTS_DIR, generate_curated_tests)
+
+
 def get_ollama_providers() -> list[dict]:
     """Extract Ollama-compatible providers from MODEL_QUEUE."""
-    providers = []
-    seen = set()
-
-    for m in MODEL_QUEUE:
-        if m.get("status") != "pending":
-            continue
-        if m.get("resolved_runtime") != "ollama":
-            continue
-
-        tag = m.get("ollama_tag") or m.get("resolved_model_ref", "")
-        if not tag or tag in seen:
-            continue
-        seen.add(tag)
-
-        providers.append({
-            "id": f"ollama:chat:{tag}",
-            "label": m["requested_name"],
-            "config": {
-                "temperature": 0.7,
-                "num_predict": 512,
-            },
-        })
-
-    return providers
+    return _evaluator().get_ollama_providers()
 
 
 def generate_curated_tests() -> list[dict]:
@@ -92,9 +56,9 @@ def generate_curated_tests() -> list[dict]:
     """
     tests = []
 
-    # ═══════════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     # CODING TESTS (10 tests)
-    # ═══════════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
     tests.append({
         "description": "Coding: Fibonacci function",
@@ -197,9 +161,9 @@ def generate_curated_tests() -> list[dict]:
         ],
     })
 
-    # ═══════════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     # REASONING TESTS (10 tests)
-    # ═══════════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
     tests.append({
         "description": "Reasoning: Speed calculation",
@@ -223,7 +187,7 @@ def generate_curated_tests() -> list[dict]:
         "description": "Reasoning: Logic puzzle",
         "vars": {"prompt": "If all roses are flowers, and some flowers are red, can we conclude that some roses are red? Explain your reasoning."},
         "assert": [
-            {"type": "llm-rubric", "value": "The answer correctly identifies this as an invalid syllogism — we cannot conclude that some roses are red. The fact that some flowers are red doesn't mean any of those red flowers are roses."},
+            {"type": "llm-rubric", "value": "The answer correctly identifies this as an invalid syllogism â€” we cannot conclude that some roses are red. The fact that some flowers are red doesn't mean any of those red flowers are roses."},
         ],
     })
 
@@ -241,7 +205,7 @@ def generate_curated_tests() -> list[dict]:
         "vars": {"prompt": "Convert 5 miles to kilometers. 1 mile = 1.60934 km. Round to 2 decimal places."},
         "assert": [
             {"type": "contains", "value": "8.05"},
-            {"type": "llm-rubric", "value": "The answer correctly multiplies 5 × 1.60934 = 8.0467, rounded to 8.05 km."},
+            {"type": "llm-rubric", "value": "The answer correctly multiplies 5 Ã— 1.60934 = 8.0467, rounded to 8.05 km."},
         ],
     })
 
@@ -250,7 +214,7 @@ def generate_curated_tests() -> list[dict]:
         "vars": {"prompt": "Alice is twice as old as Bob. In 5 years, Alice will be 1.5 times Bob's age. How old are they now?"},
         "assert": [
             {"type": "contains", "value": "10"},
-            {"type": "llm-rubric", "value": "The answer correctly solves: Bob = 10, Alice = 20. Check: In 5 years, Alice=25, Bob=15, and 25/15 = 5/3 ≈ 1.67. Actually the correct answer should be Bob=10, Alice=20. Verify the algebra."},
+            {"type": "llm-rubric", "value": "The answer correctly solves: Bob = 10, Alice = 20. Check: In 5 years, Alice=25, Bob=15, and 25/15 = 5/3 â‰ˆ 1.67. Actually the correct answer should be Bob=10, Alice=20. Verify the algebra."},
         ],
     })
 
@@ -266,10 +230,10 @@ def generate_curated_tests() -> list[dict]:
 
     tests.append({
         "description": "Reasoning: Area calculation",
-        "vars": {"prompt": "A circle has a radius of 5 cm. What is its area? Use π = 3.14159. Round to 2 decimal places."},
+        "vars": {"prompt": "A circle has a radius of 5 cm. What is its area? Use Ï€ = 3.14159. Round to 2 decimal places."},
         "assert": [
             {"type": "contains", "value": "78.5"},
-            {"type": "llm-rubric", "value": "The answer correctly calculates area = π × r² = 3.14159 × 25 = 78.54 cm²."},
+            {"type": "llm-rubric", "value": "The answer correctly calculates area = Ï€ Ã— rÂ² = 3.14159 Ã— 25 = 78.54 cmÂ²."},
         ],
     })
 
@@ -292,9 +256,9 @@ def generate_curated_tests() -> list[dict]:
         ],
     })
 
-    # ═══════════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     # CHAT & INSTRUCTION FOLLOWING TESTS (10 tests)
-    # ═══════════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
     tests.append({
         "description": "Chat: Explain concept simply",
@@ -309,7 +273,7 @@ def generate_curated_tests() -> list[dict]:
         "description": "Chat: Pros and cons",
         "vars": {"prompt": "List 3 pros and 3 cons of working from home. Format as a bullet list."},
         "assert": [
-            {"type": "javascript", "value": "output.split('\\n').filter(l => l.trim().startsWith('-') || l.trim().startsWith('•') || l.trim().startsWith('*') || /^\\d/.test(l.trim())).length >= 4"},
+            {"type": "javascript", "value": "output.split('\\n').filter(l => l.trim().startsWith('-') || l.trim().startsWith('â€¢') || l.trim().startsWith('*') || /^\\d/.test(l.trim())).length >= 4"},
             {"type": "llm-rubric", "value": "Lists at least 3 pros and 3 cons of working from home in a clear, structured format."},
         ],
     })
@@ -346,7 +310,7 @@ def generate_curated_tests() -> list[dict]:
         "vars": {"prompt": "Translate 'Hello, how are you?' into French."},
         "assert": [
             {"type": "icontains", "value": "bonjour"},
-            {"type": "llm-rubric", "value": "Contains a correct French translation of 'Hello, how are you?' — something like 'Bonjour, comment allez-vous?' or 'Bonjour, comment vas-tu?'"},
+            {"type": "llm-rubric", "value": "Contains a correct French translation of 'Hello, how are you?' â€” something like 'Bonjour, comment allez-vous?' or 'Bonjour, comment vas-tu?'"},
         ],
     })
 
@@ -386,9 +350,9 @@ def generate_curated_tests() -> list[dict]:
         ],
     })
 
-    # ═══════════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
     # STRUCTURED OUTPUT TESTS (5 tests)
-    # ═══════════════════════════════════════════════════════════════════════
+    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
     tests.append({
         "description": "Structured: JSON person",
@@ -442,324 +406,17 @@ def generate_curated_tests() -> list[dict]:
 
 def generate_config():
     """Generate the promptfooconfig.yaml file."""
-    providers = get_ollama_providers()
-
-    if not providers:
-        log("ERROR: No Ollama providers found in MODEL_QUEUE")
-        return False
-
-    tests = generate_curated_tests()
-
-    # Build YAML manually for clean formatting
-    lines = [
-        f"# Auto-generated by run_promptfoo.py on {datetime.now().isoformat()}",
-        f"# {len(providers)} Ollama models × {len(tests)} curated tests",
-        "",
-        'description: "LLM Benchmark Suite — Quality Evaluation"',
-        "",
-        "providers:",
-    ]
-
-    for p in providers:
-        lines.append(f"  - id: {p['id']}")
-        lines.append(f"    label: \"{p['label']}\"")
-        lines.append(f"    config:")
-        lines.append(f"      temperature: {p['config']['temperature']}")
-        lines.append(f"      num_predict: {p['config']['num_predict']}")
-
-    # Grading provider (use a decent local model for llm-rubric)
-    grader_model = "qwen2.5:3b-instruct" if any("qwen2.5:3b" in p["id"] for p in providers) else providers[0]["id"].replace("ollama:chat:", "")
-
-    lines.extend([
-        "",
-        "prompts:",
-        "  - \"{{prompt}}\"",
-        "",
-        "defaultTest:",
-        "  options:",
-        "    provider:",
-        "      text:",
-        f"        id: ollama:chat:{grader_model}",
-        "        config:",
-        "          temperature: 0.1",
-        "          num_predict: 1024",
-        "    maxConcurrency: 1",
-        "    timeout: 120000",
-        "",
-        "tests:",
-    ])
-
-    for t in tests:
-        lines.append(f"  - description: \"{t['description']}\"")
-        lines.append(f"    vars:")
-        # Escape the prompt for YAML
-        prompt = t["vars"]["prompt"].replace("\\", "\\\\").replace('"', '\\"')
-        lines.append(f"      prompt: \"{prompt}\"")
-        lines.append(f"    assert:")
-        for a in t["assert"]:
-            lines.append(f"      - type: {a['type']}")
-            if "value" in a:
-                val = a["value"].replace("\\", "\\\\").replace('"', '\\"')
-                lines.append(f"        value: \"{val}\"")
-            if "threshold" in a:
-                lines.append(f"        threshold: {a['threshold']}")
-
-    yaml_content = "\n".join(lines) + "\n"
-
-    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
-        f.write(yaml_content)
-
-    log(f"Generated {CONFIG_PATH}")
-    log(f"  {len(providers)} Ollama providers")
-    log(f"  {len(tests)} curated test cases")
-    log(f"  Grading model: {grader_model}")
-
-    return True
-
-
-def _download_model(ollama_tag: str) -> bool:
-    """Download a model via Ollama."""
-    log(f"  Downloading {ollama_tag}...")
-    try:
-        result = subprocess.run(
-            ["ollama", "pull", ollama_tag],
-            capture_output=True, encoding="utf-8", errors="replace", timeout=600,
-        )
-        if result.returncode == 0:
-            log(f"  ✓ Downloaded {ollama_tag}")
-            return True
-        else:
-            log(f"  ✗ Pull failed: {result.stderr.strip()[-200:]}")
-            return False
-    except Exception as e:
-        log(f"  ✗ Download error: {e}")
-        return False
-
-
-def _delete_model(ollama_tag: str):
-    """Delete a model from Ollama to free disk space."""
-    log(f"  Deleting {ollama_tag} from Ollama...")
-    try:
-        result = subprocess.run(
-            ["ollama", "rm", ollama_tag],
-            capture_output=True, encoding="utf-8", errors="replace", timeout=60,
-        )
-        if result.returncode == 0:
-            log(f"  ✓ Deleted {ollama_tag}")
-        else:
-            log(f"  Warning: ollama rm failed: {result.stderr.strip()}")
-    except Exception as e:
-        log(f"  Warning: Could not delete: {e}")
+    return _evaluator().generate_config(log=log)
 
 
 def generate_single_model_config(ollama_tag: str, label: str, grader_tag: str) -> str:
     """Generate a promptfoo config YAML for a single model. Returns the file path."""
-    tests = generate_curated_tests()
-    safe_name = ollama_tag.replace(":", "_").replace("/", "_")
-    config_path = os.path.join(PROMPTFOO_DIR, f"config_{safe_name}.yaml")
-
-    lines = [
-        f"# Single-model config for {label}",
-        f'description: "Quality eval: {label}"',
-        "",
-        "providers:",
-        f"  - id: ollama:chat:{ollama_tag}",
-        f'    label: "{label}"',
-        "    config:",
-        "      temperature: 0.7",
-        "      num_predict: 512",
-        "",
-        "prompts:",
-        '  - "{{prompt}}"',
-        "",
-        "defaultTest:",
-        "  options:",
-        "    provider:",
-        "      text:",
-        f"        id: ollama:chat:{grader_tag}",
-        "        config:",
-        "          temperature: 0.1",
-        "          num_predict: 1024",
-        "    maxConcurrency: 1",
-        "    timeout: 120000",
-        "",
-        "tests:",
-    ]
-
-    for t in tests:
-        lines.append(f"  - description: \"{t['description']}\"")
-        lines.append(f"    vars:")
-        prompt = t["vars"]["prompt"].replace("\\", "\\\\").replace('"', '\\"')
-        lines.append(f'      prompt: "{prompt}"')
-        lines.append(f"    assert:")
-        for a in t["assert"]:
-            lines.append(f"      - type: {a['type']}")
-            if "value" in a:
-                val = a["value"].replace("\\", "\\\\").replace('"', '\\"')
-                lines.append(f'        value: "{val}"')
-            if "threshold" in a:
-                lines.append(f"        threshold: {a['threshold']}")
-
-    with open(config_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(lines) + "\n")
-
-    return config_path
+    return _evaluator().generate_single_model_config(ollama_tag, label, grader_tag)
 
 
 def run_eval():
-    """
-    Run promptfoo evaluation with ephemeral lifecycle:
-      For each model:
-        1. Download (ollama pull)
-        2. Generate single-model config
-        3. Run promptfoo eval
-        4. Save results
-        5. Delete model (ollama rm)
-    """
-    providers = get_ollama_providers()
-    if not providers:
-        log("ERROR: No Ollama providers found in MODEL_QUEUE")
-        return False
-
-    tests = generate_curated_tests()
-
-    # Determine grading model (first available, will be pulled separately)
-    grader_tag = "qwen2.5:3b-instruct"
-
-    log("=" * 60)
-    log("promptfoo Quality Evaluation")
-    log(f"Lifecycle: Download → Eval → Delete (one model at a time)")
-    log(f"{len(providers)} models × {len(tests)} tests")
-    log(f"Grading model: {grader_tag}")
-    log("=" * 60)
-
-    # Pull the grading model once (needed for llm-rubric assertions)
-    log("\n[0] Downloading grading model...")
-    _download_model(grader_tag)
-
-    all_model_results = {}
-
-    for idx, p in enumerate(providers, 1):
-        tag = p["id"].replace("ollama:chat:", "")
-        label = p["label"]
-        
-        target_model = os.environ.get("BENCHMARK_SINGLE_MODEL")
-        if target_model and tag not in target_model and target_model not in tag:
-            continue
-            
-        skip_lifecycle = os.environ.get("BENCHMARK_SKIP_LIFECYCLE") == "1"
-
-        log(f"\n[{idx}/{len(providers)}] {label} ({tag})")
-
-        # Check if already evaluated
-        safe_name = tag.replace(":", "_").replace("/", "_")
-        result_file = os.path.join(QUALITY_DIR, f"{safe_name}_promptfoo.json")
-        if os.path.isfile(result_file):
-            log(f"  Already evaluated, skipping")
-            try:
-                with open(result_file) as f:
-                    all_model_results[tag] = json.load(f)
-            except Exception:
-                pass
-            continue
-
-        # ── STEP 1: DOWNLOAD ──
-        if tag != grader_tag and not skip_lifecycle:  # Don't re-pull grader
-            if not _download_model(tag):
-                log(f"  ✗ Skipping (download failed)")
-                continue
-        elif skip_lifecycle:
-            log(f"  [Orchestrator] Skipping download, assuming {tag} is ready.")
-
-        try:
-            # ── STEP 2: GENERATE CONFIG ──
-            config_path = generate_single_model_config(tag, label, grader_tag)
-
-            # ── STEP 3: RUN EVAL + STORE ──
-            output_file = os.path.join(QUALITY_DIR, f"{safe_name}_promptfoo_raw.json")
-            promptfoo_bin = _find_promptfoo()
-            use_npx = promptfoo_bin.endswith("npx.exe") or promptfoo_bin.endswith("npx")
-            cmd_base = [promptfoo_bin] if not use_npx else [promptfoo_bin, "promptfoo"]
-            cmd = cmd_base + [
-                "eval",
-                "-c", config_path,
-                "--no-cache",
-                "--max-concurrency", "1",
-                "-o", output_file,
-                "--no-progress-bar",
-            ]
-
-            log(f"  Running {len(tests)} tests...")
-            try:
-                result = subprocess.run(
-                    cmd, cwd=PROMPTFOO_DIR,
-                    capture_output=True, encoding="utf-8", errors="replace",
-                    timeout=1800,  # 30 min timeout per model
-                )
-                if result.returncode in (0, 100) and os.path.isfile(output_file):
-                    # Parse and save summary
-                    with open(output_file) as f:
-                        raw = json.load(f)
-                    results_list = raw.get("results", {}).get("results", [])
-                    passed = sum(1 for r in results_list if r.get("success"))
-                    total = len(results_list)
-                    summary = {
-                        "model": tag,
-                        "label": label,
-                        "total_tests": total,
-                        "passed": passed,
-                        "failed": total - passed,
-                        "pass_rate": round(passed / total * 100, 1) if total > 0 else 0,
-                    }
-                    with open(result_file, "w") as f:
-                        json.dump(summary, f, indent=2)
-                    all_model_results[tag] = summary
-                    log(f"  ✓ {passed}/{total} passed ({summary['pass_rate']}%)")
-                else:
-                    log(f"  ✗ Eval failed (exit {result.returncode})")
-                    if result.stderr:
-                        log(f"  stderr: {result.stderr.strip()[-300:]}")
-            except subprocess.TimeoutExpired:
-                log(f"  ✗ Eval timed out (30 min)")
-            except FileNotFoundError:
-                log("  ✗ 'promptfoo' command not found — install with: npm install -g promptfoo")
-
-            # Clean up temp config
-            try:
-                os.remove(config_path)
-            except Exception:
-                pass
-
-        except Exception as e:
-            log(f"  ✗ Unexpected error: {e}")
-        finally:
-            # ── STEP 4: DELETE (always runs) ──
-            if tag != grader_tag and not skip_lifecycle:
-                _delete_model(tag)
-
-    # Delete grading model last
-    if not skip_lifecycle:
-        _delete_model(grader_tag)
-
-    # Save overall summary
-    summary_file = os.path.join(QUALITY_DIR, "promptfoo_summary.json")
-    with open(summary_file, "w") as f:
-        json.dump({
-            "timestamp": datetime.now().isoformat(),
-            "total_models": len(all_model_results),
-            "results": all_model_results,
-        }, f, indent=2)
-
-    # Print summary table
-    log("\n" + "=" * 60)
-    log(f"{'Model':<30} {'Pass':>6} {'Total':>6} {'Rate':>8}")
-    log("-" * 60)
-    for tag, r in sorted(all_model_results.items(), key=lambda x: x[1].get("pass_rate", 0), reverse=True):
-        name = r.get("label", tag)[:28]
-        log(f"  {name:<28} {r['passed']:>6} {r['total_tests']:>6} {r['pass_rate']:>7.1f}%")
-    log("=" * 60)
-    log(f"Results saved to: {QUALITY_DIR}")
-    return True
+    """Run promptfoo evaluation through the quality evaluation module."""
+    return _evaluator().run_eval(log=log)
 
 
 def view_results():
@@ -786,4 +443,3 @@ if __name__ == "__main__":
         generate_config()
     else:
         run_eval()
-

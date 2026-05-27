@@ -21,6 +21,8 @@ from rich.table import Table
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import MODEL_QUEUE, MODELS_DIR
+from src.lifecycle import pull_ollama_tag
+from src.model_entry import as_model_entry
 
 console = Console()
 
@@ -35,18 +37,19 @@ def list_models():
     table.add_column("Ollama Tag / HF Repo", style="dim")
 
     for m in MODEL_QUEUE:
-        ref = m.get("ollama_tag") or m.get("hf_repo") or m.get("resolved_model_ref", "?")
+        entry = as_model_entry(m)
+        ref = entry.ollama_tag or entry.hf_repo or entry.resolved_model_ref or "?"
         table.add_row(
-            m.get("category", "?"),
-            m.get("requested_name", "?"),
-            m.get("source", "?"),
-            m.get("resolved_runtime", "?"),
-            m.get("status", "?"),
+            entry.category,
+            entry.requested_name,
+            entry.source,
+            entry.resolved_runtime,
+            entry.status,
             ref
         )
 
     console.print(table)
-    runnable = sum(1 for m in MODEL_QUEUE if m["status"] == "pending")
+    runnable = sum(1 for m in MODEL_QUEUE if as_model_entry(m).is_runnable)
     console.print(f"\n[bold]Total: {len(MODEL_QUEUE)} | Runnable: {runnable}[/bold]")
 
 def download_ollama_model(model_entry: dict) -> bool:
@@ -56,12 +59,7 @@ def download_ollama_model(model_entry: dict) -> bool:
         return False
 
     console.print(f"[cyan]Pulling from Ollama:[/cyan] {ollama_tag}")
-    result = subprocess.run(["ollama", "pull", ollama_tag], capture_output=True, text=True)
-    if result.returncode != 0:
-        console.print(f"[red]Failed:[/red] {result.stderr}")
-        return False
-    console.print(f"[green]Success:[/green] {ollama_tag}")
-    return True
+    return pull_ollama_tag(ollama_tag, log=lambda msg: console.print(msg))
 
 def download_hf_model(model_entry: dict) -> bool:
     """Download model from HuggingFace."""
@@ -94,12 +92,12 @@ def download_all(source_filter: str = None):
     success = 0
 
     for m in MODEL_QUEUE:
-        status = m.get("status", "")
-        source = m.get("source", "")
-        name = m.get("requested_name", "?")
+        entry = as_model_entry(m)
+        source = entry.source
+        name = entry.requested_name
 
         # Skip non-runnable models
-        if status != "pending":
+        if not entry.is_runnable:
             continue
 
         if source_filter and source != source_filter:

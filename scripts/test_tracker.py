@@ -11,6 +11,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+from src.artifact_store import BenchmarkArtifactStore
+
 class TestTracker:
     def __init__(self, progress_file: str = None):
         if progress_file is None:
@@ -18,6 +20,8 @@ class TestTracker:
             self.progress_file = base_dir / "test_progress.json"
         else:
             self.progress_file = Path(progress_file)
+        self.store = BenchmarkArtifactStore(self.progress_file.parent)
+        self.store.progress_file = self.progress_file
         
         self.progress_file.parent.mkdir(parents=True, exist_ok=True)
         self._ensure_progress_file()
@@ -29,17 +33,14 @@ class TestTracker:
     
     def _load(self) -> dict:
         """Load progress data from file."""
-        try:
-            with open(self.progress_file, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except (json.JSONDecodeError, FileNotFoundError):
-            return {"last_updated": None, "models": {}}
+        data = self.store.load_progress()
+        data.setdefault("last_updated", None)
+        data.setdefault("models", {})
+        return data
     
     def _save(self, data: dict):
         """Save progress data to file."""
-        data["last_updated"] = datetime.now().isoformat()
-        with open(self.progress_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2)
+        self.store.save_progress(data)
     
     def init_model(self, model_name: str, category: str, total_prompts: int = 50,
                    model_metadata: dict = None):
@@ -288,8 +289,7 @@ class TestTracker:
     def save_status_to_file(self, filepath: str = None):
         """Save the status report to a markdown file."""
         if filepath is None:
-            base_dir = Path(__file__).parent.parent
-            filepath = base_dir / "TEST_STATUS.md"
+            filepath = self.store.status_file
         
         report = self.generate_status_report()
         with open(filepath, 'w', encoding='utf-8') as f:

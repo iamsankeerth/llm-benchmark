@@ -31,10 +31,14 @@ import subprocess
 from rich.console import Console
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import MODEL_QUEUE, RESULTS_DIR
+from config import MODEL_QUEUE
+from src.artifact_store import BenchmarkArtifactStore
+from src.lifecycle import delete_ollama_tag, pull_ollama_tag
+from src.model_entry import as_model_entry
 from src.model_comparator import ModelComparator
 
 console = Console()
+artifact_store = BenchmarkArtifactStore()
 
 def log(msg, style=None):
     if style:
@@ -45,35 +49,12 @@ def log(msg, style=None):
 
 def download_model(ollama_tag: str) -> bool:
     log(f"\n[bold blue]>>> Downloading {ollama_tag}...[/bold blue]")
-    try:
-        result = subprocess.run(
-            ["ollama", "pull", ollama_tag],
-            capture_output=True, encoding="utf-8", errors="replace"
-        )
-        if result.returncode == 0:
-            log(f"[green]✓ Successfully downloaded {ollama_tag}[/green]")
-            return True
-        else:
-            log(f"[red]✗ Pull failed: {result.stderr.strip()}[/red]")
-            return False
-    except Exception as e:
-        log(f"[red]✗ Download error: {e}[/red]")
-        return False
+    return pull_ollama_tag(ollama_tag, log=log)
 
 
 def delete_model(ollama_tag: str):
     log(f"\n[bold blue]>>> Deleting {ollama_tag} to free up space...[/bold blue]")
-    try:
-        result = subprocess.run(
-            ["ollama", "rm", ollama_tag],
-            capture_output=True, encoding="utf-8", errors="replace"
-        )
-        if result.returncode == 0:
-            log(f"[green]✓ Deleted {ollama_tag}[/green]")
-        else:
-            log(f"[yellow]⚠ ollama rm failed: {result.stderr.strip()}[/yellow]")
-    except Exception as e:
-        log(f"[yellow]⚠ Could not delete: {e}[/yellow]")
+    delete_ollama_tag(ollama_tag, log=log)
 
 
 def run_phase(script_name: str, display_name: str):
@@ -87,40 +68,7 @@ def run_phase(script_name: str, display_name: str):
 
 def all_phases_done(model_entry: dict) -> bool:
     """Check if all 3 phases have results for this model. Skips download/delete."""
-    queue_id = model_entry["queue_id"]
-    tag = model_entry.get("ollama_tag") or model_entry.get("resolved_model_ref", "")
-    safe_id = queue_id.replace(":", "_").replace("/", "_")
-    safe_tag = tag.replace(":", "_").replace("/", "_")
-
-    phase1_dir = os.path.join(RESULTS_DIR, "phase1")
-    perf_dir = os.path.join(RESULTS_DIR, "perf")
-    quality_dir = os.path.join(RESULTS_DIR, "quality")
-
-    # Phase 1: checkpoint CSV or MegaBench CSV exists with all 50 prompts
-    phase1_done = False
-    if os.path.isdir(phase1_dir):
-        for f in os.listdir(phase1_dir):
-            if f.startswith(safe_id) and (f.endswith("_checkpoint.csv") or "MegaBench" in f):
-                phase1_done = True
-                break
-
-    # Phase 2: llama-bench JSON exists
-    perf_done = False
-    if os.path.isdir(perf_dir):
-        for f in os.listdir(perf_dir):
-            if f.startswith(safe_id) and "llama_bench" in f:
-                perf_done = True
-                break
-
-    # Phase 3: promptfoo JSON exists
-    quality_done = False
-    if os.path.isdir(quality_dir):
-        for f in os.listdir(quality_dir):
-            if f.startswith(safe_tag) and f.endswith("_promptfoo.json") and "raw" not in f:
-                quality_done = True
-                break
-
-    return phase1_done and perf_done and quality_done
+    return artifact_store.all_phases_done(model_entry)
 
 
 def main(target_model=None):
@@ -129,11 +77,12 @@ def main(target_model=None):
     # Identify eligible Ollama models
     eligible = []
     for m in MODEL_QUEUE:
-        if m.get("status") not in ("pending", "in_progress"):
+        entry = as_model_entry(m)
+        if entry.status not in ("pending", "in_progress"):
             continue
-        if m.get("source") != "ollama":
+        if entry.source != "ollama":
             continue  # Orchestrator lifecycle relies on ollama pull/rm
-        if target_model and target_model.lower() not in m["requested_name"].lower():
+        if target_model and target_model.lower() not in entry.requested_name.lower():
             continue
         eligible.append(m)
 
@@ -143,9 +92,10 @@ def main(target_model=None):
     os.environ["BENCHMARK_SKIP_LIFECYCLE"] = "1"
 
     for idx, model in enumerate(eligible, 1):
-        name = model["requested_name"]
-        queue_id = model["queue_id"]
-        tag = model.get("ollama_tag", "")
+        entry = as_model_entry(model)
+        name = entry.requested_name
+        queue_id = entry.queue_id
+        tag = entry.ollama_tag
 
         if not tag:
             log(f"[yellow]Skipping {name} (no ollama_tag)[/yellow]")
